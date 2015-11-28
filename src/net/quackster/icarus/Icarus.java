@@ -1,24 +1,34 @@
 package net.quackster.icarus;
 
-import net.quackster.icarus.network.Server;
+import java.util.Random;
+
+import net.quackster.netty.connections.Connection;
 
 public class Icarus {
-
-	private static Server server;
 	
-	public static void run(String[] args) {
+	private static Connection server;
+	private static Random random;
+
+	public static void main(String[] args) {
 
 		try {
-			server = new Server(32424);
+
+			random = new Random();
 			
+			server = new Connection("127.0.0.1", 30000);
+			server.configureNetty();
+			server.listenSocket();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
 	}
 
-	public static Server getServer() {
+	public static Connection getServer() {
 		return server;
+	}
+
+	public static Random getRandom() {
+		return random;
 	}
 }
