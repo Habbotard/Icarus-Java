@@ -12,17 +12,21 @@ public class GenerateSecretKeyMessageEvent implements Message {
 	@Override
 	public void handle(Session session, Request request) {
 
+		// RSA sign received public key
 		String publicKey = request.readString();
-		String plaintextKey = session.getRSA().Decrypt(publicKey).replace(Character.toString((char) 0), "");
-		String encP = session.getRSA().Sign(session.getDiffieHellman().PublicKey.toString());
+		String encryptedPublicKey = session.getRSA().sign(session.getDiffieHellman().publicKey.toString());
 		
 		Response message = new Response(Outgoing.SecretKeyMessageComposer);
-		message.appendString(encP);
+		message.appendString(encryptedPublicKey);
 		message.appendBoolean(false);
 		session.send(message);
 		
-		session.getDiffieHellman().GenerateSharedKey(plaintextKey);
-		byte[] sharedKey = session.getDiffieHellman().SharedKey.toByteArray();
+		// calculate key for RC4 decryption
+		String plaintextKey = session.getRSA().decrypt(publicKey).replace(Character.toString((char) 0), "");
+		session.getDiffieHellman().generateSharedKey(plaintextKey);
+		
+		// init encryption
+		byte[] sharedKey = session.getDiffieHellman().sharedKey.toByteArray();
 		session.setRC4(new RC4(sharedKey));
 
 	}

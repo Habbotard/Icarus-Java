@@ -12,8 +12,8 @@ public class InitCryptoMessageEvent implements Message {
 	public void handle(Session session, Request request) {
 
 		Response message = new Response(Outgoing.InitCryptoMessageComposer);
-		message.appendString(session.getRSA().Sign(session.getDiffieHellman().Prime.toString()));
-		message.appendString(session.getRSA().Sign(session.getDiffieHellman().Generator.toString()));
+		message.appendString(session.getRSA().sign(session.getDiffieHellman().prime.toString()));
+		message.appendString(session.getRSA().sign(session.getDiffieHellman().generator.toString()));
 		session.send(message);
 
 	}
