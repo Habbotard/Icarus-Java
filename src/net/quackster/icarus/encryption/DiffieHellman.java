@@ -12,12 +12,12 @@ public class DiffieHellman {
 	
     public int BITLENGTH = 30;
 
-    public BigInteger prime;
-    public BigInteger generator;
-    public BigInteger privateKey;
-    public BigInteger publicKey;
-    public BigInteger publicClientKey;
-    public BigInteger sharedKey;
+    private BigInteger prime;
+    private BigInteger generator;
+    private BigInteger privateKey;
+    private BigInteger publicKey;
+    private BigInteger publicClientKey;
+    private BigInteger sharedKey;
 
     public DiffieHellman() {
         this.init();
@@ -83,4 +83,52 @@ public class DiffieHellman {
         this.publicClientKey = new BigInteger(ckey);
         this.sharedKey = this.publicClientKey.modPow(this.privateKey, this.prime);
     }
+
+	public BigInteger getPrime() {
+		return prime;
+	}
+
+	public void setPrime(BigInteger prime) {
+		this.prime = prime;
+	}
+
+	public BigInteger getGenerator() {
+		return generator;
+	}
+
+	public void setGenerator(BigInteger generator) {
+		this.generator = generator;
+	}
+
+	public BigInteger getPrivateKey() {
+		return privateKey;
+	}
+
+	public void setPrivateKey(BigInteger privateKey) {
+		this.privateKey = privateKey;
+	}
+
+	public BigInteger getPublicKey() {
+		return publicKey;
+	}
+
+	public void setPublicKey(BigInteger publicKey) {
+		this.publicKey = publicKey;
+	}
+
+	public BigInteger getPublicClientKey() {
+		return publicClientKey;
+	}
+
+	public void setPublicClientKey(BigInteger publicClientKey) {
+		this.publicClientKey = publicClientKey;
+	}
+
+	public BigInteger getSharedKey() {
+		return sharedKey;
+	}
+
+	public void setSharedKey(BigInteger sharedKey) {
+		this.sharedKey = sharedKey;
+	}
 }

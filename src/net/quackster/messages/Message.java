@@ -1,4 +1,4 @@
-package net.quackster.netty.messages;
+package net.quackster.messages;
 
 import net.quackster.icarus.game.user.Session;
 import net.quackster.netty.readers.Request;

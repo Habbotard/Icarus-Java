@@ -31,9 +31,9 @@ import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
 import org.jboss.netty.handler.execution.ExecutionHandler;
 import org.jboss.netty.handler.execution.OrderedMemoryAwareThreadPoolExecutor;
 
+import net.quackster.messages.MessageHandler;
 import net.quackster.netty.codec.NetworkDecoder;
 import net.quackster.netty.codec.NetworkEncoder;
-import net.quackster.netty.messages.MessageHandler;
 
 public class Connection {
 	private NioServerSocketChannelFactory Factory;

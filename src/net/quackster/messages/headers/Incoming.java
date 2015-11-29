@@ -1,4 +1,4 @@
-package net.quackster.netty.messages.headers;
+package net.quackster.messages.headers;
 
 public class Incoming {
 
