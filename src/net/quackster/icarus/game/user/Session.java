@@ -16,25 +16,22 @@ public class Session {
 	
 	public Session(Channel channel) {
 		this.channel = channel;
-		
 		this.RSA = new RSA();
 		this.diffieHellman = new DiffieHellman();
 	}
 	
 	public void send(Response response) {
-		
 		if (response != null) {
 			this.channel.write(response);
-			System.out.println("SENT: " + response.getHeader() + " " + response.getBodyString());
 		} else {
 			throw new NullPointerException("Response is null");
 		}
 	}
 	
 	public boolean isEncrypted () {
-		return this.RC4 == null;
+		return this.RC4 != null;
 	}
-
+	
 	public void setRC4(RC4 rC4) {
 		this.RC4 = rC4;
 	}
