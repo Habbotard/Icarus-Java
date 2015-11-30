@@ -4,7 +4,7 @@ import net.quackster.icarus.encryption.RC4;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.Message;
 import net.quackster.icarus.messages.outgoing.handshake.GenerateSecretKeyComposer;
-import net.quackster.netty.readers.Request;
+import net.quackster.icarus.netty.readers.Request;
 
 public class GenerateSecretKeyMessageEvent implements Message {
 

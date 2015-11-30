@@ -9,7 +9,7 @@ import org.jboss.netty.channel.SimpleChannelHandler;
 import net.quackster.icarus.Icarus;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.log.Log;
-import net.quackster.netty.readers.Request;
+import net.quackster.icarus.netty.readers.Request;
 
 public class ConnectionHandler extends SimpleChannelHandler
 {

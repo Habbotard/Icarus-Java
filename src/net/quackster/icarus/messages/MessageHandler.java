@@ -6,7 +6,7 @@ import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.headers.Incoming;
 import net.quackster.icarus.messages.incoming.handshake.GenerateSecretKeyMessageEvent;
 import net.quackster.icarus.messages.incoming.handshake.InitCryptoMessageEvent;
-import net.quackster.netty.readers.Request;
+import net.quackster.icarus.netty.readers.Request;
 
 public class MessageHandler {
 

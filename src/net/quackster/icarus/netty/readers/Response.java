@@ -1,4 +1,4 @@
-package net.quackster.netty.readers;
+package net.quackster.icarus.netty.readers;
 
 import java.io.IOException;
 import java.nio.charset.Charset;

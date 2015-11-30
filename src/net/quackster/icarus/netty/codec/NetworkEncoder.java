@@ -27,7 +27,7 @@ import org.jboss.netty.channel.Channels;
 import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelHandler;
 
-import net.quackster.netty.readers.Response;
+import net.quackster.icarus.netty.readers.Response;
 
 public class NetworkEncoder extends SimpleChannelHandler {
 	

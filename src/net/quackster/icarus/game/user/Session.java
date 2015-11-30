@@ -5,7 +5,7 @@ import org.jboss.netty.channel.Channel;
 import net.quackster.icarus.encryption.DiffieHellman;
 import net.quackster.icarus.encryption.RC4;
 import net.quackster.icarus.encryption.RSA;
-import net.quackster.netty.readers.Response;
+import net.quackster.icarus.netty.readers.Response;
 
 public class Session {
 

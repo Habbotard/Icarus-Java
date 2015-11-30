@@ -1,7 +1,7 @@
 package net.quackster.icarus.messages.outgoing.handshake;
 
 import net.quackster.icarus.messages.headers.Outgoing;
-import net.quackster.netty.readers.Response;
+import net.quackster.icarus.netty.readers.Response;
 
 public class GenerateSecretKeyComposer extends Response {
 	
