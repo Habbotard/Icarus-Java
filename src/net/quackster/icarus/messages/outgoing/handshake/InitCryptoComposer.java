@@ -1,8 +1,8 @@
-package net.quackster.messages.outgoing.handshake;
+package net.quackster.icarus.messages.outgoing.handshake;
 
 import net.quackster.icarus.encryption.DiffieHellman;
 import net.quackster.icarus.encryption.RSA;
-import net.quackster.messages.headers.Outgoing;
+import net.quackster.icarus.messages.headers.Outgoing;
 import net.quackster.netty.readers.Response;
 
 public class InitCryptoComposer extends Response {

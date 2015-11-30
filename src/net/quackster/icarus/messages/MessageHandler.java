@@ -1,11 +1,11 @@
-package net.quackster.messages;
+package net.quackster.icarus.messages;
 
 import java.util.HashMap;
 
 import net.quackster.icarus.game.user.Session;
-import net.quackster.messages.headers.Incoming;
-import net.quackster.messages.incoming.handshake.GenerateSecretKeyMessageEvent;
-import net.quackster.messages.incoming.handshake.InitCryptoMessageEvent;
+import net.quackster.icarus.messages.headers.Incoming;
+import net.quackster.icarus.messages.incoming.handshake.GenerateSecretKeyMessageEvent;
+import net.quackster.icarus.messages.incoming.handshake.InitCryptoMessageEvent;
 import net.quackster.netty.readers.Request;
 
 public class MessageHandler {

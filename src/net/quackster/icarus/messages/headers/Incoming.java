@@ -1,4 +1,4 @@
-package net.quackster.messages.headers;
+package net.quackster.icarus.messages.headers;
 
 public class Incoming {
 

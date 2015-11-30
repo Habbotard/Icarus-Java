@@ -1,27 +1,90 @@
 package net.quackster.icarus;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.PrintWriter;
 import java.util.Random;
 
-import net.quackster.netty.connections.Connection;
+import net.quackster.icarus.log.Log;
+import net.quackster.icarus.netty.connections.Connection;
+import net.quackster.icarus.util.Configuration;
 
 public class Icarus {
-	
+
 	private static Connection server;
 	private static Random random;
+	private static Configuration configuration;
+	
+	private static final String REVISION = "PRODUCTION-201506161211-776084490";
 
 	public static void main(String[] args) {
 
+		Log.startup();
+		
+		random = new Random();
+
 		try {
 
-			random = new Random();
+			Log.println("Loading configuration file");
+
+			File file = new File("icarus.properties");
 			
-			server = new Connection("127.0.0.1", 30000);
+			if (!file.isFile()) { 
+				
+				Log.println("Creating configuration file");
+				
+				file.createNewFile();
+				PrintWriter writer = new PrintWriter(file.getAbsoluteFile());
+				writeConfiguration(writer);
+			}
+			
+			configuration = new Configuration(new FileInputStream(file.getAbsolutePath()));
+
+			
+			String IPAddress = "";
+			
+			try {
+				IPAddress = configuration.get("server-ip");
+			} catch (Exception e) {
+				throw new Exception("There is no server-ip defined in icarus.properties");
+			}
+			
+			int serverPort = 0;
+			
+			try {
+				serverPort = Integer.valueOf(configuration.get("server-port"));
+			} catch (Exception e) {
+				throw new Exception("There is no server-port defined in icarus.properties");
+			}
+			
+			Log.println("Settting up server");
+			server = new Connection(IPAddress, serverPort);
 			server.configureNetty();
 			server.listenSocket();
+			Log.println("Server is listening on " + IPAddress + ":" + serverPort);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private static void writeConfiguration(PrintWriter writer) {
+		
+		writer.println();
+		writer.println("server-ip=127.0.0.1");
+		writer.println("server-port=30000");
+		writer.println();
+		writer.println("mysql-hostname=127.0.0.1");
+		writer.println("mysql-username=root");
+		writer.println("mysql-password=changeme");
+		writer.println("mysql-database=icarusdb");
+		writer.println();
+		writer.println("log-errors=true");
+		writer.println("log-packets=true");
+		writer.println("log-connections=true");
+		writer.flush();
+		writer.close();
+		
 	}
 
 	public static Connection getServer() {
@@ -30,5 +93,13 @@ public class Icarus {
 
 	public static Random getRandom() {
 		return random;
+	}
+
+	public static Configuration getConfiguration() {
+		return configuration;
+	}
+
+	public static String getRevision() {
+		return REVISION;
 	}
 }

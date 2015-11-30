@@ -17,7 +17,7 @@
  * along with Sierra.  If not, see <http ://www.gnu.org/licenses/>.
  */
 
-package net.quackster.netty.codec;
+package net.quackster.icarus.netty.codec;
 
 import java.nio.ByteBuffer;
 

@@ -7,9 +7,11 @@ import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.buffer.ChannelBufferOutputStream;
 import org.jboss.netty.buffer.ChannelBuffers;
 
+import net.quackster.icarus.log.Log;
+
 public class Response
 {
-	private int Id;
+	private int id;
 	private ChannelBufferOutputStream bodystream;
 	private ChannelBuffer bodeh;
 	
@@ -19,7 +21,7 @@ public class Response
 	
 	public Response(int id) 
 	{
-		this.Id = id;
+		this.id = id;
 		this.bodeh = ChannelBuffers.dynamicBuffer();
 		this.bodystream = new ChannelBufferOutputStream(bodeh);
 
@@ -28,13 +30,13 @@ public class Response
 			this.bodystream.writeShort(id);
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.exception(e);
 		}
 	}
 
 	public Response init(int id)
 	{
-		this.Id = id;
+		this.id = id;
 		this.bodeh = ChannelBuffers.dynamicBuffer();
 		this.bodystream = new ChannelBufferOutputStream(bodeh);
 
@@ -43,7 +45,7 @@ public class Response
 			this.bodystream.writeShort(id);
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.exception(e);
 		}
 		return this;
 	}
@@ -53,6 +55,7 @@ public class Response
 		try {
 			bodystream.writeUTF(obj.toString());
 		} catch (IOException e) {
+			Log.exception(e);
 		}
 	}
 	
@@ -61,6 +64,7 @@ public class Response
 		try {
 			bodystream.writeInt(obj);
 		} catch (IOException e) {
+			Log.exception(e);
 		}
 	}
 	
@@ -69,6 +73,7 @@ public class Response
 		try {
 			bodystream.writeInt(obj ? 1 : 0);
 		} catch (IOException e) {
+			Log.exception(e);
 		}
 	}
 	
@@ -77,6 +82,7 @@ public class Response
 		try {
 			bodystream.writeShort((short)obj);
 		} catch (IOException e) {
+			Log.exception(e);
 		}
 	}
 
@@ -85,6 +91,7 @@ public class Response
 		try {
 			bodystream.writeBoolean(obj);
 		} catch (IOException e) {
+			Log.exception(e);
 		}
 	}
 	
@@ -93,6 +100,7 @@ public class Response
 		try {
 			obj.serialize(this);
 		} catch (Exception e) {
+			Log.exception(e);
 		}
 	}
 	
@@ -101,6 +109,7 @@ public class Response
 		try {
 			this.bodystream.write(obj.bodeh.array());
 		} catch (Exception e) {
+			Log.exception(e);
 		}
 	}
 	
@@ -121,8 +130,7 @@ public class Response
 	}
 	
 	public int getHeader() {
-
-		return Id;
+		return id;
 	}
 	
 	public ChannelBuffer get() {

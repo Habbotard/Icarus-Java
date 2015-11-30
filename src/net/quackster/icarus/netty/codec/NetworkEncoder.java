@@ -17,7 +17,7 @@
  * along with Sierra.  If not, see <http ://www.gnu.org/licenses/>.
  */
 
-package net.quackster.netty.codec;
+package net.quackster.icarus.netty.codec;
 
 import java.nio.charset.Charset;
 
@@ -29,30 +29,25 @@ import org.jboss.netty.channel.SimpleChannelHandler;
 
 import net.quackster.netty.readers.Response;
 
-public class NetworkEncoder extends SimpleChannelHandler
-{
+public class NetworkEncoder extends SimpleChannelHandler {
+	
 	@Override
-	public void writeRequested(ChannelHandlerContext ctx, MessageEvent e)
-	{
-		try
-		{
-			if (e.getMessage() instanceof String)
-			{
+	public void writeRequested(ChannelHandlerContext ctx, MessageEvent e) {
+		
+		try {
+			
+			if (e.getMessage() instanceof String) {
 				Channels.write(ctx, e.getFuture(), ChannelBuffers.copiedBuffer((String) e.getMessage(), Charset.forName("UTF-8")));
-				
 				return;
 			}
 			
-			if (e.getMessage() instanceof Response)
-			{
+			if (e.getMessage() instanceof Response) {
 				Response msg = (Response) e.getMessage();
 				Channels.write(ctx, e.getFuture(), msg.get());
-				
 				return;
 			}
 		}
-		catch (Exception ex)
-		{
+		catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}

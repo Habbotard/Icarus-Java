@@ -17,7 +17,7 @@
  * along with Sierra.  If not, see <http ://www.gnu.org/licenses/>.
  */
 
-package net.quackster.netty.connections;
+package net.quackster.icarus.netty.connections;
 
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executor;
@@ -31,9 +31,10 @@ import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
 import org.jboss.netty.handler.execution.ExecutionHandler;
 import org.jboss.netty.handler.execution.OrderedMemoryAwareThreadPoolExecutor;
 
-import net.quackster.messages.MessageHandler;
-import net.quackster.netty.codec.NetworkDecoder;
-import net.quackster.netty.codec.NetworkEncoder;
+import net.quackster.icarus.log.Log;
+import net.quackster.icarus.messages.MessageHandler;
+import net.quackster.icarus.netty.codec.NetworkDecoder;
+import net.quackster.icarus.netty.codec.NetworkEncoder;
 
 public class Connection {
 	private NioServerSocketChannelFactory Factory;
@@ -49,7 +50,11 @@ public class Connection {
 
 	public Connection(String host, int port) {
 
-		this.Factory = new NioServerSocketChannelFactory (Executors.newCachedThreadPool(), Executors.newCachedThreadPool());
+		this.Factory = new NioServerSocketChannelFactory (
+				Executors.newCachedThreadPool(),
+				Executors.newCachedThreadPool()
+		);
+		
 		this.Bootstrap = new ServerBootstrap(Factory);
 		this.Clients = new SessionManager();
 		this.Messages = new MessageHandler();
@@ -60,7 +65,9 @@ public class Connection {
 
 	public void configureNetty() {
 		
-		this.Execute = new ExecutionHandler(new OrderedMemoryAwareThreadPoolExecutor(200, 1048576, 1073741824, 100, TimeUnit.MILLISECONDS, Executors.defaultThreadFactory()));
+		this.Execute = new ExecutionHandler(
+				new OrderedMemoryAwareThreadPoolExecutor(200, 1048576, 1073741824, 100, TimeUnit.MILLISECONDS, Executors.defaultThreadFactory())
+		);
 		
 		ChannelPipeline pipeline = this.Bootstrap.getPipeline();
 
@@ -74,7 +81,7 @@ public class Connection {
 		try {
 			this.Bootstrap.bind(new InetSocketAddress(Host, Port));
 		} catch (ChannelException ex) {
-			ex.printStackTrace();
+			Log.exception(ex);
 			return false;
 		}
 
