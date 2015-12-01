@@ -22,14 +22,12 @@ package net.quackster.icarus.netty.connections;
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 import org.jboss.netty.bootstrap.ServerBootstrap;
 import org.jboss.netty.channel.ChannelException;
 import org.jboss.netty.channel.ChannelPipeline;
 import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
 import org.jboss.netty.handler.execution.ExecutionHandler;
-import org.jboss.netty.handler.execution.OrderedMemoryAwareThreadPoolExecutor;
 
 import net.quackster.icarus.log.Log;
 import net.quackster.icarus.messages.MessageHandler;
@@ -37,49 +35,50 @@ import net.quackster.icarus.netty.codec.NetworkDecoder;
 import net.quackster.icarus.netty.codec.NetworkEncoder;
 
 public class Connection {
-	private NioServerSocketChannelFactory Factory;
-	private ExecutionHandler Execute;
-	private ServerBootstrap Bootstrap;
-
-	//private MessageHandler Messages;
+	
+	private int port;
+	
+	private NioServerSocketChannelFactory factory;
+	private ExecutionHandler execute;
+	private ServerBootstrap bootstrap;
 	private SessionManager Clients;
-
-	private int Port;
-	private String Host;
-	private MessageHandler Messages;
+	private String host;
+	private MessageHandler messages;
 
 	public Connection(String host, int port) {
 
-		this.Factory = new NioServerSocketChannelFactory (
+		this.factory = new NioServerSocketChannelFactory (
 				Executors.newCachedThreadPool(),
 				Executors.newCachedThreadPool()
 		);
 		
-		this.Bootstrap = new ServerBootstrap(Factory);
 		this.Clients = new SessionManager();
-		this.Messages = new MessageHandler();
-
-		this.Host = host;
-		this.Port = port;
+		this.messages = new MessageHandler();
+		this.bootstrap = new ServerBootstrap(this.factory);
+		
+		this.host = host;
+		this.port = port;
 	}
 
 	public void configureNetty() {
 		
-		this.Execute = new ExecutionHandler(
-				new OrderedMemoryAwareThreadPoolExecutor(200, 1048576, 1073741824, 100, TimeUnit.MILLISECONDS, Executors.defaultThreadFactory())
-		);
+		/*this.execute = new ExecutionHandler(
+				new OrderedMemoryAwareThreadPoolExecutor(200, 1048576, 1073741824, 100, 
+						TimeUnit.MILLISECONDS, 
+						Executors.defaultThreadFactory())
+		);*/
 		
-		ChannelPipeline pipeline = this.Bootstrap.getPipeline();
+		ChannelPipeline pipeline = this.bootstrap.getPipeline();
 
 		pipeline.addLast("encoder", new NetworkEncoder());
 		pipeline.addLast("decoder", new NetworkDecoder());
 		pipeline.addLast("handler", new ConnectionHandler());
-		pipeline.addLast("pipelineExecutor", Execute);
+		//pipeline.addLast("pipelineExecutor", this.execute);
 	}
 
 	public boolean listenSocket() {
 		try {
-			this.Bootstrap.bind(new InetSocketAddress(Host, Port));
+			this.bootstrap.bind(new InetSocketAddress(this.host, this.port));
 		} catch (ChannelException ex) {
 			Log.exception(ex);
 			return false;
@@ -89,7 +88,7 @@ public class Connection {
 	}
 	
 	public MessageHandler getMessageHandler() {
-		return this.Messages;
+		return this.messages;
 	}
 
 	public SessionManager getSessionManager() {
@@ -97,6 +96,6 @@ public class Connection {
 	}
 	
 	public Executor getExecutor() {
-		return this.Execute.getExecutor();
+		return this.execute.getExecutor();
 	}
 }

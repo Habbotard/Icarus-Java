@@ -2,25 +2,22 @@ package net.quackster.icarus.game.user;
 
 import org.jboss.netty.channel.Channel;
 
-import net.quackster.icarus.encryption.DiffieHellman;
-import net.quackster.icarus.encryption.RC4;
-import net.quackster.icarus.encryption.RSA;
 import net.quackster.icarus.netty.readers.Response;
 
 public class Session {
 
 	private Channel channel;
-	private DiffieHellman diffieHellman;
-	private RSA RSA;
-	private RC4 RC4;
+	private SessionEncryption sessionEncryption;
+	private String machineId;
 	
 	public Session(Channel channel) {
+		
 		this.channel = channel;
-		this.RSA = new RSA();
-		this.diffieHellman = new DiffieHellman();
+		this.sessionEncryption = new SessionEncryption();
 	}
 	
 	public void send(Response response) {
+		
 		if (response != null) {
 			this.channel.write(response);
 		} else {
@@ -28,24 +25,26 @@ public class Session {
 		}
 	}
 	
-	public boolean isEncrypted () {
-		return this.RC4 != null;
+	public void disconnect() {
+		
+		this.channel.close();
+		this.channel = null;
+		this.sessionEncryption = null;
+	}
+
+	public SessionEncryption getSessionEncryption() {
+		return sessionEncryption;
+	}
+
+	public Channel getChannel() {
+		return channel;
+	}
+
+	public void setMachineId(String machineId) {
+		this.machineId = machineId;
 	}
 	
-	public void setRC4(RC4 rC4) {
-		this.RC4 = rC4;
+	public String getMachineId() {
+		return machineId;
 	}
-	
-	public RC4 getRC4() {
-		return RC4;
-	}
-
-	public DiffieHellman getDiffieHellman() {
-		return diffieHellman;
-	}
-
-	public RSA getRSA() {
-		return RSA;
-	}
-
 }

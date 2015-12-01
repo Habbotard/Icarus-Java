@@ -11,13 +11,13 @@ import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.log.Log;
 import net.quackster.icarus.netty.readers.Request;
 
-public class ConnectionHandler extends SimpleChannelHandler
-{
+public class ConnectionHandler extends SimpleChannelHandler {
+	
 	@Override
 	public void channelOpen(ChannelHandlerContext ctx, ChannelStateEvent e) {
 
-		if (Icarus.getConfiguration().getBoolean("log-connections")) {
-			System.out.println("Connection from " + ctx.getChannel().getRemoteAddress().toString().replace("/", "").split(":")[0]);
+		if (Icarus.getUtilities().getConfiguration().getBoolean("log-connections")) {
+			Log.println("Connection from " + ctx.getChannel().getRemoteAddress().toString().replace("/", "").split(":")[0]);
 		}
 		
 		Icarus.getServer().getSessionManager().addSession(ctx.getChannel());
@@ -27,8 +27,8 @@ public class ConnectionHandler extends SimpleChannelHandler
 	@Override
 	public void channelClosed(ChannelHandlerContext ctx, ChannelStateEvent e) {
 
-		if (Icarus.getConfiguration().getBoolean("log-connections")) {
-			System.out.println("Disconnection from " + ctx.getChannel().getRemoteAddress().toString().replace("/", "").split(":")[0]);
+		if (Icarus.getUtilities().getConfiguration().getBoolean("log-connections")) {
+			Log.println("Disconnection from " + ctx.getChannel().getRemoteAddress().toString().replace("/", "").split(":")[0]);
 		}
 		
 		Icarus.getServer().getSessionManager().removeSession(ctx.getChannel());
@@ -42,8 +42,8 @@ public class ConnectionHandler extends SimpleChannelHandler
 			Session session = (Session) ctx.getChannel().getAttachment();
 			Request request = (Request) e.getMessage();
 
-			if (Icarus.getConfiguration().getBoolean("log-packets")) {
-				System.out.println("Received: " + request.getMessageId() + " " + request.getMessageBody());
+			if (Icarus.getUtilities().getConfiguration().getBoolean("log-packets")) {
+				Log.println("Received: " + request.getMessageId() + " " + request.getMessageBody());
 			}
 
 			if (session != null){

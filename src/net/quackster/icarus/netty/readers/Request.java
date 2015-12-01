@@ -7,11 +7,11 @@ import org.jboss.netty.buffer.ChannelBuffers;
 
 public class Request
 {
-	private int header;
+	private short header;
 	public ChannelBuffer buffer;
 
 	public Request(int messageId, ChannelBuffer buffer) {
-		this.header = messageId;
+		this.header = (short) messageId;
 		this.buffer = (buffer == null || buffer.readableBytes() == 0) ? ChannelBuffers.EMPTY_BUFFER : buffer;
 	}
 
@@ -68,7 +68,7 @@ public class Request
 		return buffer;
 	}
 
-	public int getMessageId() {
+	public short getMessageId() {
 		return header;
 	}
 }

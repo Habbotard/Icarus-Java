@@ -17,7 +17,10 @@ public class Configuration {
 		this.config = new Properties();
 		
 		try {
-			this.config.load(new FileInputStream(file.getAbsolutePath()));
+			FileInputStream stream = new FileInputStream(file.getAbsolutePath());
+			this.config.load(stream);
+			stream.close();
+			
 		} catch (IOException e) {
 			Log.exception(e);
 		}

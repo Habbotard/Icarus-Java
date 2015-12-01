@@ -36,8 +36,8 @@ public class NetworkDecoder extends FrameDecoder
 		
 		Session session = (Session) channel.getAttachment();
 		
-		if (session.isEncrypted()) {
-			buffer = session.getRC4().decipher(buffer);
+		if (session.getSessionEncryption().isEncrypted()) {
+			buffer = session.getSessionEncryption().getRC4().decipher(buffer);
 		}
 		
 		try  {		

@@ -48,7 +48,7 @@ public class Log {
 			System.out.println(string);
 		}
 
-		if (Icarus.getConfiguration().getBoolean("log-output")) {
+		if (Icarus.getUtilities().getConfiguration().getBoolean("log-output")) {
 			writeToFile("log/output.log", string);
 		}
 
@@ -64,7 +64,7 @@ public class Log {
 		println(exceptionAsString);
 		println("---------------------------------------------");
 
-		if (Icarus.getConfiguration().getBoolean("log-errors")) {
+		if (Icarus.getUtilities().getConfiguration().getBoolean("log-errors")) {
 			writeToFile("log/error.log", "---------------------------------------------");
 			writeToFile("log/error.log", " " + DateTime.now() + " - Error has occured!");
 			writeToFile("log/error.log", exceptionAsString);
