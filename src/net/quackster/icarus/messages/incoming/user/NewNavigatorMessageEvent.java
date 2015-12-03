@@ -15,13 +15,13 @@ public class NewNavigatorMessageEvent implements Message {
 
 		Response response = new Response();
 		response.init(Outgoing.NavigatorMetaDataComposer);
-		response.appendInt32(4);
-		response.appendString("official_view");
-		response.appendInt32(0);
+		response.appendInt32(2);
+		/*response.appendString("official_view");
+		response.appendInt32(0);*/
 		response.appendString("hotel_view");
 		response.appendInt32(0);
-		response.appendString("roomads_view");
-		response.appendInt32(0);
+		/*response.appendString("roomads_view");
+		response.appendInt32(0);*/
 		response.appendString("myworld_view");
 		response.appendInt32(0);
 		session.send(response);
@@ -44,7 +44,7 @@ public class NewNavigatorMessageEvent implements Message {
 		response.appendString("new_ads");
 		response.appendString("staffpicks");
 		response.appendString("official");
-		session.send(response);
+		//session.send(response);
 
 		response.init(Outgoing.NavigatorSavedSearchesComposer);
 		response.appendInt32(0);

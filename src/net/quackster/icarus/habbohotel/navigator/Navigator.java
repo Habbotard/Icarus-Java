@@ -1,6 +1,5 @@
 package net.quackster.icarus.habbohotel.navigator;
 
-import net.quackster.icarus.Icarus;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.habbohotel.room.Room;
 import net.quackster.icarus.netty.readers.Response;
@@ -51,9 +50,16 @@ public class Navigator {
 			break;
 		}
 		}
-		
-		// TODO: Handle room request here from tag ID, eg: top_promotions jajaja
-		response.appendInt32(0);
+
+		// TODO: Handle room serialise here from tag ID, eg: top_promotions jajaja
+
+		if (staticId.equals("my")) {
+			response.appendInt32(1);
+			new Room("Alex's Room").serialiseNavigatorListing(response, false);
+		}
+		else {
+			response.appendInt32(0);
+		}
 	}
 
 	public static int getNewNavigatorLength(String value) {
