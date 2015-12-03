@@ -15,6 +15,15 @@ public class Room {
 	private int TradeState = 0;
 	private int Score = 0;
 	private int Category = 1;
+	private String tab;
+
+	public Room(String name) {
+		this.Name = name;
+	}
+
+	public Room() {
+		// TODO Auto-generated constructor stub
+	}
 
 	public void serialiseNavigatorListing(Response response, Boolean enterRoom) {
 		
@@ -82,6 +91,14 @@ public class Room {
             response.AppendString(Event.Description);
             response.AppendInteger((int)Math.Floor((Event.Time - AzureEmulator.GetUnixTimeStamp()) / 60.0));
         }*/
+	}
+
+	public String getTab() {
+		return tab;
+	}
+
+	public void setTab(String tab) {
+		this.tab = tab;
 	}
 
 }

@@ -2,6 +2,7 @@ package net.quackster.icarus.messages.incoming.event;
 
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.habbohotel.navigator.Navigator;
+import net.quackster.icarus.habbohotel.room.Room;
 import net.quackster.icarus.messages.Message;
 import net.quackster.icarus.messages.headers.Outgoing;
 import net.quackster.icarus.netty.readers.Request;
@@ -33,9 +34,11 @@ public class SearchNewNavigatorEvent implements Message {
         	response.appendInt32(0);
         	response.appendInt32(0);
         	
+        	new Room().serialiseNavigatorListing(response, false);
+        	
         } else {
         	
-        	Navigator.SerializeSearchResultListStatics(tab, false, response, session);
+        	Navigator.serializeNavigatorList(tab, response, session);
         }
         
         session.send(response);
