@@ -11,6 +11,7 @@ public class Icarus {
 
 	private static Connection server;
 	private static Util utilities;
+	public static int PublicCount = 0;
 
 	private static final String REVISION = "PRODUCTION-201506161211-776084490";
 
@@ -65,6 +66,7 @@ public class Icarus {
 		int serverPort = Integer.valueOf(utilities.getConfiguration().get("server-port"));
 		
 		Log.println("Settting up server");
+		
 		server = new Connection(IPAddress, serverPort);
 		server.configureNetty();
 

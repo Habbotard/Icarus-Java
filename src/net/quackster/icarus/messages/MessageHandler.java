@@ -4,11 +4,14 @@ import java.util.HashMap;
 
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.headers.Incoming;
+import net.quackster.icarus.messages.incoming.event.SearchNewNavigatorEvent;
 import net.quackster.icarus.messages.incoming.handshake.GenerateSecretKeyMessageEvent;
 import net.quackster.icarus.messages.incoming.handshake.InitCryptoMessageEvent;
 import net.quackster.icarus.messages.incoming.handshake.SSOTicketMessageEvent;
 import net.quackster.icarus.messages.incoming.handshake.UniqueIDMessageEvent;
 import net.quackster.icarus.messages.incoming.handshake.VersionCheckMessageEvent;
+import net.quackster.icarus.messages.incoming.user.GetCurrencyBalanceMessageEvent;
+import net.quackster.icarus.messages.incoming.user.InfoRetrieveMessageEvent;
 import net.quackster.icarus.messages.incoming.user.LandingLoadWidgetMessageEvent;
 import net.quackster.icarus.messages.incoming.user.NewNavigatorMessageEvent;
 import net.quackster.icarus.netty.readers.Request;
@@ -32,7 +35,12 @@ public class MessageHandler {
 		this.messages.put(Incoming.SSOTicketMessageEvent, new SSOTicketMessageEvent());
 		
 		this.messages.put(Incoming.LandingLoadWidgetMessageEvent, new LandingLoadWidgetMessageEvent());
-		this.messages.put(Incoming.NewNavigatorMessageEvent, new NewNavigatorMessageEvent());
+		//this.messages.put(Incoming.NewNavigatorMessageEvent, new NewNavigatorMessageEvent());
+		this.messages.put(Incoming.InfoRetrieveMessageEvent, new InfoRetrieveMessageEvent());
+		this.messages.put(Incoming.GetCurrencyBalanceMessageEvent, new GetCurrencyBalanceMessageEvent());
+		
+		// Navigatur
+		this.messages.put(Incoming.SearchNewNavigatorEvent, new SearchNewNavigatorEvent());
 	}
 	
 	public void handleRequest(Session session, Request message) {
@@ -41,6 +49,10 @@ public class MessageHandler {
 			messages.get(message.getMessageId()).handle(session, message);
 		}
 		
+	}
+
+	public HashMap<Short, Message> getMessages() {
+		return messages;
 	}
 
 }

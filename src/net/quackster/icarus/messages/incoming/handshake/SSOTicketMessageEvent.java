@@ -1,8 +1,12 @@
 package net.quackster.icarus.messages.incoming.handshake;
 
+import java.util.HashMap;
+import java.util.Map.Entry;
+
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.Message;
 import net.quackster.icarus.messages.headers.Outgoing;
+import net.quackster.icarus.messages.incoming.user.NewNavigatorMessageEvent;
 import net.quackster.icarus.messages.outgoing.handshake.AuthenticationOKMessageComposer;
 import net.quackster.icarus.messages.outgoing.handshake.UniqueMachineIDMessageComposer;
 import net.quackster.icarus.netty.readers.Request;
@@ -17,34 +21,12 @@ public class SSOTicketMessageEvent implements Message {
 		session.send(new AuthenticationOKMessageComposer());
 		
 		Response response = new Response(Outgoing.HomeRoomMessageComposer);
-        response.appendInt32(1); // Home Room ID
-        response.appendInt32(0); // Home Room ID
+        response.appendInt32(2); // Home Room ID
+        response.appendInt32(false); // force enter room on connect
         session.send(response);
         
-       /* response.init(Outgoing.LoadFriendsMessageComposer);
-        response.appendInt32(1);
-        response.appendInt32(0);
-        response.appendInt32(0);
-        session.send(response);*/
-        
-        /*public class UserClubRightsMessageComposer {
-    public static ServerMessage compose() {
-        ServerMessage msg = new ServerMessage(EServerMessage.UserClubRightsMessageComposer);
-        msg.writeInt(2); // 0 - no club, 2 - club
-        msg.writeInt(7); // rank
-        msg.writeInt(0); // ?
-
-        return msg;
-    }
-}*/
-        
-        /*public class MinimailCountMessageComposer {
-    public static ServerMessage compose() {
-        ServerMessage msg = new ServerMessage(EServerMessage.MinimailCountMessageComposer);
-        msg.writeInt(2); // Minimail unread count
-        return msg;
-    }
-}*/
+        Message message = new NewNavigatorMessageEvent();
+        message.handle(session, request);
 
 	}
 

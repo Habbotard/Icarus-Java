@@ -71,28 +71,11 @@ public class NewNavigatorMessageEvent implements Message {
 
         session.send(response);
 
-		Response msg = new Response(Outgoing.UserObjectMessageComposer);
-		msg.appendInt32(1); // User ID
-		msg.appendString("Scott"); // Username
-		msg.appendString("hr-831-1407.hd-190-14.ch-3015-100.lg-285-82.sh-295-64.fa-1201"); // Figure
-		msg.appendString("M"); // Gender
-		msg.appendString("AzureJAVA - Developer"); // Motto
-		msg.appendString(""); // ?
-		msg.appendBoolean(false); // ?
-		msg.appendInt32(0); // Respect
-		msg.appendInt32(3); // Daily Respect Points
-		msg.appendInt32(3); // Daily Pet Respect Points
-		msg.appendBoolean(true); // ?
-		msg.appendString("1448526834"); // Last Online (format?)
-		msg.appendBoolean(true); // Can Change Username
-		msg.appendBoolean(false); // ?
-		session.send(msg);
-
 		/*@MessageEvent(messageId = EClientMessage.NavigatorGetFlatCategoriesMessageEvent)
     public static void eventHandler(Session session, ClientMessage message) {
         session.sendMessage(FlatCategoriesMessageComposer.compose());*/
 
-		msg = new Response(Outgoing.FlatCategoriesMessageComposer);
+		Response msg = new Response(Outgoing.FlatCategoriesMessageComposer);
 
 		String[] categories = {
 				"No Category",
@@ -135,14 +118,6 @@ public class NewNavigatorMessageEvent implements Message {
 		response.appendBoolean(true);
 		session.send(response);
 		session.send(response);*/
-
-		response.init(Outgoing.ActivityPointsMessageComposer);
-		response.appendInt32(2);
-		response.appendInt32(0);
-		response.appendInt32(1337);
-		response.appendInt32(5);
-		response.appendInt32(44444);
-		session.send(response);
 
 		/*response.init(Outgoing.BuildersClubMembershipMessageComposer);
 		response.appendInt32(0); // need to check this
@@ -203,23 +178,6 @@ public class NewNavigatorMessageEvent implements Message {
 		response.appendString("");
 		session.send(response);*/
 
-		response.init(Outgoing.UserClubRightsMessageComposer);
-		response.appendInt32(2);
-		response.appendInt32(7);
-		response.appendInt32(0);
-		session.send(response);
-
-		response.init(Outgoing.MinimailCountMessageComposer);
-		response.appendInt32(0);
-		session.send(response);
-
-
-		response = new Response();
-		response.init(Outgoing.LoadFriendsMessageComposer);
-		response.appendInt32(1);
-		response.appendInt32(0);
-		response.appendInt32(0);
-		session.send(response);
 	}
 
 }

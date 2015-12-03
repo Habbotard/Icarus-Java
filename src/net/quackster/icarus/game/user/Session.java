@@ -9,6 +9,7 @@ public class Session {
 	private Channel channel;
 	private SessionEncryption sessionEncryption;
 	private String machineId;
+	private CharacterDetails details;
 	
 	public Session(Channel channel) {
 		
@@ -46,5 +47,9 @@ public class Session {
 	
 	public String getMachineId() {
 		return machineId;
+	}
+
+	public CharacterDetails getDetails() {
+		return details;
 	}
 }
