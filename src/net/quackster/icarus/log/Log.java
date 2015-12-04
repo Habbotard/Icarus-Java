@@ -61,7 +61,8 @@ public class Log {
 		StringWriter sw = new StringWriter();
 		e.printStackTrace(new PrintWriter(sw));
 		String exceptionAsString = sw.toString();
-		println(exceptionAsString);
+		output(exceptionAsString, false);
+		e.printStackTrace();
 		println("---------------------------------------------");
 
 		if (Icarus.getUtilities().getConfiguration().getBoolean("log-errors")) {

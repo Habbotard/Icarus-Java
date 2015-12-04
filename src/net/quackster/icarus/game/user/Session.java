@@ -7,7 +7,6 @@ import net.quackster.icarus.game.user.client.SessionConnection;
 import net.quackster.icarus.game.user.client.SessionEncryption;
 import net.quackster.icarus.netty.readers.Request;
 import net.quackster.icarus.netty.readers.Response;
-import net.quackster.icarus.pooling.NonBlockingFuture;
 
 public class Session {
 
