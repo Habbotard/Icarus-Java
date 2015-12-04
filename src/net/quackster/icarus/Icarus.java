@@ -3,6 +3,9 @@ package net.quackster.icarus;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
+
 import net.quackster.icarus.log.Log;
 import net.quackster.icarus.netty.connections.Connection;
 import net.quackster.icarus.util.Util;
@@ -17,10 +20,10 @@ public class Icarus {
 
 	public static void main(String[] args) {
 
-		System.out.println(Runtime.getRuntime().availableProcessors());
-		
 		try {
 
+			
+			
 			createConfig();
 			Log.startup();
 			startServer();

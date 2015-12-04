@@ -6,10 +6,12 @@ import java.util.concurrent.ScheduledExecutorService;
 
 public class ThreadPooling {
 
+	private NonBlockingExecutor nonBlockingExecutor;
 	private ScheduledExecutorService scheduledThreadPool;
 
 	public ThreadPooling() {
 		this.scheduledThreadPool = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
+		this.nonBlockingExecutor = new NonBlockingExecutor(this.scheduledThreadPool);
 	}
 
 	public Future<?> register(Runnable runnable) {
@@ -18,6 +20,10 @@ public class ThreadPooling {
 
 	public ScheduledExecutorService getScheduledThreadPool() {
 		return this.scheduledThreadPool;
+	}
+
+	public NonBlockingExecutor getNonBlockingExecutor() {
+		return nonBlockingExecutor;
 	}
 }
 

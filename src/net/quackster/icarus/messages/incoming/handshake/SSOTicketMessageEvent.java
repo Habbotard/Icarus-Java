@@ -5,6 +5,7 @@ import net.quackster.icarus.messages.Message;
 import net.quackster.icarus.messages.headers.Outgoing;
 import net.quackster.icarus.messages.outgoing.handshake.AuthenticationOKMessageComposer;
 import net.quackster.icarus.messages.outgoing.handshake.UniqueMachineIDMessageComposer;
+import net.quackster.icarus.messages.outgoing.user.LandingWidgetMessageComposer;
 import net.quackster.icarus.netty.readers.Request;
 import net.quackster.icarus.netty.readers.Response;
 
@@ -20,6 +21,8 @@ public class SSOTicketMessageEvent implements Message {
         response.appendInt32(2); // Home Room ID
         response.appendInt32(false); // force enter room on connect
         session.send(response);
+        
+        session.send(new LandingWidgetMessageComposer());
 	}
 
 }
