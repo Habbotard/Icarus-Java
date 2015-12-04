@@ -31,6 +31,9 @@ public class ConnectionHandler extends SimpleChannelHandler {
 			Log.println("Disconnection from " + ctx.getChannel().getRemoteAddress().toString().replace("/", "").split(":")[0]);
 		}
 		
+		Session session = (Session) ctx.getChannel().getAttachment();
+		session.close();
+		
 		Icarus.getServer().getSessionManager().removeSession(ctx.getChannel());
 	}
 

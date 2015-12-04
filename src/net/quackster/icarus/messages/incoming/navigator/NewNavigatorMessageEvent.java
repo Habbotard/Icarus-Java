@@ -1,4 +1,4 @@
-package net.quackster.icarus.messages.incoming.user;
+package net.quackster.icarus.messages.incoming.navigator;
 
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.Message;
@@ -47,8 +47,12 @@ public class NewNavigatorMessageEvent implements Message {
 		//session.send(response);
 
 		response.init(Outgoing.NavigatorSavedSearchesComposer);
-		response.appendInt32(0);
-
+		response.appendInt32(1);
+		
+		response.appendInt32(1);
+		response.appendString("myworld_view");
+		response.appendString("test3");
+		response.appendString("");
 		//session.GetHabbo().NavigatorLogs.Count);
 		/*foreach (NaviLogs navi in session.GetHabbo().NavigatorLogs.Values)
         {
@@ -177,6 +181,9 @@ public class NewNavigatorMessageEvent implements Message {
 		response.appendString("");
 		response.appendString("");
 		session.send(response);*/
+		
+		
+		session.getConnection().setSentNewNavigator(true);
 
 	}
 

@@ -1,4 +1,4 @@
-package net.quackster.icarus.game.user;
+package net.quackster.icarus.game.user.client;
 
 import net.quackster.icarus.encryption.DiffieHellman;
 import net.quackster.icarus.encryption.RC4;

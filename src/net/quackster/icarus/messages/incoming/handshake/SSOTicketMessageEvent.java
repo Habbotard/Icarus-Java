@@ -6,7 +6,7 @@ import java.util.Map.Entry;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.Message;
 import net.quackster.icarus.messages.headers.Outgoing;
-import net.quackster.icarus.messages.incoming.user.NewNavigatorMessageEvent;
+import net.quackster.icarus.messages.incoming.navigator.NewNavigatorMessageEvent;
 import net.quackster.icarus.messages.outgoing.handshake.AuthenticationOKMessageComposer;
 import net.quackster.icarus.messages.outgoing.handshake.UniqueMachineIDMessageComposer;
 import net.quackster.icarus.netty.readers.Request;
@@ -24,10 +24,6 @@ public class SSOTicketMessageEvent implements Message {
         response.appendInt32(2); // Home Room ID
         response.appendInt32(false); // force enter room on connect
         session.send(response);
-        
-        Message message = new NewNavigatorMessageEvent();
-        message.handle(session, request);
-
 	}
 
 }

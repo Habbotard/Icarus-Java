@@ -23,6 +23,8 @@ public class GetCurrencyBalanceMessageEvent implements Message {
 		response.init(Outgoing.CreditsBalanceMessageComposer);
 		response.appendString("333.0");
 		session.send(response);
+		
+		session.getConnection().setSentCurrency(true);
 	}
 
 }

@@ -1,4 +1,4 @@
-package net.quackster.icarus.messages.incoming.event;
+package net.quackster.icarus.messages.incoming.navigator;
 
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.habbohotel.navigator.Navigator;

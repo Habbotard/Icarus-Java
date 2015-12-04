@@ -12,6 +12,10 @@ public class Navigator {
 			staticId = "official_view";
 		}
 
+		if (staticId.equals("official_view")) {
+			staticId = "myworld_view";
+		}
+		
 		if (!staticId.equals("hotel_view") && !staticId.equals("roomads_view") && !staticId.equals("myworld_view") && !staticId.startsWith("category__") && !staticId.equals("official_view"))
 		{
 			response.appendString(staticId); // code
