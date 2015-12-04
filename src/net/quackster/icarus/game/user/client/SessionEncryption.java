@@ -18,6 +18,13 @@ public class SessionEncryption {
 		this.diffieHellman = new DiffieHellman();
 	}
 	
+	public void dispose() {
+		
+		this.RC4 = null;
+		this.RSA = null;
+		this.diffieHellman = null;
+	}
+	
 	public boolean isEncrypted () {
 		return encrypted;
 	}

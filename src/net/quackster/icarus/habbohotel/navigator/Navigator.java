@@ -15,7 +15,7 @@ public class Navigator {
 		if (staticId.equals("official_view")) {
 			staticId = "myworld_view";
 		}
-		
+
 		if (!staticId.equals("hotel_view") && !staticId.equals("roomads_view") && !staticId.equals("myworld_view") && !staticId.startsWith("category__") && !staticId.equals("official_view"))
 		{
 			response.appendString(staticId); // code
@@ -58,8 +58,11 @@ public class Navigator {
 		// TODO: Handle room serialise here from tag ID, eg: top_promotions jajaja
 
 		if (staticId.equals("my")) {
-			response.appendInt32(1);
-			new Room("Alex's Room").serialiseNavigatorListing(response, false);
+			response.appendInt32(60);
+
+			for (int i = 0; i < 60; i++) {
+				new Room("Alex's Room").serialiseNavigatorListing(response, false);
+			}
 		}
 		else {
 			response.appendInt32(0);

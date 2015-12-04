@@ -21,7 +21,7 @@ public class Session {
 		this.channel = channel;
 		this.details = new CharacterDetails();
 		this.sessionEncryption = new SessionEncryption();
-		this.connection = new SessionConnection();
+		this.connection = new SessionConnection(this);
 	}
 	
 	public void invoke(short header, Request message) {
@@ -48,8 +48,13 @@ public class Session {
 		}
 		
 		this.channel = null;
-		this.sessionEncryption = null;
 		this.details = null;
+		
+		this.sessionEncryption.dispose();
+		this.sessionEncryption = null;
+		
+		this.connection.dispose();
+		this.connection = null;
 	}
 	
 	

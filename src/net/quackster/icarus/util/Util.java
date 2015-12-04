@@ -17,6 +17,10 @@ public class Util {
 		this.secureRandom = new SecureRandom();
 	}
 	
+	public boolean isNullOrEmpty(String param) { 
+	    return param == null || param.trim().length() == 0;
+	}
+	
 	public Configuration getConfiguration() {
 		return configuration;
 	}

@@ -9,12 +9,12 @@ import net.quackster.icarus.messages.incoming.handshake.InitCryptoMessageEvent;
 import net.quackster.icarus.messages.incoming.handshake.SSOTicketMessageEvent;
 import net.quackster.icarus.messages.incoming.handshake.UniqueIDMessageEvent;
 import net.quackster.icarus.messages.incoming.handshake.VersionCheckMessageEvent;
+import net.quackster.icarus.messages.incoming.misc.EventLogMessageEvent;
+import net.quackster.icarus.messages.incoming.misc.RequestLatencyTestMessageEvent;
 import net.quackster.icarus.messages.incoming.navigator.NewNavigatorMessageEvent;
 import net.quackster.icarus.messages.incoming.navigator.SearchNewNavigatorEvent;
 import net.quackster.icarus.messages.incoming.user.GetCurrencyBalanceMessageEvent;
 import net.quackster.icarus.messages.incoming.user.InfoRetrieveMessageEvent;
-import net.quackster.icarus.messages.incoming.user.LandingLoadWidgetMessageEvent;
-import net.quackster.icarus.messages.incoming.user.RequestLatencyTestMessageEvent;
 import net.quackster.icarus.netty.readers.Request;
 
 public class MessageHandler {
@@ -29,29 +29,40 @@ public class MessageHandler {
 	public void register() {
 		
 		this.messages.clear();
+		this.registerHandshakePackets();
+		this.registerUserPackets();
+		this.registerMiscPackets();
+		this.registerNavigatorPackets();
+	
+	}
+	
+	private void registerHandshakePackets() {
 		this.messages.put(Incoming.InitCryptoMessageEvent, new InitCryptoMessageEvent());
 		this.messages.put(Incoming.VersionCheckMessageEvent, new VersionCheckMessageEvent());
 		this.messages.put(Incoming.GenerateSecretKeyMessageEvent, new GenerateSecretKeyMessageEvent());
 		this.messages.put(Incoming.UniqueIDMessageEvent, new UniqueIDMessageEvent());
 		this.messages.put(Incoming.SSOTicketMessageEvent, new SSOTicketMessageEvent());
-		
-		this.messages.put(Incoming.RequestLatencyTestMessageEvent, new RequestLatencyTestMessageEvent());
-		
-		this.messages.put(Incoming.LandingLoadWidgetMessageEvent, new LandingLoadWidgetMessageEvent());
-		this.messages.put(Incoming.NewNavigatorMessageEvent, new NewNavigatorMessageEvent());
-		this.messages.put(Incoming.InfoRetrieveMessageEvent, new InfoRetrieveMessageEvent());
-		this.messages.put(Incoming.GetCurrencyBalanceMessageEvent, new GetCurrencyBalanceMessageEvent());
-		
-		// Navigatur
-		this.messages.put(Incoming.SearchNewNavigatorEvent, new SearchNewNavigatorEvent());
 	}
 	
+	private void registerUserPackets() {
+		this.messages.put(Incoming.InfoRetrieveMessageEvent, new InfoRetrieveMessageEvent());
+		this.messages.put(Incoming.GetCurrencyBalanceMessageEvent, new GetCurrencyBalanceMessageEvent());
+	}
+	
+	private void registerNavigatorPackets() {
+		this.messages.put(Incoming.NewNavigatorMessageEvent, new NewNavigatorMessageEvent());
+		this.messages.put(Incoming.SearchNewNavigatorEvent, new SearchNewNavigatorEvent());
+	}
+
+	private void registerMiscPackets() {
+		this.messages.put(Incoming.EventLogMessageEvent, new EventLogMessageEvent());
+		this.messages.put(Incoming.RequestLatencyTestMessageEvent, new RequestLatencyTestMessageEvent());
+	}
+
 	public void handleRequest(Session session, Request message) {
-		
 		if (messages.containsKey(message.getMessageId())) {
 			messages.get(message.getMessageId()).handle(session, message);
 		}
-		
 	}
 
 	public HashMap<Short, Message> getMessages() {
