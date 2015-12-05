@@ -35,7 +35,7 @@ public class SearchResultSetComposer extends Response {
 				this.appendString(tab.getTabName());
 				this.appendString(tab.getTitle());
 				this.appendInt32(roomLimit ? (int)tab.getButtonType() : 2); // force no button
-				this.appendBoolean(roomLimit ? tab.isCollapsed() : false); // force collapsed
+				this.appendBoolean(roomLimit ? tab.isClosed() : false); // force collapsed
 				this.appendInt32(tab.isThumbnail());
 				
 				int amount = 2;

@@ -44,8 +44,6 @@ public class NetworkEncoder extends SimpleChannelHandler {
 			if (e.getMessage() instanceof Response) {
 				
 				Response msg = (Response) e.getMessage();
-				System.out.println("Sent -> " + msg.getBodyString());
-				
 				Channels.write(ctx, e.getFuture(), msg.get());
 				return;
 			}

@@ -14,7 +14,7 @@ public class NavigatorTab implements StorageObject {
 	private String tabName;
 	private String title;
 	private byte buttonType;
-	private boolean collapsed;
+	private boolean closed;
 	private boolean thumbnail;
 
 	//private List<NavigatorTab> childTabs;
@@ -27,7 +27,7 @@ public class NavigatorTab implements StorageObject {
 		this.tabName = set.getString("tab_name");
 		this.title = set.getString("title");
 		this.buttonType = set.getByte("button_setting");
-		this.collapsed = set.getByte("collapsed") == 1;
+		this.closed = set.getByte("closed") == 1;
 		this.thumbnail = set.getByte("thumbnail") == 1;
 	}
 
@@ -61,8 +61,8 @@ public class NavigatorTab implements StorageObject {
 		return buttonType;
 	}
 
-	public boolean isCollapsed() {
-		return collapsed;
+	public boolean isClosed() {
+		return closed;
 	}
 
 	public boolean isThumbnail() {
