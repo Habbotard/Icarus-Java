@@ -1,5 +1,7 @@
 package net.quackster.icarus.messages.incoming.navigator;
 
+import net.quackster.icarus.Icarus;
+import net.quackster.icarus.game.navigator.NavigatorTab;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.Message;
 import net.quackster.icarus.messages.headers.Outgoing;
@@ -14,16 +16,15 @@ public class NewNavigatorMessageEvent implements Message {
 		System.out.println("TOPKEKXDD");
 
 		Response response = new Response();
+		
 		response.init(Outgoing.NavigatorMetaDataComposer);
-		response.appendInt32(2);
-		/*response.appendString("official_view");
-		response.appendInt32(0);*/
-		response.appendString("hotel_view");
-		response.appendInt32(0);
-		/*response.appendString("roomads_view");
-		response.appendInt32(0);*/
-		response.appendString("myworld_view");
-		response.appendInt32(0);
+		response.appendInt32(Icarus.getGame().getNavigator().getParentTabs().size());
+		
+		for (NavigatorTab tab : Icarus.getGame().getNavigator().getParentTabs()) {
+			response.appendString(tab.getTabName());
+			response.appendInt32(0);
+		}
+		
 		session.send(response);
 
 		response.init(Outgoing.NavigatorLiftedRoomsComposer);

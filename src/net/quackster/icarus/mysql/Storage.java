@@ -16,13 +16,13 @@ public class Storage {
 
 	private BoneCP connections = null;
 	private BoneCPConfig config;
-	private boolean isConnectionFailed = false;
+	private boolean failedConnection;
 
 	public Storage(String host, String username, String password, String db) {
 		
 		checkDriver();
 
-		
+		this.failedConnection = false;
 
 		try {
 			config = new BoneCPConfig();
@@ -34,21 +34,13 @@ public class Storage {
 			config.setMinConnectionsPerPartition(0);
 			config.setMaxConnectionsPerPartition(5);
 			config.setConnectionTimeout(1000, TimeUnit.SECONDS);
-			config.setPartitionCount(1);
+			config.setPartitionCount(Runtime.getRuntime().availableProcessors()); // set partion count to number of cores (inc. hyperthreading)
 			this.connections = new BoneCP(config);
 
 		} catch(Exception e) {
-			isConnectionFailed = true;
+			this.failedConnection = true;
 			Log.exception(e);
 		}
-	}
-
-	public int getConnectionCount() {
-		return this.connections.getTotalLeased();
-	}
-
-	public BoneCP getConnections() {
-		return this.connections;
 	}
 
 	public PreparedStatement prepare(String query) throws SQLException {
@@ -102,17 +94,15 @@ public class Storage {
 
 	public int count(String query) throws SQLException {
 		Connection conn = null;
-		PreparedStatement statement = null;
 
 		try {
 			conn = this.connections.getConnection();
-			statement = conn.prepareStatement(query);
+			PreparedStatement statement = conn.prepareStatement(query);
 			return this.count(statement);
 		} catch(SQLException e) {
 			e.printStackTrace();
 		} finally {
 			conn.close();
-			statement.close();
 		}
 
 		return 0;
@@ -155,10 +145,6 @@ public class Storage {
 			while(result.next()) {
 				return result;
 			}
-			
-			result.close();
-			statement.close();
-			
 		} catch(SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -169,38 +155,26 @@ public class Storage {
 	}
 
 	public ResultSet getTable(String query) throws SQLException {
-		
 		Connection conn = null;
-		PreparedStatement statement = null;
-		ResultSet result = null;
-		
 		try {
 			conn = this.connections.getConnection();
-			statement = conn.prepareStatement(query);
-			result = statement.executeQuery();
+			PreparedStatement statement = conn.prepareStatement(query);
+			ResultSet result = statement.executeQuery();
 
 			return result;
-			
 		} catch(SQLException e) {
 			e.printStackTrace();
-			
 		} finally {
-			result.close();
-			statement.close();
 			conn.close();
-			
 		}
 
 		return null;
 	}
 
-	public String getString(String query) throws SQLException {
-		
-		ResultSet result = null;
-		
+	public String getString(String query) {
 		try {
 			
-			result = this.prepare(query).executeQuery();
+			ResultSet result = this.prepare(query).executeQuery();
 			result.first();
 
 			String str = query.split(" ")[1];
@@ -210,19 +184,41 @@ public class Storage {
 			}
 
 			return result.getString(str);
+			
 		} catch(SQLException e) {
 			e.printStackTrace();
-		} finally {
-			result.close();
 		}
 
 		return null;
 	}
 	
-	public Integer getInt(String query) throws NumberFormatException, SQLException {
+	public Integer getInt(String query) {
 		
 		return Integer.valueOf(this.getString(query));
 	}
+	
+
+	public static void releaseResultSet(ResultSet row) {
+		
+		try {
+			row.close();
+		} catch (Exception e) {
+			
+		}
+		
+		try {
+			row.getStatement().close();
+		} catch (Exception e) {
+			
+		}
+		
+		try {
+			row.getStatement().getConnection().close();
+		} catch (Exception e) {
+			
+		}
+	}
+	
 
 	public void checkDriver() {
 		try {
@@ -231,12 +227,16 @@ public class Storage {
 			e.printStackTrace();
 		}
 	}
-
-	public boolean connectionFailed() {
-		return isConnectionFailed;
+	
+	public int getConnectionCount() {
+		return this.connections.getTotalLeased();
 	}
 
-	public void setConnectionFailed(boolean isConnectionFailed) {
-		this.isConnectionFailed = isConnectionFailed;
+	public BoneCP getConnections() {
+		return this.connections;
+	}
+
+	public boolean connectionFailed() {
+		return this.failedConnection;
 	}
 }

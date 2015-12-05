@@ -1,12 +1,11 @@
 package net.quackster.icarus.messages.incoming.navigator;
 
+import net.quackster.icarus.Icarus;
+import net.quackster.icarus.game.navigator.NavigatorTab;
 import net.quackster.icarus.game.user.Session;
-import net.quackster.icarus.habbohotel.navigator.Navigator;
-import net.quackster.icarus.habbohotel.room.Room;
 import net.quackster.icarus.messages.Message;
-import net.quackster.icarus.messages.headers.Outgoing;
+import net.quackster.icarus.messages.outgoing.navigator.SearchResultSetComposer;
 import net.quackster.icarus.netty.readers.Request;
-import net.quackster.icarus.netty.readers.Response;
 
 public class SearchNewNavigatorEvent implements Message {
 
@@ -14,34 +13,27 @@ public class SearchNewNavigatorEvent implements Message {
 	public void handle(Session session, Request request) {
 		
 		String tab = request.readString();
-		String ticket = request.readString();
+		String searchQuery = request.readString();
 		
-		System.out.println(tab);
+		NavigatorTab navigatorTab = Icarus.getGame().getNavigator().getParentTab(tab);
 		
-		Response response = new Response();
+		if (navigatorTab == null) {
+			return;
+		}
 		
-		response.init(Outgoing.SearchResultSetComposer);
-        response.appendString(tab);
-        response.appendString(ticket);
-        response.appendInt32(ticket.length() > 0 ? 1 : Navigator.getNewNavigatorLength(tab));
-        
-        if (ticket.length() >  0) {
-
-        	response.appendString("");
-        	response.appendString("search query");
-        	response.appendInt32(2);
-        	response.appendBoolean(false);
-        	response.appendInt32(0);
-        	response.appendInt32(0);
-        	
-        	new Room().serialiseNavigatorListing(response, false);
-        	
-        } else {
-        	
-        	Navigator.serializeNavigatorList(tab, response, session);
-        }
-        
-        session.send(response);
+		session.send(new SearchResultSetComposer(navigatorTab, searchQuery));
 	}
 
+
+		/*if (staticId.equals("my")) {
+			response.appendInt32(60);
+
+			for (int i = 0; i < 60; i++) {
+				new Room("Alex's Room").serialiseNavigatorListing(response, false);
+			}
+		}
+		else {
+			response.appendInt32(0);
+		}
+	}*/
 }

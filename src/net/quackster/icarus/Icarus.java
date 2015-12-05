@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import net.quackster.icarus.game.Game;
 import net.quackster.icarus.log.Log;
 import net.quackster.icarus.mysql.Storage;
 import net.quackster.icarus.netty.connections.Connection;
@@ -15,6 +16,7 @@ public class Icarus {
 	private static Util utilities;
 	public static int PublicCount = 0;
 	private static Storage mysql;
+	private static Game game;
 
 	private static final String REVISION = "PRODUCTION-201506161211-776084490";
 
@@ -22,11 +24,16 @@ public class Icarus {
 
 		try {
 
-			
-			
 			createConfig();
 			Log.startup();
+
+			Log.println("Detected CPU cores for thread pooling: " + Runtime.getRuntime().availableProcessors());
+			Log.println();
+			
 			connectMySQL();
+			
+			game = new Game();
+		
 			startServer();
 
 		} catch (Exception e) {
@@ -71,7 +78,7 @@ public class Icarus {
 		Log.println("Connecting to MySQL server");
 		
 		mysql = new Storage(utilities.getConfiguration().get("mysql-hostname"), utilities.getConfiguration().get("mysql-username"), utilities.getConfiguration().get("mysql-password"), utilities.getConfiguration().get("mysql-database")); {
-			if (mysql.connectionFailed()) {
+			 if (mysql.connectionFailed()) {
 				Log.println("Could not connect");
 			} else {
 				Log.println("Connection to MySQL was a success");
@@ -98,6 +105,10 @@ public class Icarus {
 		}
 	}
 
+	public static Storage getStorage() {
+		return mysql;
+	}
+	
 	public static Connection getServer() {
 		return server;
 	}
@@ -108,5 +119,9 @@ public class Icarus {
 
 	public static Util getUtilities() {
 		return utilities;
+	}
+
+	public static Game getGame() {
+		return game;
 	}
 }

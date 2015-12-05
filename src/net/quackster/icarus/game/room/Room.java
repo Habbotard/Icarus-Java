@@ -1,4 +1,4 @@
-package net.quackster.icarus.habbohotel.room;
+package net.quackster.icarus.game.room;
 
 import net.quackster.icarus.netty.readers.Response;
 
