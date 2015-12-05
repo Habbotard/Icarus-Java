@@ -15,7 +15,7 @@ public class SearchNewNavigatorEvent implements Message {
 		String tab = request.readString();
 		String searchQuery = request.readString();
 		
-		NavigatorTab navigatorTab = Icarus.getGame().getNavigator().getParentTab(tab);
+		NavigatorTab navigatorTab = Icarus.getGame().getNavigator().getTab(tab);
 		
 		if (navigatorTab == null) {
 			return;
