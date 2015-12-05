@@ -35,7 +35,7 @@ public class NavigatorTab implements StorageObject {
 	public List<NavigatorTab> getChildTabs() {
 
 		try {
-			return Icarus.getGame().getNavigator().getChildTabs().stream().filter(t -> t.childId == this.id).collect(Collectors.toList());
+			return Icarus.getGame().getNavigator().getAllTabs().stream().filter(t -> t.childId == this.id).collect(Collectors.toList());
 		} catch (Exception e) {
 			return null;
 		}

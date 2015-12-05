@@ -4,22 +4,24 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
+
 import net.quackster.icarus.Icarus;
 import net.quackster.icarus.log.Log;
 import net.quackster.icarus.mysql.Storage;
 
 public class Navigator {
 
-	private List<NavigatorTab> parentTabs;
-	private List<NavigatorTab> childTabs;
+	private List<NavigatorTab> tabs;
+	//private List<NavigatorTab> childTabs;
 
 	public Navigator() {
 		
-		this.parentTabs = new ArrayList<NavigatorTab>();
-		this.childTabs = new ArrayList<NavigatorTab>();
+		this.tabs = new ArrayList<NavigatorTab>();
+		//this.childTabs = new ArrayList<NavigatorTab>();
 	
 		try {
-			this.parentTabs = this.getTabs(-1);
+			this.tabs = this.getTabs(-1);
 		} catch (Exception e) {
 			Log.exception(e);
 		}
@@ -28,16 +30,25 @@ public class Navigator {
 	public NavigatorTab getParentTab(String tabName) {
 
 		try {
-			return this.parentTabs.stream().filter(t -> t.getTabName().equals(tabName)).findFirst().get();
+			return this.tabs.stream().filter(t -> t.getTabName().equals(tabName)).findFirst().get();
 		} catch (NoSuchElementException e) {
 			return null;
 		}
 	}
 
+	public List<NavigatorTab> getParentTabs() {
+
+		try {
+			return this.tabs.stream().filter(t -> t.getChildId() == -1).collect(Collectors.toList());
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
 	public NavigatorTab getChildTab(String tabName) {
 
 		try {
-			return this.childTabs.stream().filter(t -> t.getTabName().equals(tabName)).findFirst().get();
+			return this.tabs.stream().filter(t -> (t.getTabName().equals(tabName) && t.getChildId() != -1)).findFirst().get();
 		} catch (NoSuchElementException e) {
 			return null;
 		}
@@ -54,7 +65,7 @@ public class Navigator {
 			tabs.add(tab);
 			
 			if (tab.getChildId() == -1) {
-				childTabs.addAll(this.getTabs(tab.getId()));
+				tabs.addAll(this.getTabs(tab.getId()));
 			}
 		}
 
@@ -62,11 +73,7 @@ public class Navigator {
 		return tabs;
 	}
 
-	public List<NavigatorTab> getParentTabs() {
-		return this.parentTabs;
-	}
-
-	public List<NavigatorTab> getChildTabs() {
-		return this.childTabs;
+	public List<NavigatorTab> getAllTabs() {
+		return this.tabs;
 	}
 }
