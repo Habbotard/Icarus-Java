@@ -223,8 +223,13 @@ public class Room {
 		return wallThickness;
 	}
 
+
 	public void setWallThickness(int wallThickness) {
 		this.wallThickness = wallThickness;
+	}
+	
+	public Integer getWallHeight() {
+		return -1;
 	}
 
 	public int getFloorThickness() {
@@ -266,5 +271,6 @@ public class Room {
 	public List<Session> getUsers() {
 		return users;
 	}
+
 
 }

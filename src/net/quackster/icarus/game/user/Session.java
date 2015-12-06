@@ -9,6 +9,7 @@ import net.quackster.icarus.dao.RoomDao;
 import net.quackster.icarus.game.room.Room;
 import net.quackster.icarus.game.user.client.SessionConnection;
 import net.quackster.icarus.game.user.client.SessionEncryption;
+import net.quackster.icarus.game.user.client.SessionRoom;
 import net.quackster.icarus.netty.readers.Request;
 import net.quackster.icarus.netty.readers.Response;
 
@@ -19,6 +20,7 @@ public class Session {
 	private String machineId;
 	private CharacterDetails details;
 	private SessionConnection connection;
+	private SessionRoom roomUser;
 
 	public Session(Channel channel) {
 
@@ -26,6 +28,7 @@ public class Session {
 		this.details = new CharacterDetails();
 		this.sessionEncryption = new SessionEncryption();
 		this.connection = new SessionConnection(this);
+		this.roomUser = new SessionRoom();
 	}
 
 	public void invoke(short header, Request message) {
@@ -95,5 +98,19 @@ public class Session {
 
 	public CharacterDetails getDetails() {
 		return details;
+	}
+
+	/**
+	 * @return the roomUser
+	 */
+	public SessionRoom getRoomUser() {
+		return roomUser;
+	}
+
+	/**
+	 * @param roomUser the roomUser to set
+	 */
+	public void setRoomUser(SessionRoom roomUser) {
+		this.roomUser = roomUser;
 	}
 }

@@ -21,175 +21,128 @@ package net.quackster.icarus.game.room.models;
 
 public class RoomModel 
 {
-	private String Name;
-	private String Heightmap;
-	private String Map = "";
-	private String RelativeMap = "";
-	private int DoorX;
-	private int DoorY;
-	private int DoorZ;
-	private int DoorRot;
-	private int MapSizeX;
-	private int MapSizeY;
-	private int MapSize;
+	private String name;
+	private String heightmap;
+	private int doorX;
+	private int doorY;
+	private int doorZ;
+	private int doorRot;
+	private int mapSizeX;
+	private int mapSizeY;
+	private int mapSize;
 	private int OPEN = 0;
 	private int CLOSED = 1;
-	private int[][] Squares;
-	private double[][] SquareHeight;
-	private RoomTileState[][] SquareState;
+	private int[][] squares;
+	private double[][] squareHeight;
+	private RoomTileState[][] squareState;
+	private String[][] squareChar;
 
-	public RoomModel(String Name, String Heightmap, int DoorX, int DoorY, int DoorZ, int DoorRot)
-	{
-		this.Name = Name;
-		this.Heightmap = Heightmap;
-		this.DoorX = DoorX;
-		this.DoorY = DoorY;
-		this.DoorZ = DoorZ;
-		this.DoorRot = DoorRot;
+	public RoomModel(String name, String heightmap, int doorX, int doorY, int doorZ, int doorRot) {
+		
+		this.name = name;
+		this.heightmap = heightmap;
+		this.doorX = doorX;
+		this.doorY = doorY;
+		this.doorZ = doorZ;
+		this.doorRot = doorRot;
 
-		String[] Temporary = Heightmap.split(Character.toString((char)13));
+		String[] temporary = heightmap.split(Character.toString((char)13));
 
-		this.MapSizeX = Temporary[0].length();
-		this.MapSizeY = Temporary.length;
-		this.Squares = new int[MapSizeX][MapSizeY];
-		this.SquareHeight = new double[MapSizeX][MapSizeY];
-		this.SquareState = new RoomTileState[MapSizeX][MapSizeY];
+		this.mapSizeX = temporary[0].length();
+		this.mapSizeY = temporary.length;
+		this.squares = new int[mapSizeX][mapSizeY];
+		this.squareHeight = new double[mapSizeX][mapSizeY];
+		this.squareState = new RoomTileState[mapSizeX][mapSizeY];
+		this.squareChar = new String[mapSizeX][mapSizeY];
 
 
-		for (int y = 0; y < MapSizeY; y++)
-		{
-			if (y > 0)
-			{
-				Temporary[y] = Temporary[y].substring(1);
+		for (int y = 0; y < mapSizeY; y++) {
+			
+			if (y > 0) {
+				temporary[y] = temporary[y].substring(1);
 			}
 
-			for (int x = 0; x < MapSizeX; x++)
-			{
-				String Square = Temporary[y].substring(x,x + 1).trim().toLowerCase();
+			for (int x = 0; x < mapSizeX; x++) {
+				
+				String square = temporary[y].substring(x,x + 1).trim().toLowerCase();
 
-				if (Square.equals("x"))
-				{
-					SquareState[x][y] = RoomTileState.INVALID;
-					Squares[x][y] = CLOSED;
+				if (square.equals("x"))	{
+					squareState[x][y] = RoomTileState.INVALID;
+					squares[x][y] = CLOSED;
+					
+				} else if(isNumeric(square)) {
+					
+					squareState[x][y] = RoomTileState.VALID;
+					squares[x][y] = OPEN;
+					squareHeight[x][y] = Double.parseDouble(square);
+					mapSize++;
 				}
-				else if(isNumeric(Square))
-				{
-					SquareState[x][y] = RoomTileState.VALID;
-					Squares[x][y] = OPEN;
-					SquareHeight[x][y] = Double.parseDouble(Square);
-					MapSize++;
-				}
+				
+				squareChar[x][y] = square;
 
-				if (this.DoorX == x && this.DoorY == y)
-				{
-					SquareState[x][y] = RoomTileState.VALID;
-					RelativeMap += (int)DoorZ + "";
-				}
-				else
-				{
-					if(Square.isEmpty() || Square == null)
-					{
-						continue;
-					}
-					RelativeMap += Square;
-				}
 			}
-			RelativeMap += (char)13;
-		}
-
-		for(String MapLine: Heightmap.split("\r\n"))
-		{
-			if(MapLine.isEmpty() || MapLine == null)
-			{
-				continue;
-			}
-			Map += MapLine + (char)13;
 		}
 	}
-	
-	/*public int[] getRandomCoords(int Id, Room room)
-	{
-		Random rand = new Random();
-		
-		int randomX = rand.nextInt(this.MapSizeX);
-		int randomY = rand.nextInt(this.MapSizeY);
-		
-		if (this.SquareState[randomX][randomY] == RoomTileState.INVALID && !room.getEntityExistsAt(Id, randomX, randomY) && !room.getUserExistsAt(Id, randomX, randomY) && !Pathfinder.CheckFurniCoordinates(room, randomX, randomY))
-			return this.getRandomCoords(Id, room);
-		
-		return new int[] { randomX, randomY };
-	}*/
 	
 	public String getHeightmap() {
-		return Heightmap;
+		return heightmap;
 	}
 	
-	public String getRelativeHeightmap() {
-		return RelativeMap;
-	}
-	
-	private boolean isNumeric(String Input)
-	{
-		try
-		{
-			Integer.parseInt(Input);
+	private boolean isNumeric(String input) {
+		
+		try {
+			Integer.parseInt(input);
 			return true;
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			return false;
 		}
 	}
 	
 	public String getName() {
-		return Name;
-	}
-	
-	public String getMap() {
-		return Map;
-	}
-	
-	public String getRelativeMap() {
-		return RelativeMap;
+		return name;
 	}
 	
 	public int getDoorX() {
-		return DoorX;
+		return doorX;
 	}
 	
 	public int getDoorY() {
-		return DoorY;
+		return doorY;
 	}
 	
 	public int getDoorZ() {
-		return DoorZ;
+		return doorZ;
 	}
 	
 	public int getDoorRot() {
-		return DoorRot;
+		return doorRot;
 	}
 	
 	public int getMapSizeX() {
-		return MapSizeX;
+		return mapSizeX;
 	}
 	
 	public int getMapSizeY() {
-		return MapSizeY;
+		return mapSizeY;
 	}
 	
 	public int getMapSize() {
-		return MapSize;
+		return mapSize;
 	}
 
 	public RoomTileState[][] getTileState() {
-		return SquareState;
+		return squareState;
 	}
 	
 	public double[][] getSquareHeight() {
-		return SquareHeight;
+		return squareHeight;
 	}
 	
 	public int[][] getSqState() {
-		return Squares;
+		return squares;
+	}
+
+	public String[][] getSquareChar() {
+		return squareChar;
 	}
 }

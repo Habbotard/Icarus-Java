@@ -119,11 +119,11 @@ public class Incoming {
     public static final short LoadBadgeInventoryMessageEvent = 2208;
     public static final short LoadItemsInventoryMessageEvent = 726;
     public static final short SetActivatedBadgesMessageEvent = 2228;
-    public static final short EnableInventoryEffectMessageEvent = 1781;
+    //public static final short EnableInventoryEffectMessageEvent = 1781;
     public static final short EffectEnableMessageEvent = 2516;
-    public static final short EnterPrivateRoomMessageEvent = 53;
-    public static final short RoomGetHeightmapMessageEvent = 2188;
-    public static final short RoomGetInfoMessageEvent = 3662;
+    public static final short EnterPrivateRoomMessageEvent = 3662;//53;
+    public static final short RoomGetHeightmapMessageEvent = 53;//1781;//2188;
+    //public static final short RoomGetInfoMessageEvent = 3662;
     public static final short RoomUserActionMessageEvent = 3346;
     public static final short RoomOnLoadMessageEvent = 213;
     public static final short RoomDeleteMessageEvent = 2856;
@@ -245,7 +245,8 @@ public class Incoming {
     public static final short QuestCancelMessageEvent = 1003;
     public static final short QuestSeasonalStartMessageEvent = 3560;
     public static final short QuestStartMessageEvent = 3943;
-    public static final short OpenAchievementsBoxMessageEvent = 1958;
+    //public static final short OpenAchievementsBoxMessageEvent = 1958;
+    public static final short RoomSuccessMessageEvent = 1958;
     public static final short CompleteSafetyQuizMessageEvent = 1107;
     public static final short ConsoleInstantChatMessageEvent = 534;
     public static final short ConsoleInviteFriendsMessageEvent = 2791;

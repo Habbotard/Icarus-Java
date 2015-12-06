@@ -1,5 +1,6 @@
 package net.quackster.icarus.game;
 
+import net.quackster.icarus.dao.RoomDao;
 import net.quackster.icarus.game.navigator.NavigatorManager;
 import net.quackster.icarus.game.room.RoomManager;
 
@@ -10,6 +11,8 @@ public class Game {
 	
 	public Game() throws Exception {
 		this.navigator = new NavigatorManager();
+		
+		RoomDao.loadRoomModels();
 		this.room = new RoomManager();
 	}
 	
