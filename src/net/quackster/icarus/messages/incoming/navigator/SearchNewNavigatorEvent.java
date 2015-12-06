@@ -15,13 +15,13 @@ public class SearchNewNavigatorEvent implements Message {
 		String tab = request.readString();
 		String searchQuery = request.readString();
 		
-		NavigatorTab navigatorTab = Icarus.getGame().getNavigator().getTab(tab);
+		NavigatorTab navigatorTab = Icarus.getGame().getNavigatorManager().getTab(tab);
 		
 		if (navigatorTab == null) {
 			return;
 		}
 		
-		session.send(new SearchResultSetComposer(navigatorTab, searchQuery));
+		session.send(new SearchResultSetComposer(session, navigatorTab, searchQuery));
 	}
 
 

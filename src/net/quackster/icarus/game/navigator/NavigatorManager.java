@@ -3,13 +3,13 @@ package net.quackster.icarus.game.navigator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import net.quackster.icarus.dao.navigator.NavigatorDao;
+import net.quackster.icarus.dao.NavigatorDao;
 
-public class Navigator {
+public class NavigatorManager {
 
 	private List<NavigatorTab> tabs;
 	
-	public Navigator() throws Exception {
+	public NavigatorManager() throws Exception {
 		this.tabs = NavigatorDao.getTabs(-1);
 	}
 	

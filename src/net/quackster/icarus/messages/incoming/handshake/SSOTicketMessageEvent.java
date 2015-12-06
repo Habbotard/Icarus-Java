@@ -1,6 +1,12 @@
 package net.quackster.icarus.messages.incoming.handshake;
 
+import java.util.List;
+
+import net.quackster.icarus.Icarus;
+import net.quackster.icarus.dao.RoomDao;
+import net.quackster.icarus.game.room.Room;
 import net.quackster.icarus.game.user.Session;
+import net.quackster.icarus.log.Log;
 import net.quackster.icarus.messages.Message;
 import net.quackster.icarus.messages.outgoing.handshake.AuthenticationOKMessageComposer;
 import net.quackster.icarus.messages.outgoing.handshake.UniqueMachineIDMessageComposer;
@@ -17,5 +23,8 @@ public class SSOTicketMessageEvent implements Message {
 		session.send(new AuthenticationOKMessageComposer());
 		session.send(new HomeRoomMessageComposer(2, false));
 		session.send(new LandingWidgetMessageComposer());
+		
+		List<Room> myRooms = RoomDao.getPlayerRooms(1);
+		Log.println("Loaded rooms: " + myRooms.size() + " - total loaded: " + Icarus.getGame().getRoomManager().getLoadedRooms().size());
 	}
 }

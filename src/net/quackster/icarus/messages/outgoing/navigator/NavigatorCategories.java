@@ -8,7 +8,7 @@ public class NavigatorCategories extends Response {
 	
 	public NavigatorCategories() {
 		
-		String[] categories = Icarus.getGame().getNavigator().getPrivateRoomCategories();
+		String[] categories = Icarus.getGame().getNavigatorManager().getPrivateRoomCategories();
 		
 		this.init(Outgoing.NavigatorCategories);
 		this.appendInt32(4 + categories.length);

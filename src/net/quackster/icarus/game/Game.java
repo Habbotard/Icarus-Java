@@ -1,16 +1,23 @@
 package net.quackster.icarus.game;
 
-import net.quackster.icarus.game.navigator.Navigator;
+import net.quackster.icarus.game.navigator.NavigatorManager;
+import net.quackster.icarus.game.room.RoomManager;
 
 public class Game {
 
-	private Navigator navigator;
+	private NavigatorManager navigator;
+	private RoomManager room;
 	
 	public Game() throws Exception {
-		this.navigator = new Navigator();
+		this.navigator = new NavigatorManager();
+		this.room = new RoomManager();
 	}
 	
-	public Navigator getNavigator() {
+	public NavigatorManager getNavigatorManager() {
 		return navigator;
+	}
+
+	public RoomManager getRoomManager() {
+		return room;
 	}
 }

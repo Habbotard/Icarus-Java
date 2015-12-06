@@ -1,108 +1,233 @@
 package net.quackster.icarus.game.room;
 
-import net.quackster.icarus.Icarus;
+import java.sql.ResultSet;
 import net.quackster.icarus.netty.readers.Response;
 
 public class Room {
 
-	private int Id = 1;
-	private int OwnerId = 23;
-	private String Name = "ROOMXD";
-	private String Owner = "topkek";
-	private int State = 0;
-	private int UsersNow = 34;
-	private int UsersMax = 40;
-	private String Description = "descccc";
-	private int TradeState = 0;
-	private int Score = 0;
-	private int Category = 1;
-	private String tab;
+	private int Id;
+	private int ownerId;
+	private String ownerName;
+	private String name;
+	private int state;
+	private int usersNow;
+	private int usersMax;
+	private String description;
+	private int tradeState;
+	private int score;
+	private int category;
+	private int groupId;
+	private String model;
+	private String wall;
+	private String floor;
+	private String landscape;
+	private boolean allowPets;
+	private boolean allowPetsEat;
+	private boolean allowWalkthrough;
+	private boolean hideWall;
+	private int wallThickness;
+	private int floorThickness;
+	private String tagFormat;
 
-	public Room(String name) {
-		this.Name = name;
+	public Room(ResultSet row) throws Exception {
 		
-		this.UsersMax = 50;
-		this.UsersNow = Icarus.getUtilities().getRandom().nextInt(50);
-	}
-
-	public Room() {
-		// TODO Auto-generated constructor stub
+		this.ownerId = row.getInt("owner_id");
+		this.ownerName = "";
+		this.groupId = row.getInt("group_id");
+		this.name = row.getString("name");
+		this.description = row.getString("description");
+		this.state = row.getInt("state");
+		this.tradeState = row.getInt("trade_state");
+		this.model = row.getString("model");
+		this.wall = row.getString("wallpaper");
+		this.floor = row.getString("floor");
+		this.landscape = row.getString("outside");
+		this.usersNow =  row.getInt("users_now");
+		this.usersMax =  row.getInt("users_max");
+		this.allowPets = row.getBoolean("allow_pets");
+		this.allowPetsEat = row.getBoolean("allow_pets_eat");
+		this.allowWalkthrough = row.getBoolean("allow_walkthrough");
+		this.hideWall = row.getBoolean("hidewall");
+		this.wallThickness = row.getInt("wall_thickness");
+		this.floorThickness = row.getInt("floor_thickness");
+		this.tagFormat = row.getString("tags");
+		
 	}
 
 	public void serialiseNavigatorListing(Response response, Boolean enterRoom) {
 		
         response.appendInt32(Id);
-        response.appendString(Name);
-        response.appendInt32(OwnerId);
-        response.appendString(Owner);
-        response.appendInt32(State);
-        response.appendInt32(UsersNow);
-        response.appendInt32(UsersMax);
-        response.appendString(Description);
-        response.appendInt32(TradeState);
-        response.appendInt32(Score);
+        response.appendString(this.name);
+        response.appendInt32(this.ownerId);
+        response.appendString(this.ownerName);
+        response.appendInt32(this.state);
+        response.appendInt32(this.usersNow);
+        response.appendInt32(this.usersMax);
+        response.appendString(this.description);
+        response.appendInt32(this.tradeState);
+        response.appendInt32(this.score);
         response.appendInt32(0); // Ranking
-        response.appendInt32(Category);
-
+        response.appendInt32(this.category);
         response.appendInt32(0); //TagCount
         
         int enumType = enterRoom ? 32 : 0;
-        
-        /*PublicItem publicItem = AzureEmulator.GetGame().GetNavigator().GetPublicItem(Id);
-        if (publicItem != null && !string.IsNullOrEmpty(publicItem.Image))
-        {
-            imageData = publicItem.Image;
-            enumType += 1;
-        }*/
-
-        //if (Group != null) enumType += 2;
-       // if (showEvents && Event != null) enumType += 4;
-       // if (Type == "private") enumType += 8;
-        //if (AllowPets) enumType += 16;
         response.appendInt32(enumType);
-        
-        /*foreach (string current in Tags) response.AppendString(current);
-
-        string imageData = null;
-
-        Int32 enumType = enterRoom ? 32 : 0;
-        PublicItem publicItem = AzureEmulator.GetGame().GetNavigator().GetPublicItem(Id);
-        if (publicItem != null && !string.IsNullOrEmpty(publicItem.Image))
-        {
-            imageData = publicItem.Image;
-            enumType += 1;
-        }
-
-        if (Group != null) enumType += 2;
-        if (showEvents && Event != null) enumType += 4;
-        if (Type == "private") enumType += 8;
-        if (AllowPets) enumType += 16;
-        response.AppendInteger(enumType);
-
-        if (imageData != null)
-        {
-            response.AppendString(imageData);
-        }
-        if (Group != null)
-        {
-            response.AppendInteger(Group.Id);
-            response.AppendString(Group.Name);
-            response.AppendString(Group.Badge);
-        }
-        if (showEvents && Event != null)
-        {
-            response.AppendString(Event.Name);
-            response.AppendString(Event.Description);
-            response.AppendInteger((int)Math.Floor((Event.Time - AzureEmulator.GetUnixTimeStamp()) / 60.0));
-        }*/
 	}
 
-	public String getTab() {
-		return tab;
+	public String getName() {
+		return name;
 	}
 
-	public void setTab(String tab) {
-		this.tab = tab;
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getState() {
+		return state;
+	}
+
+	public void setState(int state) {
+		this.state = state;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public int getTradeState() {
+		return tradeState;
+	}
+
+	public void setTradeState(int tradeState) {
+		this.tradeState = tradeState;
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	public int getCategory() {
+		return category;
+	}
+
+	public void setCategory(int category) {
+		this.category = category;
+	}
+
+	public int getGroupId() {
+		return groupId;
+	}
+
+	public void setGroupId(int groupId) {
+		this.groupId = groupId;
+	}
+
+	public String getWall() {
+		return wall;
+	}
+
+	public void setWall(String wall) {
+		this.wall = wall;
+	}
+
+	public String getFloor() {
+		return floor;
+	}
+
+	public void setFloor(String floor) {
+		this.floor = floor;
+	}
+
+	public String getLandscape() {
+		return landscape;
+	}
+
+	public void setLandscape(String landscape) {
+		this.landscape = landscape;
+	}
+
+	public boolean isAllowPets() {
+		return allowPets;
+	}
+
+	public void setAllowPets(boolean allowPets) {
+		this.allowPets = allowPets;
+	}
+
+	public boolean isAllowPetsEat() {
+		return allowPetsEat;
+	}
+
+	public void setAllowPetsEat(boolean allowPetsEat) {
+		this.allowPetsEat = allowPetsEat;
+	}
+
+	public boolean isAllowWalkthrough() {
+		return allowWalkthrough;
+	}
+
+	public void setAllowWalkthrough(boolean allowWalkthrough) {
+		this.allowWalkthrough = allowWalkthrough;
+	}
+
+	public boolean isHideWall() {
+		return hideWall;
+	}
+
+	public void setHideWall(boolean hideWall) {
+		this.hideWall = hideWall;
+	}
+
+	public int getWallThickness() {
+		return wallThickness;
+	}
+
+	public void setWallThickness(int wallThickness) {
+		this.wallThickness = wallThickness;
+	}
+
+	public int getFloorThickness() {
+		return floorThickness;
+	}
+
+	public void setFloorThickness(int floorThickness) {
+		this.floorThickness = floorThickness;
+	}
+
+	public int getId() {
+		return Id;
+	}
+
+	public int getOwnerId() {
+		return ownerId;
+	}
+
+	public String getOwnerName() {
+		return ownerName;
+	}
+
+	public int getUsersNow() {
+		return usersNow;
+	}
+
+	public String getModel() {
+		return model;
+	}
+
+	public String getTagFormat() {
+		return tagFormat;
+	}
+
+	public void setUsersMax(int usersMax) {
+		this.usersMax = usersMax;
 	}
 
 }

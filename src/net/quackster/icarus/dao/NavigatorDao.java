@@ -1,4 +1,4 @@
-package net.quackster.icarus.dao.navigator;
+package net.quackster.icarus.dao;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;

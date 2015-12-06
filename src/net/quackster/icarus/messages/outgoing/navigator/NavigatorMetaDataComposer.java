@@ -10,9 +10,9 @@ public class NavigatorMetaDataComposer extends Response {
 	public NavigatorMetaDataComposer() {
 		
 		this.init(Outgoing.NavigatorMetaDataComposer);
-		this.appendInt32(Icarus.getGame().getNavigator().getParentTabs().size());
+		this.appendInt32(Icarus.getGame().getNavigatorManager().getParentTabs().size());
 
-		for (NavigatorTab tab : Icarus.getGame().getNavigator().getParentTabs()) {
+		for (NavigatorTab tab : Icarus.getGame().getNavigatorManager().getParentTabs()) {
 			this.appendString(tab.getTabName());
 			this.appendInt32(0);
 		}

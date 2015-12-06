@@ -6,12 +6,13 @@ import java.util.List;
 import net.quackster.icarus.Icarus;
 import net.quackster.icarus.game.navigator.NavigatorTab;
 import net.quackster.icarus.game.room.Room;
+import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.headers.Outgoing;
 import net.quackster.icarus.netty.readers.Response;
 
 public class SearchResultSetComposer extends Response {
 
-	public SearchResultSetComposer(NavigatorTab navigatorTab, String searchQuery) {
+	public SearchResultSetComposer(Session session, NavigatorTab navigatorTab, String searchQuery) {
 
 		this.init(Outgoing.SearchResultSetComposer);
 		this.appendString(navigatorTab.getTabName());
@@ -39,11 +40,19 @@ public class SearchResultSetComposer extends Response {
 				this.appendBoolean(roomLimit ? tab.isClosed() : false); // force collapsed
 				this.appendInt32(tab.isThumbnail());
 				
-				int amount = 2;
-				this.appendInt32(amount);
-
-				for (int i = 0; i < amount; i++) {
-					new Room("Room " + Icarus.getUtilities().getRandom().nextInt(Integer.MAX_VALUE / 4)).serialiseNavigatorListing(this, false);
+				List<Room> rooms = new ArrayList<Room>();
+				
+				if (tab.getRoomPopulator() == null) {
+					this.appendInt32(0);
+				} else {
+					
+					rooms.addAll(tab.getRoomPopulator().generateListing(session));
+					
+					this.appendInt32(rooms.size());
+					
+					for (Room room : rooms) {
+						room.serialiseNavigatorListing(this, false);
+					}
 				}
 			}
 

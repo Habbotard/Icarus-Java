@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import net.quackster.icarus.Icarus;
+import net.quackster.icarus.game.room.populator.IRoomPopulator;
 import net.quackster.icarus.mysql.StorageObject;
 
 public class NavigatorTab {
@@ -16,6 +17,8 @@ public class NavigatorTab {
 	private byte buttonType;
 	private boolean closed;
 	private boolean thumbnail;
+	
+	private IRoomPopulator roomPopulator;
 
 	public NavigatorTab(ResultSet set) throws Exception {
 
@@ -26,13 +29,25 @@ public class NavigatorTab {
 		this.buttonType = set.getByte("button_type");
 		this.closed = set.getByte("closed") == 1;
 		this.thumbnail = set.getByte("thumbnail") == 1;
+		
+		String roomPopulatorClass = set.getString("room_populator");
+		
+		try {
+			
+			Class<? extends IRoomPopulator> clazz = Class.forName("net.quackster.icarus.game.room.populator." + roomPopulatorClass).asSubclass(IRoomPopulator.class);
+			this.roomPopulator = clazz.newInstance();
+			this.roomPopulator.setNavigatorTab(this);
+			
+		} catch (Exception e) {
+			this.roomPopulator = null;
+		}
 	}
 
 
 	public List<NavigatorTab> getChildTabs() {
 
 		try {
-			return Icarus.getGame().getNavigator().getAllTabs().stream().filter(t -> t.childId == this.id).collect(Collectors.toList());
+			return Icarus.getGame().getNavigatorManager().getAllTabs().stream().filter(t -> t.childId == this.id).collect(Collectors.toList());
 		} catch (Exception e) {
 			return null;
 		}
@@ -66,8 +81,8 @@ public class NavigatorTab {
 		return thumbnail;
 	}
 
+	public IRoomPopulator getRoomPopulator() {
+		return roomPopulator;
+	}
 
-	//public List<NavigatorTab> getChildTabs() {
-	//return childTabs;
-	//}
 }

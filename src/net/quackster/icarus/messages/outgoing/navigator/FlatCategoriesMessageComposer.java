@@ -8,7 +8,7 @@ public class FlatCategoriesMessageComposer extends Response {
 
 	public FlatCategoriesMessageComposer() {
 		
-		String[] categories = Icarus.getGame().getNavigator().getPrivateRoomCategories();
+		String[] categories = Icarus.getGame().getNavigatorManager().getPrivateRoomCategories();
 		
 		this.init(Outgoing.FlatCategoriesMessageComposer);
 		this.appendInt32(categories.length);
