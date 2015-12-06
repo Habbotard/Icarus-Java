@@ -6,7 +6,7 @@ public class Game {
 
 	private Navigator navigator;
 	
-	public Game() {
+	public Game() throws Exception {
 		this.navigator = new Navigator();
 	}
 	

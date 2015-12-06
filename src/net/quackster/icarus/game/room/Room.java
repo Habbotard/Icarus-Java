@@ -1,5 +1,6 @@
 package net.quackster.icarus.game.room;
 
+import net.quackster.icarus.Icarus;
 import net.quackster.icarus.netty.readers.Response;
 
 public class Room {
@@ -19,6 +20,9 @@ public class Room {
 
 	public Room(String name) {
 		this.Name = name;
+		
+		this.UsersMax = 50;
+		this.UsersNow = Icarus.getUtilities().getRandom().nextInt(50);
 	}
 
 	public Room() {

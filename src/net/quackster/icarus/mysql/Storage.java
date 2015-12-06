@@ -198,7 +198,7 @@ public class Storage {
 	}
 	
 
-	public static void releaseResultSet(ResultSet row) {
+	public static void releaseObject(ResultSet row) {
 		
 		try {
 			row.close();

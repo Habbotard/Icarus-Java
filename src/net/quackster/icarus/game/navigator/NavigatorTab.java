@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import net.quackster.icarus.Icarus;
 import net.quackster.icarus.mysql.StorageObject;
 
-public class NavigatorTab implements StorageObject {
+public class NavigatorTab {
 
 	private int id;
 	private int childId;
@@ -17,16 +17,13 @@ public class NavigatorTab implements StorageObject {
 	private boolean closed;
 	private boolean thumbnail;
 
-	//private List<NavigatorTab> childTabs;
-
-	@Override
-	public void fill(ResultSet set) throws Exception {
+	public NavigatorTab(ResultSet set) throws Exception {
 
 		this.id = set.getInt("id");
 		this.childId = set.getInt("child_id");
 		this.tabName = set.getString("tab_name");
 		this.title = set.getString("title");
-		this.buttonType = set.getByte("button_setting");
+		this.buttonType = set.getByte("button_type");
 		this.closed = set.getByte("closed") == 1;
 		this.thumbnail = set.getByte("thumbnail") == 1;
 	}

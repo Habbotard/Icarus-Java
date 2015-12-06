@@ -1,55 +1,23 @@
 package net.quackster.icarus.game.navigator;
 
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
-import net.quackster.icarus.Icarus;
-import net.quackster.icarus.log.Log;
-import net.quackster.icarus.mysql.Storage;
+import net.quackster.icarus.dao.navigator.NavigatorDao;
 
 public class Navigator {
 
 	private List<NavigatorTab> tabs;
 	
-	public Navigator() {
-		
-		this.tabs = new ArrayList<NavigatorTab>();
-
-		try {
-			this.tabs = this.getTabs(-1);
-		} catch (Exception e) {
-			Log.exception(e);
-		}
-	}
-	
-	public List<NavigatorTab> getTabs(int id) throws Exception {
-
-		List<NavigatorTab> tabs = new ArrayList<NavigatorTab>();
-		ResultSet row = Icarus.getStorage().getTable("SELECT * FROM navigator_tabs WHERE child_id = " + id);
-
-		while (row.next()) {
-			
-			NavigatorTab tab = new NavigatorTab();
-			tab.fill(row);
-			tabs.add(tab);
-			
-			if (tab.getChildId() == -1) {
-				tabs.addAll(this.getTabs(tab.getId()));
-			}
-		}
-
-		Storage.releaseResultSet(row);
-		return tabs;
+	public Navigator() throws Exception {
+		this.tabs = NavigatorDao.getTabs(-1);
 	}
 	
 	public NavigatorTab getTab(String tabName) {
 
 		try {
-			return this.tabs.stream().filter(t -> t.getTabName().equals(tabName)).findFirst().get();
-		} catch (NoSuchElementException e) {
+			return this.tabs.stream().filter(tab -> tab.getTabName().equals(tabName)).findFirst().get();
+		} catch (Exception e) {
 			return null;
 		}
 	}
@@ -57,10 +25,14 @@ public class Navigator {
 	public List<NavigatorTab> getParentTabs() {
 
 		try {
-			return this.tabs.stream().filter(t -> t.getChildId() == -1).collect(Collectors.toList());
+			return this.tabs.stream().filter(tab -> tab.getChildId() == -1).collect(Collectors.toList());
 		} catch (Exception e) {
 			return null;
 		}
+	}
+	
+	public String[] getPrivateRoomCategories() {
+		return new String[] { "No Category", "School, Daycare & Adoption Rooms", "Help Centre, Guide & Service Rooms", "Hair Salons & Modelling Rooms", "Gaming & Race Rooms", "Trading & Shopping Rooms", "Maze & Theme Park Rooms", "Chat, Chill & Discussion Rooms", "Club & Group Rooms", "Restaurant, Bar & Night Club Rooms", "Themed & RPG Rooms", "Habbo Staff Rooms" };
 	}
 
 	public List<NavigatorTab> getAllTabs() {

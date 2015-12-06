@@ -3,6 +3,7 @@ package net.quackster.icarus.messages.outgoing.navigator;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.quackster.icarus.Icarus;
 import net.quackster.icarus.game.navigator.NavigatorTab;
 import net.quackster.icarus.game.room.Room;
 import net.quackster.icarus.messages.headers.Outgoing;
@@ -21,7 +22,7 @@ public class SearchResultSetComposer extends Response {
 			List<NavigatorTab> tabs = new ArrayList<NavigatorTab>();
 			boolean roomLimit = true;
 			
-			if (navigatorTab.getChildId() != -1) { // child tab, aka client requested for more room data 
+			if (navigatorTab.getChildId() != -1) { // child tab, aka client requested for more room data through the navigator button
 				tabs.add(navigatorTab);
 				roomLimit = false;
 			} else {
@@ -42,7 +43,7 @@ public class SearchResultSetComposer extends Response {
 				this.appendInt32(amount);
 
 				for (int i = 0; i < amount; i++) {
-					new Room("Alex's Room").serialiseNavigatorListing(this, false);
+					new Room("Room " + Icarus.getUtilities().getRandom().nextInt(Integer.MAX_VALUE / 4)).serialiseNavigatorListing(this, false);
 				}
 			}
 
