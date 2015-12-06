@@ -3,12 +3,12 @@ package net.quackster.icarus.messages.outgoing.navigator;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.quackster.icarus.Icarus;
 import net.quackster.icarus.game.navigator.NavigatorTab;
 import net.quackster.icarus.game.room.Room;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.headers.Outgoing;
 import net.quackster.icarus.netty.readers.Response;
+import net.quackster.icarus.netty.readers.SerialiseType;
 
 public class SearchResultSetComposer extends Response {
 
@@ -46,13 +46,15 @@ public class SearchResultSetComposer extends Response {
 					this.appendInt32(0);
 				} else {
 					
-					rooms.addAll(tab.getRoomPopulator().generateListing(session));
+					rooms.addAll(tab.getRoomPopulator().generateListing(roomLimit, session));
 					
 					this.appendInt32(rooms.size());
 					
 					for (Room room : rooms) {
-						room.serialiseNavigatorListing(this, false);
+						room.serialise(this, SerialiseType.ROOM_NAVIGATOR);
 					}
+					
+					rooms = null;
 				}
 			}
 

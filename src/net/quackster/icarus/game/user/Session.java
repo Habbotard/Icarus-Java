@@ -1,8 +1,12 @@
 package net.quackster.icarus.game.user;
 
+import java.util.List;
+
 import org.jboss.netty.channel.Channel;
 
 import net.quackster.icarus.Icarus;
+import net.quackster.icarus.dao.RoomDao;
+import net.quackster.icarus.game.room.Room;
 import net.quackster.icarus.game.user.client.SessionConnection;
 import net.quackster.icarus.game.user.client.SessionEncryption;
 import net.quackster.icarus.netty.readers.Request;
@@ -23,7 +27,7 @@ public class Session {
 		this.sessionEncryption = new SessionEncryption();
 		this.connection = new SessionConnection(this);
 	}
-	
+
 	public void invoke(short header, Request message) {
 		Icarus.getServer().getMessageHandler().getMessages().get(header).handle(this, message);
 	}
@@ -40,24 +44,35 @@ public class Session {
 	public void close() {
 		this.dispose(true);
 	}
-	
+
 	public void dispose(boolean disconnect) {
 
 		if (disconnect) {
 			this.channel.close();
 		}
-		
+
+		if (this.details.isAuthenticated()) {
+
+			List<Room> rooms = RoomDao.getPlayerRooms(this.details.getId());
+
+			if (rooms.size() > 0) {
+				for (Room room : rooms) {
+					room.dispose();
+				}
+			}	
+		}
+
 		this.channel = null;
 		this.details = null;
-		
+
 		this.sessionEncryption.dispose();
 		this.sessionEncryption = null;
-		
+
 		this.connection.dispose();
 		this.connection = null;
 	}
-	
-	
+
+
 	public SessionEncryption getSessionEncryption() {
 		return sessionEncryption;
 	}

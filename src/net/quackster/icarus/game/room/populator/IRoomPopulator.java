@@ -9,8 +9,7 @@ import net.quackster.icarus.game.user.Session;
 public abstract class IRoomPopulator {
 
 	private NavigatorTab navigatorTab;
-	public abstract List<Room> generateListing(Session session);
-
+	
 	public NavigatorTab getNavigatorTab() {
 		return navigatorTab;
 	}
@@ -18,4 +17,6 @@ public abstract class IRoomPopulator {
 	public void setNavigatorTab(NavigatorTab tab) {
 		this.navigatorTab = tab;
 	}
+
+	public abstract List<Room> generateListing(boolean limit, Session session);
 }

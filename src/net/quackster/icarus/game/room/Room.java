@@ -1,11 +1,20 @@
 package net.quackster.icarus.game.room;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import net.quackster.icarus.Icarus;
+import net.quackster.icarus.dao.RoomDao;
+import net.quackster.icarus.game.room.models.RoomModel;
+import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.netty.readers.Response;
+import net.quackster.icarus.netty.readers.SerialiseType;
 
 public class Room {
 
-	private int Id;
+	private int id;
 	private int ownerId;
 	private String ownerName;
 	private String name;
@@ -28,9 +37,13 @@ public class Room {
 	private int wallThickness;
 	private int floorThickness;
 	private String tagFormat;
+	private List<Session> users;
 
-	public Room(ResultSet row) throws Exception {
+	public Room(ResultSet row) throws SQLException {
+
+		this.users = new ArrayList<Session>();
 		
+		this.id = row.getInt("id");
 		this.ownerId = row.getInt("owner_id");
 		this.ownerName = "";
 		this.groupId = row.getInt("group_id");
@@ -52,26 +65,46 @@ public class Room {
 		this.floorThickness = row.getInt("floor_thickness");
 		this.tagFormat = row.getString("tags");
 		
+		System.out.println("ROOM ID: " + id);
+		
 	}
 
-	public void serialiseNavigatorListing(Response response, Boolean enterRoom) {
+	public void serialise(Response response, SerialiseType type ) {
+
+		if (type == SerialiseType.ROOM_NAVIGATOR) {
+			response.appendInt32(id);
+			response.appendString(this.name);
+			response.appendInt32(this.ownerId);
+			response.appendString(this.ownerName);
+			response.appendInt32(this.state);
+			response.appendInt32(this.usersNow);
+			response.appendInt32(this.usersMax);
+			response.appendString(this.description);
+			response.appendInt32(this.tradeState);
+			response.appendInt32(this.score);
+			response.appendInt32(0); // Ranking
+			response.appendInt32(this.category);
+			response.appendInt32(0); //TagCount
+			response.appendInt32(0);
+		}
+	}
+
+
+	public void dispose() {
+
+		if (this.users.size() > 0) {
+			return;
+		}
+
+		this.name = null;
+		this.ownerName = null;
+		this.description = null;
+		this.tagFormat = null;
+		this.landscape = null;
+		this.model = null;
+		this.wall = null;
 		
-        response.appendInt32(Id);
-        response.appendString(this.name);
-        response.appendInt32(this.ownerId);
-        response.appendString(this.ownerName);
-        response.appendInt32(this.state);
-        response.appendInt32(this.usersNow);
-        response.appendInt32(this.usersMax);
-        response.appendString(this.description);
-        response.appendInt32(this.tradeState);
-        response.appendInt32(this.score);
-        response.appendInt32(0); // Ranking
-        response.appendInt32(this.category);
-        response.appendInt32(0); //TagCount
-        
-        int enumType = enterRoom ? 32 : 0;
-        response.appendInt32(enumType);
+		Icarus.getGame().getRoomManager().getLoadedRooms().remove(this);
 	}
 
 	public String getName() {
@@ -203,7 +236,7 @@ public class Room {
 	}
 
 	public int getId() {
-		return Id;
+		return id;
 	}
 
 	public int getOwnerId() {
@@ -218,8 +251,8 @@ public class Room {
 		return usersNow;
 	}
 
-	public String getModel() {
-		return model;
+	public RoomModel getModel() {
+		return RoomDao.getModel(this.model);
 	}
 
 	public String getTagFormat() {
@@ -228,6 +261,10 @@ public class Room {
 
 	public void setUsersMax(int usersMax) {
 		this.usersMax = usersMax;
+	}
+
+	public List<Session> getUsers() {
+		return users;
 	}
 
 }

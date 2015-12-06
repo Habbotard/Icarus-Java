@@ -3,6 +3,8 @@ package net.quackster.icarus.game.room;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.quackster.icarus.Icarus;
+
 public class RoomManager {
 
 	public List<Room> loadedRooms;
@@ -16,14 +18,23 @@ public class RoomManager {
 		boolean add = true;
 		
 		for (Room loadedRoom : this.loadedRooms) {
-			
-			if (room.getId() != loadedRoom.getId()) {
+
+			if (room.getId() == loadedRoom.getId()) {
 				add = false;
 			}
 		}
-		
+
 		if (add) {
 			this.loadedRooms.add(room);
+		}
+	}
+
+	public Room find(int roomId) {
+
+		try {
+			return Icarus.getGame().getRoomManager().getLoadedRooms().stream().filter(r -> r.getId() == roomId).findFirst().get();
+		} catch (Exception e) {
+			return null;
 		}
 	}
 

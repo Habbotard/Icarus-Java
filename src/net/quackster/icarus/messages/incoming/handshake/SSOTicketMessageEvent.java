@@ -24,7 +24,11 @@ public class SSOTicketMessageEvent implements Message {
 		session.send(new HomeRoomMessageComposer(2, false));
 		session.send(new LandingWidgetMessageComposer());
 		
-		List<Room> myRooms = RoomDao.getPlayerRooms(1);
+		session.getDetails().setAuthenticated(true); // logged in 
+		
+		List<Room> myRooms = RoomDao.getPlayerRooms(session.getDetails().getId(), true);
 		Log.println("Loaded rooms: " + myRooms.size() + " - total loaded: " + Icarus.getGame().getRoomManager().getLoadedRooms().size());
+		
+		//RoomDao.getRoom(1, true);
 	}
 }

@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import net.quackster.icarus.Icarus;
 import net.quackster.icarus.game.room.populator.IRoomPopulator;
-import net.quackster.icarus.mysql.StorageObject;
 
 public class NavigatorTab {
 
