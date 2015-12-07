@@ -5,11 +5,41 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import net.quackster.icarus.Icarus;
+import net.quackster.icarus.game.user.CharacterDetails;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.log.Log;
+import net.quackster.icarus.mysql.Storage;
 
 public class PlayerDao {
 
+	public static CharacterDetails getDetails(int userId) {
+		
+		try {
+			
+			PreparedStatement statement = Icarus.getStorage().prepare("SELECT * FROM users WHERE user_id = ? LIMIT 1");
+			statement.setInt(1, userId);
+
+			ResultSet row = statement.executeQuery();
+			
+			CharacterDetails details = new CharacterDetails();
+			
+			if (!row.next()) {
+				return null;
+			}
+
+			details.fill(row);
+			
+			Storage.releaseObject(row);
+			
+			return details;
+			
+		} catch (SQLException e) {
+			Log.exception(e);
+		}
+		
+		return null;
+	}
+	
 	public static boolean login(Session session, String ssoTicket) {
 		
 		try {
@@ -24,6 +54,9 @@ public class PlayerDao {
 			}
 			
 			session.getDetails().fill(row);
+			
+			Storage.releaseObject(row);
+			
 			return true;
 			
 		} catch (SQLException e) {

@@ -3,8 +3,6 @@ package net.quackster.icarus;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Properties;
-import java.util.Set;
 
 import net.quackster.icarus.game.Game;
 import net.quackster.icarus.log.Log;

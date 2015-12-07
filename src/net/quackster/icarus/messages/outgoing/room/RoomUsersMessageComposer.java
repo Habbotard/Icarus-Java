@@ -27,7 +27,7 @@ public class RoomUsersMessageComposer extends Response {
 			this.appendInt32(session.getRoomUser().getX());
 			this.appendInt32(session.getRoomUser().getY());
 			this.appendString(Double.toString(session.getRoomUser().getHeight()));
-			this.appendInt32(session.getRoomUser().getBodyRotation());
+			this.appendInt32(session.getRoomUser().getRotation());
 			this.appendInt32(1);
 			this.appendString("m");
 			this.appendInt32(0);

@@ -11,6 +11,7 @@ import java.util.NoSuchElementException;
 import net.quackster.icarus.Icarus;
 import net.quackster.icarus.game.room.Room;
 import net.quackster.icarus.game.room.models.RoomModel;
+import net.quackster.icarus.game.user.CharacterDetails;
 import net.quackster.icarus.log.Log;
 import net.quackster.icarus.mysql.Storage;
 
@@ -36,18 +37,18 @@ public class RoomDao {
 		
 	}
 	
-	public static List<Room> getPlayerRooms(int userId) {
-		return getPlayerRooms(userId, false);
+	public static List<Room> getPlayerRooms(CharacterDetails details) {
+		return getPlayerRooms(details, false);
 	}
 	
-	public static List<Room> getPlayerRooms(int userId, boolean storeInMemory) {
+	public static List<Room> getPlayerRooms(CharacterDetails details, boolean storeInMemory) {
 
 		List<Room> rooms = new ArrayList<Room>();
 		ResultSet row = null;
 
 		try {
 
-			row =  Icarus.getStorage().getTable("SELECT * FROM rooms WHERE owner_id = " + userId);
+			row =  Icarus.getStorage().getTable("SELECT * FROM rooms WHERE owner_id = " + details.getId());
 
 			while (row.next()) {
 
@@ -56,7 +57,7 @@ public class RoomDao {
 				Room room = Icarus.getGame().getRoomManager().find(id);
 
 				if (room == null) {
-					room = new Room(row);
+					room = new Room(row, details.getUsername());
 				}
 				
 				rooms.add(room);
@@ -88,7 +89,8 @@ public class RoomDao {
 			Room room = Icarus.getGame().getRoomManager().find(roomId);
 
 			if (room == null) {
-				room = new Room(row);
+				CharacterDetails details = PlayerDao.getDetails(row.getInt("owner_id"));
+				room = new Room(row, details.getUsername());
 			}
 			
 			Storage.releaseObject(row);

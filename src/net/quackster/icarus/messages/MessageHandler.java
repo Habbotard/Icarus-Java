@@ -17,6 +17,7 @@ import net.quackster.icarus.messages.incoming.navigator.SearchNewNavigatorEvent;
 import net.quackster.icarus.messages.incoming.room.EnterPrivateRoomMessageEvent;
 import net.quackster.icarus.messages.incoming.room.RoomGetHeightmapMessageEvent;
 import net.quackster.icarus.messages.incoming.room.RoomSuccessMessageEvent;
+import net.quackster.icarus.messages.incoming.room.UserWalkMessageEvent;
 import net.quackster.icarus.messages.incoming.user.GetCurrencyBalanceMessageEvent;
 import net.quackster.icarus.messages.incoming.user.InfoRetrieveMessageEvent;
 import net.quackster.icarus.netty.readers.Request;
@@ -55,6 +56,7 @@ public class MessageHandler {
 		this.messages.put(Incoming.EnterPrivateRoomMessageEvent, new EnterPrivateRoomMessageEvent());
 		this.messages.put(Incoming.RoomGetHeightmapMessageEvent, new RoomGetHeightmapMessageEvent());
 		this.messages.put(Incoming.RoomSuccessMessageEvent, new RoomSuccessMessageEvent());
+		this.messages.put(Incoming.UserWalkMessageEvent, new UserWalkMessageEvent());
 	}
 	
 	private void registerUserPackets() {

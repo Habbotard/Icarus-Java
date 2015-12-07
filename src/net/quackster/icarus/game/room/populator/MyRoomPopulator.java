@@ -11,7 +11,7 @@ public class MyRoomPopulator extends IRoomPopulator {
 	@Override
 	public List<Room> generateListing(boolean limit, Session session) {
 		
-		List<Room> rooms =  RoomDao.getPlayerRooms(session.getDetails().getId());
+		List<Room> rooms =  RoomDao.getPlayerRooms(session.getDetails());
 		rooms.sort((room1, room2)->room2.getUsersNow()-room1.getUsersNow());
 		
 		return rooms;

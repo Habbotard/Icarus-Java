@@ -2,6 +2,7 @@ package net.quackster.icarus.messages.outgoing.room;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map.Entry;
 
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.headers.Outgoing;
@@ -24,10 +25,16 @@ public class UpdateUserStatusMessageComposer extends Response {
 			this.appendInt32(user.getRoomUser().getX());
 			this.appendInt32(user.getRoomUser().getY());
 			this.appendString(Double.toString(user.getRoomUser().getHeight()));
-			this.appendInt32(user.getRoomUser().getBodyRotation());
-			this.appendInt32(user.getRoomUser().getBodyRotation());
+			this.appendInt32(user.getRoomUser().getRotation());
+			this.appendInt32(user.getRoomUser().getRotation());
 
 			String Status = "/";
+
+			for (Entry<String, String> set : user.getRoomUser().getStatuses().entrySet())
+			{
+				Status += set.getKey() + " " + set.getValue() + "/";
+			}
+
 			this.appendString(Status + "/");
 		}
 	}

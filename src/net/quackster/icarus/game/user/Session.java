@@ -35,6 +35,16 @@ public class Session {
 		Icarus.getServer().getMessageHandler().getMessages().get(header).handle(this, message);
 	}
 
+	public void checkForDuplicates() {
+		for (Session player : Icarus.getServer().getSessionManager().getSessions().values()) {
+			if (player.getDetails().getId() == this.getDetails().getId()) {
+				if (player.getChannel().getId() != this.getChannel().getId()) { // user tries to login twice
+					this.close(); // fuck off
+				}
+			}
+		}
+	}
+	
 	public void send(Response response) {
 
 		if (response != null) {
@@ -54,7 +64,7 @@ public class Session {
 			
 			if (this.details.isAuthenticated()) {
 
-				List<Room> rooms = RoomDao.getPlayerRooms(this.details.getId());
+				List<Room> rooms = RoomDao.getPlayerRooms(this.details);
 
 				if (rooms.size() > 0) {
 					for (Room room : rooms) {
@@ -114,4 +124,5 @@ public class Session {
 	public void setRoomUser(SessionRoom roomUser) {
 		this.roomUser = roomUser;
 	}
+
 }

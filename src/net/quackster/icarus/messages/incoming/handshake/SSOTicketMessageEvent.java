@@ -27,11 +27,13 @@ public class SSOTicketMessageEvent implements Message {
 			session.close();
 		}
 		
+		session.checkForDuplicates();
+		
 		session.send(new UniqueMachineIDMessageComposer(session.getMachineId()));
 		session.send(new AuthenticationOKMessageComposer());
 		session.send(new HomeRoomMessageComposer(2, false));
 		session.send(new LandingWidgetMessageComposer());
 		
-		RoomDao.getPlayerRooms(session.getDetails().getId(), true);
+		RoomDao.getPlayerRooms(session.getDetails(), true);
 	}
 }

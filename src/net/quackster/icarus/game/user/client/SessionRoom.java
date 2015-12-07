@@ -1,5 +1,7 @@
 package net.quackster.icarus.game.user.client;
 
+import java.util.HashMap;
+
 import net.quackster.icarus.game.room.Room;
 
 public class SessionRoom {
@@ -7,10 +9,29 @@ public class SessionRoom {
 	private boolean inRoom;
 	private boolean isLoadingRoom;
 	private Room room;
+	
+	private int X;
+	private int Y;
+	
+	private int GoalX;
+	private int GoalY;
+	
+	private int rotation;
+	private double height;
+	
+	public HashMap<String, String> Statuses;
+	private boolean setIsWalking;
 
 	public SessionRoom() {
 		this.inRoom = false;
 		this.isLoadingRoom = false;
+		
+		this.rotation = 0;
+		this.X = 0;
+		this.Y = 0;
+		this.GoalX = 0;
+		this.GoalY = 0;
+		this.Statuses = new HashMap<String, String>();
 	}
 
 	public boolean isInRoom() {
@@ -41,19 +62,65 @@ public class SessionRoom {
 		this.isLoadingRoom = isLoadingRoom;
 	}
 
-	public Integer getX() {
-		return room.getModel().getDoorX();
+	public int getX() {
+		return X;
 	}
-	
-	public Integer getY() {
-		return room.getModel().getDoorY();
+
+	public void setX(int x) {
+		X = x;
+	}
+
+	public int getY() {
+		return Y;
+	}
+
+	public void setY(int y) {
+		Y = y;
+	}
+
+	public int getGoalX() {
+		return GoalX;
+	}
+
+	public void setGoalX(int goalX) {
+		GoalX = goalX;
+	}
+
+	public int getGoalY() {
+		return GoalY;
+	}
+
+	public void setGoalY(int goalY) {
+		GoalY = goalY;
+	}
+
+	public int getRotation() {
+		return rotation;
+	}
+
+	public void setRotation(int rotation) {
+		this.rotation = rotation;
 	}
 
 	public double getHeight() {
-		return room.getModel().getSquareHeight()[this.getX()][this.getY()];
+		return height;
 	}
 
-	public Integer getBodyRotation() {
-		return room.getModel().getDoorRot();
+	public void setHeight(double height) {
+		this.height = height;
 	}
+
+	public HashMap<String, String> getStatuses() {
+		return Statuses;
+	}
+
+	public boolean isWalking() {
+		return setIsWalking;
+	}
+
+	public void setIsWalking(boolean setIsWalking) {
+		this.setIsWalking = setIsWalking;
+	}
+
+
 }

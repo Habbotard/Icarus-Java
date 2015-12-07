@@ -38,8 +38,6 @@ public class EnterPrivateRoomMessageEvent implements Message {
 		
 		session.getRoomUser().setRoom(room);
 		
-		//session.send(new RoomDataMessageComposer(room, session));
-		
 		boolean forwardPlayer = false;
         int num = request.readInt();
         int num2 = request.readInt();

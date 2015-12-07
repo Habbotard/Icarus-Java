@@ -4,18 +4,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 import net.quackster.icarus.Icarus;
 import net.quackster.icarus.dao.RoomDao;
 import net.quackster.icarus.game.room.models.RoomModel;
 import net.quackster.icarus.game.user.Session;
+import net.quackster.icarus.game.user.client.SessionRoom;
+import net.quackster.icarus.log.Log;
 import net.quackster.icarus.messages.headers.Outgoing;
 import net.quackster.icarus.messages.outgoing.room.RoomUsersMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.UpdateUserStatusMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.UserLeftRoomMessageComposer;
 import net.quackster.icarus.netty.readers.Response;
 
-public class Room {
+public class Room implements Runnable {
 
 	private int id;
 	private int ownerId;
@@ -40,15 +44,21 @@ public class Room {
 	private int wallThickness;
 	private int floorThickness;
 	private String tagFormat;
+	
 	private List<Session> users;
-
-	public Room(ResultSet row) throws SQLException {
-
+	private ScheduledFuture<?> tickTask;
+	
+	public Room() {
 		this.users = new ArrayList<Session>();
+	}
 
+	public Room(ResultSet row, String ownerName) throws SQLException {
+
+		super();
+		
 		this.id = row.getInt("id");
 		this.ownerId = row.getInt("owner_id");
-		this.ownerName = "";//Icarus.getServer().getSessionManager().getSessions().values().stream().filter(session -> session.getDetails().getId() == this.ownerId).findFirst().get().getDetails().getUser
+		this.ownerName = ownerName;
 		this.groupId = row.getInt("group_id");
 		this.name = row.getString("name");
 		this.description = row.getString("description");
@@ -69,6 +79,13 @@ public class Room {
 		this.tagFormat = row.getString("tags");
 
 	}
+	
+	@Override
+	public void run() {
+		
+		
+	}
+
 
 	public void serialise(Response response, boolean showEvents, boolean enterRoom) {
 		response.appendInt32(id);
@@ -95,20 +112,43 @@ public class Room {
 
 	}
 
-	public void showRoomPlayers(Session session) {
+	public void finaliseRoomEnter(Session session) {
 
+		if (this.users.size() == 0) {
+			Log.println("[ROOM " + this.id + "] Pathfinder task start");
+			this.tickTask = Icarus.getUtilities().getThreadPooling().getScheduledThreadPool().scheduleAtFixedRate(this, 0, 1, TimeUnit.SECONDS);
+		}
+		
 		if (!this.users.contains(session)) {
 			this.users.add(session);
 		}
-
+		
+		SessionRoom user = session.getRoomUser();
+		
+		user.setX(this.getModel().getDoorX());
+		user.setY(this.getModel().getDoorY());
+		user.setRotation(this.getModel().getDoorRot());
+		user.setHeight(this.getModel().getSquareHeight()[user.getX()][user.getY()]);
+		
 		this.send(new RoomUsersMessageComposer(this.users));
 		this.send(new UpdateUserStatusMessageComposer(this.users));
+	
 	}
 
 	public void leaveRoom(Session session, boolean hotelView) {
 
 		this.send(new UserLeftRoomMessageComposer(session.getDetails().getId()));
 		this.getUsers().remove(session);
+		
+		if (this.users.size() == 0) {
+			if (this.tickTask != null) {
+				
+				Log.println("[ROOM " + this.id + "] Pathfinder task finish");
+				
+				this.tickTask.cancel(true);
+				this.tickTask = null;
+			}
+		}
 
 		if (hotelView) {
 
@@ -286,6 +326,11 @@ public class Room {
 	}
 
 	public int getUsersNow() {
+		
+		if (this.users == null) {
+			this.users = new ArrayList<Session>();
+		}
+		
 		this.usersNow = this.users.size();
 		return usersNow;
 	}
@@ -305,7 +350,5 @@ public class Room {
 	public List<Session> getUsers() {
 		return users;
 	}
-
-
 
 }

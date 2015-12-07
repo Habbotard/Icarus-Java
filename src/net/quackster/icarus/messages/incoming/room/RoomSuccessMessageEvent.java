@@ -22,7 +22,7 @@ public class RoomSuccessMessageEvent implements Message {
 		
 		session.send(new RoomDataMessageComposer(room, session, false));
 		
-		room.showRoomPlayers(session);
+		room.finaliseRoomEnter(session);
 	}
 
 }
