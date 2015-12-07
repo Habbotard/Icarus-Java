@@ -26,7 +26,7 @@ public class RoomGetHeightmapMessageEvent implements Message {
 
 		for (int i = 0; i < roomModel.getMapSizeY(); i++) {
 			for (int j = 0; j < roomModel.getMapSizeX(); j++) {
-				response.appendShort((int) (roomModel.getSquareHeight()[j][i] * 26));
+				response.appendShort((int) (roomModel.getSquareHeight()[j][i] * 256));
 			}
 		}
 

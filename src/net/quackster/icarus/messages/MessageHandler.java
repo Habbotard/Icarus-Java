@@ -18,6 +18,7 @@ import net.quackster.icarus.messages.incoming.room.RoomGetHeightmapMessageEvent;
 import net.quackster.icarus.messages.incoming.room.RoomSuccessMessageEvent;
 import net.quackster.icarus.messages.incoming.user.GetCurrencyBalanceMessageEvent;
 import net.quackster.icarus.messages.incoming.user.InfoRetrieveMessageEvent;
+import net.quackster.icarus.messages.outgoing.room.RoomDataMessageComposer;
 import net.quackster.icarus.netty.readers.Request;
 
 public class MessageHandler {
@@ -40,11 +41,6 @@ public class MessageHandler {
 	
 	}
 	
-	private void registerRoomPackets() {
-		this.messages.put(Incoming.EnterPrivateRoomMessageEvent, new EnterPrivateRoomMessageEvent());
-		this.messages.put(Incoming.RoomGetHeightmapMessageEvent, new RoomGetHeightmapMessageEvent());
-		this.messages.put(Incoming.RoomSuccessMessageEvent, new RoomSuccessMessageEvent());
-	}
 
 	private void registerHandshakePackets() {
 		this.messages.put(Incoming.InitCryptoMessageEvent, new InitCryptoMessageEvent());
@@ -52,6 +48,12 @@ public class MessageHandler {
 		this.messages.put(Incoming.GenerateSecretKeyMessageEvent, new GenerateSecretKeyMessageEvent());
 		this.messages.put(Incoming.UniqueIDMessageEvent, new UniqueIDMessageEvent());
 		this.messages.put(Incoming.SSOTicketMessageEvent, new SSOTicketMessageEvent());
+	}
+	
+	private void registerRoomPackets() {
+		this.messages.put(Incoming.EnterPrivateRoomMessageEvent, new EnterPrivateRoomMessageEvent());
+		this.messages.put(Incoming.RoomGetHeightmapMessageEvent, new RoomGetHeightmapMessageEvent());
+		this.messages.put(Incoming.RoomSuccessMessageEvent, new RoomSuccessMessageEvent());
 	}
 	
 	private void registerUserPackets() {
@@ -70,6 +72,11 @@ public class MessageHandler {
 	}
 
 	public void handleRequest(Session session, Request message) {
+		
+		if (message.getMessageId() == 757) {
+			session.send(new RoomDataMessageComposer(session.getRoomUser().getRoom(), session, false));
+		}
+		
 		if (messages.containsKey(message.getMessageId())) {
 			messages.get(message.getMessageId()).handle(session, message);
 		}

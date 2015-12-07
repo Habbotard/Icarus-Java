@@ -24,6 +24,10 @@ public class SessionRoom {
 	public Room getRoom() {
 		return room;
 	}
+	
+	public int getRoomId() {
+		return (room == null ? -1 : room.getId());
+	}
 
 	public void setRoom(Room room) {
 		this.room = room;

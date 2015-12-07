@@ -9,6 +9,7 @@ import net.quackster.icarus.Icarus;
 import net.quackster.icarus.dao.RoomDao;
 import net.quackster.icarus.game.room.models.RoomModel;
 import net.quackster.icarus.game.user.Session;
+import net.quackster.icarus.messages.headers.Outgoing;
 import net.quackster.icarus.netty.readers.Response;
 import net.quackster.icarus.netty.readers.SerialiseType;
 
@@ -42,10 +43,10 @@ public class Room {
 	public Room(ResultSet row) throws SQLException {
 
 		this.users = new ArrayList<Session>();
-		
+
 		this.id = row.getInt("id");
 		this.ownerId = row.getInt("owner_id");
-		this.ownerName = "";
+		this.ownerName = "";//Icarus.getServer().getSessionManager().getSessions().values().stream().filter(session -> session.getDetails().getId() == this.ownerId).findFirst().get().getDetails().getUser
 		this.groupId = row.getInt("group_id");
 		this.name = row.getString("name");
 		this.description = row.getString("description");
@@ -64,29 +65,42 @@ public class Room {
 		this.wallThickness = row.getInt("wall_thickness");
 		this.floorThickness = row.getInt("floor_thickness");
 		this.tagFormat = row.getString("tags");
-		
-		System.out.println("ROOM ID: " + id);
-		
+
 	}
 
-	public void serialise(Response response, SerialiseType type ) {
+	public void serialiseRoomData (Response response, Session session, boolean isNotReload, boolean sendRoom/*false*/, boolean show/*true*/) {
 
-		if (type == SerialiseType.ROOM_NAVIGATOR) {
-			response.appendInt32(id);
-			response.appendString(this.name);
-			response.appendInt32(this.ownerId);
-			response.appendString(this.ownerName);
-			response.appendInt32(this.state);
-			response.appendInt32(this.usersNow);
-			response.appendInt32(this.usersMax);
-			response.appendString(this.description);
-			response.appendInt32(this.tradeState);
-			response.appendInt32(this.score);
-			response.appendInt32(0); // Ranking
-			response.appendInt32(this.category);
-			response.appendInt32(0); //TagCount
-			response.appendInt32(0);
-		}
+
+
+
+	}
+
+	public void serialise(Response response, boolean showEvents, boolean enterRoom) {
+
+		//if (type == SerialiseType.ROOM_NAVIGATOR) {
+		response.appendInt32(id);
+		response.appendString(this.name);
+		response.appendInt32(this.ownerId);
+		response.appendString(this.ownerName);
+		response.appendInt32(this.state);
+		response.appendInt32(this.usersNow);
+		response.appendInt32(this.usersMax);
+		response.appendString(this.description);
+		response.appendInt32(this.tradeState);
+		response.appendInt32(this.score);
+		response.appendInt32(0); // Ranking
+		response.appendInt32(this.category);
+		response.appendInt32(0); //TagCount
+
+		int enumType = enterRoom ? 32 : 0;
+
+		String roomType = "private";
+		if (roomType.equals("private")) enumType += 8;
+		if (this.allowPets) enumType += 16;
+
+		response.appendInt32(enumType);
+		//}
+
 	}
 
 
@@ -103,7 +117,7 @@ public class Room {
 		this.landscape = null;
 		this.model = null;
 		this.wall = null;
-		
+
 		Icarus.getGame().getRoomManager().getLoadedRooms().remove(this);
 	}
 
@@ -227,7 +241,7 @@ public class Room {
 	public void setWallThickness(int wallThickness) {
 		this.wallThickness = wallThickness;
 	}
-	
+
 	public Integer getWallHeight() {
 		return -1;
 	}
@@ -271,6 +285,7 @@ public class Room {
 	public List<Session> getUsers() {
 		return users;
 	}
+
 
 
 }

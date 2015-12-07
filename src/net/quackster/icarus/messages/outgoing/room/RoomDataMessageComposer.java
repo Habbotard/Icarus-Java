@@ -1,18 +1,18 @@
 package net.quackster.icarus.messages.outgoing.room;
 
 import net.quackster.icarus.game.room.Room;
+import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.headers.Outgoing;
 import net.quackster.icarus.netty.readers.Response;
 import net.quackster.icarus.netty.readers.SerialiseType;
 
 public class RoomDataMessageComposer extends Response {
 
-	public RoomDataMessageComposer(Room room) {
+	public RoomDataMessageComposer(Room room, Session session, boolean forwardPlayer) {
 		
-        this.init(Outgoing.RoomDataMessageComposer);
-        this.appendBoolean(false); //flatId
-        //Serialize(message, true, !isNotReload);
-        room.serialise(this, SerialiseType.ROOM_NAVIGATOR);
+		this.init(Outgoing.RoomDataMessageComposer);
+        this.appendBoolean(!forwardPlayer); //flatId
+        room.serialise(this, false, false);
         this.appendBoolean(true/* !session.InRoom*/); // isNotReload
         this.appendBoolean(false); // no staff pick
         this.appendBoolean(false);// bypass bell, pass ... - has fuse moderator

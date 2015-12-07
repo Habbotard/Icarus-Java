@@ -51,7 +51,7 @@ public class SearchResultSetComposer extends Response {
 					this.appendInt32(rooms.size());
 					
 					for (Room room : rooms) {
-						room.serialise(this, SerialiseType.ROOM_NAVIGATOR);
+						room.serialise(this, false, false);
 					}
 					
 					rooms = null;

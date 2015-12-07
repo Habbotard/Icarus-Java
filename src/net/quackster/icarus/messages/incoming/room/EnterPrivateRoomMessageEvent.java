@@ -24,16 +24,24 @@ public class EnterPrivateRoomMessageEvent implements Message {
 		}
 	
 		if (session.getRoomUser().isLoadingRoom()) {
-			System.out.println("blocked");
 			return;
 		}
 		
 		session.getRoomUser().setLoadingRoom(true);
 		session.getRoomUser().setRoom(room);
 		
-		System.out.println("Load");
+		//session.send(new RoomDataMessageComposer(room, session));
 		
-		session.send(new RoomDataMessageComposer(room));
+		boolean forwardPlayer = false;
+        int num = request.readInt();
+        int num2 = request.readInt();
+
+        if (num == 0 && num2 == 1) {
+        	forwardPlayer = true;
+        }
+        
+        session.send(new RoomDataMessageComposer(room, session, forwardPlayer));
+		
 		session.send(new PrepareRoomMessageComposer());
 		
 		if (!room.getFloor().equals("0")) {

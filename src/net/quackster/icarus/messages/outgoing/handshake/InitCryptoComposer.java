@@ -11,6 +11,7 @@ public class InitCryptoComposer extends Response {
 		this.init(Outgoing.InitCryptoMessageComposer);
 		this.appendString(sessionEncryption.getRSA().sign(sessionEncryption.getDiffieHellman().getPrime().toString()));
 		this.appendString(sessionEncryption.getRSA().sign(sessionEncryption.getDiffieHellman().getGenerator().toString()));
+		//this.appendBoolean(false);
 	}
 
 }
