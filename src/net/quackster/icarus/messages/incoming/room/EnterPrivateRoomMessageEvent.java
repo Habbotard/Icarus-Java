@@ -41,7 +41,6 @@ public class EnterPrivateRoomMessageEvent implements Message {
         }
         
         session.send(new RoomDataMessageComposer(room, session, forwardPlayer));
-		
 		session.send(new PrepareRoomMessageComposer());
 		
 		if (!room.getFloor().equals("0")) {

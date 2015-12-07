@@ -12,7 +12,7 @@ public class RoomSuccessMessageEvent implements Message {
 		
 		session.getRoomUser().setLoadingRoom(false);
 		session.getRoomUser().setInRoom(true);
-		//session.send(new RoomDataMessageComposer(session.getRoomUser().getRoom(), session, true));
+		session.send(new RoomDataMessageComposer(session.getRoomUser().getRoom(), session, false));
 	}
 
 }

@@ -73,10 +73,6 @@ public class MessageHandler {
 
 	public void handleRequest(Session session, Request message) {
 		
-		if (message.getMessageId() == 757) {
-			session.send(new RoomDataMessageComposer(session.getRoomUser().getRoom(), session, false));
-		}
-		
 		if (messages.containsKey(message.getMessageId())) {
 			messages.get(message.getMessageId()).handle(session, message);
 		}
