@@ -12,9 +12,9 @@ public class VersionCheckMessageEvent implements Message {
 		
 		String version = request.readString();
 		
-		//i//f (!version.equals(Icarus.getRevision())) {
-		//	//session.close(); // bad version, kill connection
-		//}
+		if (!version.equals(Icarus.getRevision())) {
+			session.close(); // bad version, kill connection
+		}
 	}
 
 }

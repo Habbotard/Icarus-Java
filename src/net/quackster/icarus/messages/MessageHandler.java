@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.headers.Incoming;
+import net.quackster.icarus.messages.headers.Outgoing;
 import net.quackster.icarus.messages.incoming.handshake.GenerateSecretKeyMessageEvent;
 import net.quackster.icarus.messages.incoming.handshake.InitCryptoMessageEvent;
 import net.quackster.icarus.messages.incoming.handshake.SSOTicketMessageEvent;
@@ -18,8 +19,8 @@ import net.quackster.icarus.messages.incoming.room.RoomGetHeightmapMessageEvent;
 import net.quackster.icarus.messages.incoming.room.RoomSuccessMessageEvent;
 import net.quackster.icarus.messages.incoming.user.GetCurrencyBalanceMessageEvent;
 import net.quackster.icarus.messages.incoming.user.InfoRetrieveMessageEvent;
-import net.quackster.icarus.messages.outgoing.room.RoomDataMessageComposer;
 import net.quackster.icarus.netty.readers.Request;
+import net.quackster.icarus.netty.readers.Response;
 
 public class MessageHandler {
 
@@ -72,6 +73,39 @@ public class MessageHandler {
 	}
 
 	public void handleRequest(Session session, Request message) {
+		
+		if (message.getMessageId() == 3895) {
+			Response response = new Response(Outgoing.RelationshipMessageComposer);
+			response.appendInt32(message.readInt());
+			response.appendInt32(0);
+			session.send(response);
+		}
+		
+		/*            Response.Init(LibraryParser.OutgoingRequest("RelationshipMessageComposer"));
+            Response.AppendInteger(habboForId.Id);
+            Response.AppendInteger(habboForId.Relationships.Count);
+            foreach (var current in habboForId.Relationships.Values)
+            {
+                var habboForId2 = AzureEmulator.GetHabboById(Convert.ToUInt32(current.UserId));
+                if (habboForId2 == null)
+                {
+                    Response.AppendInteger(0);
+                    Response.AppendInteger(0);
+                    Response.AppendInteger(0);
+                    Response.AppendString("Placeholder");
+                    Response.AppendString("hr-115-42.hd-190-1.ch-215-62.lg-285-91.sh-290-62");
+                }
+                else
+                {
+                    Response.AppendInteger(current.Type);
+                    Response.AppendInteger((current.Type == 1) ? num : ((current.Type == 2) ? num2 : num3));
+                    Response.AppendInteger(current.UserId);
+                    Response.AppendString(habboForId2.UserName);
+                    Response.AppendString(habboForId2.Look);
+                }
+            }*/
+		
+		
 		
 		if (messages.containsKey(message.getMessageId())) {
 			messages.get(message.getMessageId()).handle(session, message);

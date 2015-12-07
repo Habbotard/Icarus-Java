@@ -54,15 +54,21 @@ public class Session {
 			this.channel.close();
 		}
 
-		if (this.details.isAuthenticated()) {
+		try {
+			
+			if (this.details.isAuthenticated()) {
 
-			List<Room> rooms = RoomDao.getPlayerRooms(this.details.getId());
+				List<Room> rooms = RoomDao.getPlayerRooms(this.details.getId());
 
-			if (rooms.size() > 0) {
-				for (Room room : rooms) {
-					room.dispose();
-				}
-			}	
+				if (rooms.size() > 0) {
+					for (Room room : rooms) {
+						room.dispose();
+					}
+				}	
+			}
+			
+		} catch (Exception e) {
+
 		}
 
 		this.channel = null;

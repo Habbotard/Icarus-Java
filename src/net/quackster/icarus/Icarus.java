@@ -19,7 +19,7 @@ public class Icarus {
 	private static Game game;
 
 	//private static final String REVISION = "PRODUCTION-201506161211-776084490";
-	private static final String REVISION = "PRODUCTION-201512012203-525044429";
+	private static final String REVISION = "PRODUCTION-201506161211-776084490";//PRODUCTION-201512012203-525044429";
 
 	public static void main(String[] args) {
 

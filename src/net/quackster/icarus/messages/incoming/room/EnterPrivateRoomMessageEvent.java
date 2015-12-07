@@ -28,6 +28,14 @@ public class EnterPrivateRoomMessageEvent implements Message {
 		}
 		
 		session.getRoomUser().setLoadingRoom(true);
+		
+		if (session.getRoomUser().isInRoom()) {
+
+			if (session.getRoomUser().getRoom() != room) {
+				session.getRoomUser().getRoom().leaveRoom(session, false);
+			}
+		}
+		
 		session.getRoomUser().setRoom(room);
 		
 		//session.send(new RoomDataMessageComposer(room, session));

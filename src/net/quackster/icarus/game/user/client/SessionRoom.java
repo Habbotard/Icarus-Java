@@ -40,4 +40,20 @@ public class SessionRoom {
 	public void setLoadingRoom(boolean isLoadingRoom) {
 		this.isLoadingRoom = isLoadingRoom;
 	}
+
+	public Integer getX() {
+		return room.getModel().getDoorX();
+	}
+	
+	public Integer getY() {
+		return room.getModel().getDoorY();
+	}
+
+	public double getHeight() {
+		return room.getModel().getSquareHeight()[this.getX()][this.getY()];
+	}
+
+	public Integer getBodyRotation() {
+		return room.getModel().getDoorRot();
+	}
 }
