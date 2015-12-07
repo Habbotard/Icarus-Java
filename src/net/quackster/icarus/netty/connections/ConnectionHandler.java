@@ -32,7 +32,7 @@ public class ConnectionHandler extends SimpleChannelHandler {
 		}
 		
 		Session session = (Session) ctx.getChannel().getAttachment();
-		session.close();
+		session.dispose();
 		
 		Icarus.getServer().getSessionManager().removeSession(ctx.getChannel());
 	}

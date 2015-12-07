@@ -1,16 +1,21 @@
-package net.quackster.icarus.messages.outgoing.room.SetRoomUserMessageComposer;
+package net.quackster.icarus.messages.outgoing.room;
 
+import java.util.Arrays;
 import java.util.List;
 
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.headers.Outgoing;
 import net.quackster.icarus.netty.readers.Response;
 
-public class SendRoomUserMessageComposer extends Response {
+public class RoomUsersMessageComposer extends Response {
 
-	public SendRoomUserMessageComposer(List<Session> users) {
+	public RoomUsersMessageComposer(Session session) {
+		this(Arrays.asList(new Session[] { session }));
+	}
+	
+	public RoomUsersMessageComposer(List<Session> users) {
 		
-		this.init(Outgoing.SetRoomUserMessageComposer);
+		this.init(Outgoing.RoomUsersMessageComposer);
 		this.appendInt32(users.size());
 
 		for (Session session : users) {

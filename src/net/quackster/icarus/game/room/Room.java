@@ -9,8 +9,10 @@ import net.quackster.icarus.Icarus;
 import net.quackster.icarus.dao.RoomDao;
 import net.quackster.icarus.game.room.models.RoomModel;
 import net.quackster.icarus.game.user.Session;
+import net.quackster.icarus.messages.headers.Outgoing;
+import net.quackster.icarus.messages.outgoing.room.RoomUsersMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.UpdateUserStatusMessageComposer;
-import net.quackster.icarus.messages.outgoing.room.SetRoomUserMessageComposer.SendRoomUserMessageComposer;
+import net.quackster.icarus.messages.outgoing.room.UserLeftRoomMessageComposer;
 import net.quackster.icarus.netty.readers.Response;
 
 public class Room {
@@ -92,26 +94,33 @@ public class Room {
 		response.appendInt32(enumType);
 
 	}
-	
+
 	public void showRoomPlayers(Session session) {
-		
+
 		if (!this.users.contains(session)) {
 			this.users.add(session);
 		}
-		
-		session.send(new SendRoomUserMessageComposer(this.users));
-		session.send(new UpdateUserStatusMessageComposer(this.users));
+
+		this.send(new RoomUsersMessageComposer(this.users));
+		this.send(new UpdateUserStatusMessageComposer(this.users));
 	}
 
 	public void leaveRoom(Session session, boolean hotelView) {
 
+		this.send(new UserLeftRoomMessageComposer(session.getDetails().getId()));
 		this.getUsers().remove(session);
-		
+
 		if (hotelView) {
-			
-			
+
+
 		}
 
+	}
+
+	public void send(Response response) {
+		for (Session session : this.users) {
+			session.send(response);
+		}
 	}
 
 	public void dispose() {

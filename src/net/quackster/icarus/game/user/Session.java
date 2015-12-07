@@ -45,14 +45,10 @@ public class Session {
 	}
 
 	public void close() {
-		this.dispose(true);
+		this.channel.close();
 	}
 
-	public void dispose(boolean disconnect) {
-
-		if (disconnect) {
-			this.channel.close();
-		}
+	public void dispose() {
 
 		try {
 			
@@ -64,7 +60,12 @@ public class Session {
 					for (Room room : rooms) {
 						room.dispose();
 					}
-				}	
+				}
+				
+				if (this.roomUser.isInRoom()) {
+					this.roomUser.getRoom().leaveRoom(this, false);
+				}
+				
 			}
 			
 		} catch (Exception e) {
@@ -106,16 +107,10 @@ public class Session {
 		return details;
 	}
 
-	/**
-	 * @return the roomUser
-	 */
 	public SessionRoom getRoomUser() {
 		return roomUser;
 	}
-
-	/**
-	 * @param roomUser the roomUser to set
-	 */
+	
 	public void setRoomUser(SessionRoom roomUser) {
 		this.roomUser = roomUser;
 	}

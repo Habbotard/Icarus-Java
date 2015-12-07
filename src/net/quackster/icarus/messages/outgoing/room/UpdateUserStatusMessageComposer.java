@@ -1,5 +1,6 @@
 package net.quackster.icarus.messages.outgoing.room;
 
+import java.util.Arrays;
 import java.util.List;
 
 import net.quackster.icarus.game.user.Session;
@@ -8,6 +9,10 @@ import net.quackster.icarus.netty.readers.Response;
 
 public class UpdateUserStatusMessageComposer extends Response {
 
+	public UpdateUserStatusMessageComposer(Session session) {
+		this(Arrays.asList(new Session[] { session }));
+	}
+	
 	public UpdateUserStatusMessageComposer(List<Session> users) {
 		
 		this.init(Outgoing.UpdateUserStatusMessageComposer);

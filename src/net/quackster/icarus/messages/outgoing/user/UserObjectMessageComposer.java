@@ -10,10 +10,10 @@ public class UserObjectMessageComposer extends Response {
 		
 		this.init(Outgoing.UserObjectMessageComposer);
 		this.appendInt32(1); // User ID
-		this.appendString("Alex"); // Username
-		this.appendString("fa-1201-0.lg-270-91.hd-180-1.sh-300-91.ch-805-84.hr-125-42"); // Figure
+		this.appendString(details.getUsername()); // Username
+		this.appendString(details.getFigure()); // Figure
 		this.appendString("M"); // Gender
-		this.appendString("Icarus"); // Motto
+		this.appendString(details.getMotto()); // Motto
 		this.appendString(""); // ?
 		this.appendBoolean(false); // ?
 		this.appendInt32(0); // Respect

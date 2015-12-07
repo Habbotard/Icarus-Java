@@ -3,6 +3,8 @@ package net.quackster.icarus;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Properties;
+import java.util.Set;
 
 import net.quackster.icarus.game.Game;
 import net.quackster.icarus.log.Log;
@@ -28,18 +30,23 @@ public class Icarus {
 			createConfig();
 			Log.startup();
 
-			Log.println("Detected CPU cores for thread pooling: " + Runtime.getRuntime().availableProcessors());
+			printSystemInfo();
 			Log.println();
-			
+
 			connectMySQL();
-			
+
 			game = new Game();
-		
+
 			startServer();
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private static void printSystemInfo() {
+
+
 	}
 
 	private static void createConfig() throws IOException {
@@ -55,7 +62,7 @@ public class Icarus {
 
 		utilities = new Util();
 	}
-	
+
 	private static void writeConfiguration(PrintWriter writer) {
 
 		writer.println();
@@ -73,29 +80,29 @@ public class Icarus {
 		writer.println("log-packets=true");
 
 	}
-	
+
 	private static void connectMySQL() {
-		
+
 		Log.println("Connecting to MySQL server");
-		
+
 		mysql = new Storage(utilities.getConfiguration().get("mysql-hostname"), utilities.getConfiguration().get("mysql-username"), utilities.getConfiguration().get("mysql-password"), utilities.getConfiguration().get("mysql-database")); {
-			 if (mysql.connectionFailed()) {
+			if (mysql.connectionFailed()) {
 				Log.println("Could not connect");
 			} else {
 				Log.println("Connection to MySQL was a success");
 			}
 		}
-		
+
 		Log.println();
 	}
 
 	private static void startServer() {
-		
+
 		String IPAddress = utilities.getConfiguration().get("server-ip");
 		int serverPort = Integer.valueOf(utilities.getConfiguration().get("server-port"));
-		
+
 		Log.println("Settting up server");
-		
+
 		server = new Connection(IPAddress, serverPort);
 		server.configureNetty();
 
@@ -109,7 +116,7 @@ public class Icarus {
 	public static Storage getStorage() {
 		return mysql;
 	}
-	
+
 	public static Connection getServer() {
 		return server;
 	}
