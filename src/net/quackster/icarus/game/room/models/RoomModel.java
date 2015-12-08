@@ -21,21 +21,22 @@ package net.quackster.icarus.game.room.models;
 
 public class RoomModel 
 {
+	public final static int OPEN = 0;
+	public final static int CLOSED = 1;
+	
 	private String name;
 	private String heightmap;
+	private String[][] squareChar;
+	
 	private int doorX;
 	private int doorY;
 	private int doorZ;
 	private int doorRot;
 	private int mapSizeX;
 	private int mapSizeY;
-	private int mapSize;
-	public final static int OPEN = 0;
-	public final static int CLOSED = 1;
+	
 	private int[][] squares;
 	private double[][] squareHeight;
-	private RoomTileState[][] squareState;
-	private String[][] squareChar;
 
 	public RoomModel(String name, String heightmap, int doorX, int doorY, int doorZ, int doorRot) {
 		
@@ -52,7 +53,6 @@ public class RoomModel
 		this.mapSizeY = temporary.length;
 		this.squares = new int[mapSizeX][mapSizeY];
 		this.squareHeight = new double[mapSizeX][mapSizeY];
-		this.squareState = new RoomTileState[mapSizeX][mapSizeY];
 		this.squareChar = new String[mapSizeX][mapSizeY];
 
 
@@ -67,15 +67,18 @@ public class RoomModel
 				String square = temporary[y].substring(x,x + 1).trim().toLowerCase();
 
 				if (square.equals("x"))	{
-					squareState[x][y] = RoomTileState.INVALID;
 					squares[x][y] = CLOSED;
 					
 				} else if(isNumeric(square)) {
 					
-					squareState[x][y] = RoomTileState.VALID;
 					squares[x][y] = OPEN;
 					squareHeight[x][y] = Double.parseDouble(square);
-					mapSize++;
+				}
+				
+				
+				if (this.doorX == x && this.doorY == y) {
+					squares[x][y] = OPEN;
+					squareHeight[x][y] = 0D;//Double.parseDouble(this.doorZ + "");
 				}
 				
 				squareChar[x][y] = square;
@@ -124,14 +127,6 @@ public class RoomModel
 	
 	public int getMapSizeY() {
 		return mapSizeY;
-	}
-	
-	public int getMapSize() {
-		return mapSize;
-	}
-
-	public RoomTileState[][] getTileState() {
-		return squareState;
 	}
 	
 	public double[][] getSquareHeight() {

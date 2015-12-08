@@ -17,10 +17,11 @@ public class AStar {
 	private LinkedList<Point> shortestPath;
 
 	public AStar(AreaMap map, AStarHeuristic heuristic) {
+		
 		this.map = map;
 		this.heuristic = heuristic;
-		closedList = new LinkedList<Node>();
-		openList = new SortedNodeList();
+		this.closedList = new LinkedList<Node>();
+		this.openList = new SortedNodeList();
 	}
 
 	public LinkedList<Point> calculateShortestPath(Point start, Point goal) {

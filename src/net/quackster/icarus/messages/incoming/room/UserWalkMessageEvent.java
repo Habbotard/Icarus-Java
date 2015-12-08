@@ -26,10 +26,12 @@ public class UserWalkMessageEvent implements Message {
 			roomUser.setGoalY(Y);
 			roomUser.setPath(roomUser.getPathfinder().calculateShortestPath(roomUser.getPoint(), roomUser.getGoalPoint()));
 
-			System.out.println("PATHFINDER SIZE: " + roomUser.getPath().size());
-
-			roomUser.setWalking(true);
+			if (roomUser.getPath() == null) { // user selected invalid tile, cannot walk there!
+				return;
+			}
 			
+			roomUser.setWalking(true);
+
 		}catch (Exception e) {
 			e.printStackTrace();
 

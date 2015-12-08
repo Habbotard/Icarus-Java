@@ -3,6 +3,7 @@ package net.quackster.icarus.game.room;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.quackster.icarus.game.room.models.Rotation;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.game.user.client.SessionRoom;
 import net.quackster.icarus.messages.outgoing.room.UpdateUserStatusMessageComposer;
@@ -45,8 +46,7 @@ public class RoomCycle implements Runnable {
 							roomUser.getStatuses().remove("lay");
 						}
 
-						int Rot = 0;//Rotation.Calculate(roomUser.getX(), roomUser.getY(), next.X, next.Y);
-						roomUser.setRotation(Rot);
+						roomUser.setRotation(Rotation.calculate(roomUser.getX(), roomUser.getY(), next.getX(), next.getY()));
 
 						roomUser.getStatuses().put("mv", String.valueOf(next.getX()).concat(",").concat(String.valueOf(next.getY())).concat(",").concat(String.valueOf(room.getModel().getSquareHeight()[next.getX()][next.getY()])));
 						roomUser.updateStatus();
