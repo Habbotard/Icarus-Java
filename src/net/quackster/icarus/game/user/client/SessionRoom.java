@@ -15,7 +15,6 @@ public class SessionRoom {
 
 	private boolean inRoom;
 	private boolean isLoadingRoom;
-	private Room room;
 	
 	private int X;
 	private int Y;
@@ -31,6 +30,8 @@ public class SessionRoom {
 	
 	private boolean isWalking;
 	private boolean needsUpdate;
+	
+	private Room room;
 	private Session session;
 	private AStar pathfinder;
 	
@@ -60,6 +61,14 @@ public class SessionRoom {
 
 	public void updateStatus() {
 		this.room.send(new UpdateUserStatusMessageComposer(session));
+	}
+	
+
+	public void dispose() {
+		this.room = null;
+		this.pathfinder = null;
+		this.session = null;
+		
 	}
 	
 	public boolean isInRoom() {

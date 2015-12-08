@@ -81,6 +81,9 @@ public class Session {
 		} catch (Exception e) {
 
 		}
+		
+		this.roomUser.dispose();
+		this.roomUser = null;
 
 		this.channel = null;
 		this.details = null;
