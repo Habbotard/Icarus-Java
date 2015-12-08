@@ -15,12 +15,12 @@ public class UpdateUserStatusMessageComposer extends Response {
 		single.add(session);
 		this.compose(single);
 	}
-	
-	
+
+
 	public UpdateUserStatusMessageComposer(ConcurrentLinkedQueue<Session> users) {
 		this.compose(users);
 	}
-	
+
 	public UpdateUserStatusMessageComposer(List<Session> usersToUpdate) {
 		ConcurrentLinkedQueue<Session> users = new ConcurrentLinkedQueue<Session>(usersToUpdate);
 		this.compose(users);
@@ -28,27 +28,31 @@ public class UpdateUserStatusMessageComposer extends Response {
 
 
 	public void compose(ConcurrentLinkedQueue<Session> users) {
-		
+
 		this.init(Outgoing.UpdateUserStatusMessageComposer);
-		this.appendInt32(users.size());
-		
-		for (Session user : users) {
-			
-			this.appendInt32(user.getDetails().getId());
-			this.appendInt32(user.getRoomUser().getX());
-			this.appendInt32(user.getRoomUser().getY());
-			this.appendString(Double.toString(user.getRoomUser().getHeight()));
-			this.appendInt32(user.getRoomUser().getRotation());
-			this.appendInt32(user.getRoomUser().getRotation());
 
-			String Status = "/";
+		synchronized (users) {
 
-			for (Entry<String, String> set : user.getRoomUser().getStatuses().entrySet())
-			{
-				Status += set.getKey() + " " + set.getValue() + "/";
+			this.appendInt32(users.size());
+
+			for (Session user : users) {
+
+				this.appendInt32(user.getDetails().getId());
+				this.appendInt32(user.getRoomUser().getX());
+				this.appendInt32(user.getRoomUser().getY());
+				this.appendString(Double.toString(user.getRoomUser().getHeight()));
+				this.appendInt32(user.getRoomUser().getRotation());
+				this.appendInt32(user.getRoomUser().getRotation());
+
+				String Status = "/";
+
+				for (Entry<String, String> set : user.getRoomUser().getStatuses().entrySet())
+				{
+					Status += set.getKey() + " " + set.getValue() + "/";
+				}
+
+				this.appendString(Status + "/");
 			}
-
-			this.appendString(Status + "/");
 		}
 	}
 
