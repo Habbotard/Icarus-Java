@@ -1,30 +1,27 @@
 package net.quackster.icarus.game.room.models;
 
-import net.quackster.icarus.pathfinder.Point;
-
-public class Rotation
-{
-	public static int calculate(int X1, int Y1, int X2, int Y2)
-    {
-        int Rotation = 0;
+public class Rotation {
+	
+	public static int calculate(int X1, int Y1, int X2, int Y2) {
+        int rotation = 0;
 
         if (X1 > X2 && Y1 > Y2)
-            Rotation = 7;
+            rotation = 7;
         else if (X1 < X2 && Y1 < Y2)
-            Rotation = 3;
+            rotation = 3;
         else if (X1 > X2 && Y1 < Y2)
-            Rotation = 5;
+            rotation = 5;
         else if (X1 < X2 && Y1 > Y2)
-            Rotation = 1;
+            rotation = 1;
         else if (X1 > X2)
-            Rotation = 6;
+            rotation = 6;
         else if (X1 < X2)
-            Rotation = 2;
+            rotation = 2;
         else if (Y1 < Y2)
-            Rotation = 4;
+            rotation = 4;
         else if (Y1 > Y2)
-            Rotation = 0;
+            rotation = 0;
   
-        return Rotation;
+        return rotation;
     }
 }

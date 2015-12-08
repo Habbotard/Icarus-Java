@@ -8,7 +8,7 @@ import net.quackster.icarus.messages.headers.Outgoing;
 import net.quackster.icarus.netty.readers.Request;
 import net.quackster.icarus.netty.readers.Response;
 
-public class RoomGetHeightmapMessageEvent implements Message {
+public class RequestHeightmapMessageEvent implements Message {
 
 	@Override
 	public void handle(Session session, Request request) {
@@ -36,7 +36,7 @@ public class RoomGetHeightmapMessageEvent implements Message {
 		response.appendBoolean(true);
 		response.appendInt32(room.getWallHeight());
 
-		StringBuilder stringBuilder = new StringBuilder();
+		/*StringBuilder stringBuilder = new StringBuilder();
 
 		for (int i = 0; i < roomModel.getMapSizeY(); i++) {
 			for (int j = 0; j < roomModel.getMapSizeX(); j++) {
@@ -58,7 +58,8 @@ public class RoomGetHeightmapMessageEvent implements Message {
 		}
 
 		String s = stringBuilder.toString();
-		response.appendString(s);
+		response.appendString(s);*/
+		response.appendString(room.getModel().getFloorMap());
 		session.send(response);
 	}
 }

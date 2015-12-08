@@ -16,6 +16,7 @@ import net.quackster.icarus.messages.outgoing.room.RoomUsersMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.UpdateUserStatusMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.UserLeftRoomMessageComposer;
 import net.quackster.icarus.netty.readers.Response;
+import net.quackster.icarus.pathfinder.Point;
 
 public class Room {
 
@@ -75,13 +76,24 @@ public class Room {
 
 	public int[][] regenerateCollisionMap() {
 		
-		int[][] collisionMap = new int[this.getModel().getMapSizeX()][this.getModel().getMapSizeY()]; 
+		int mapSizeX = this.getModel().getMapSizeX();
+		int mapSizeY = this.getModel().getMapSizeY();
+		
+		int[][] collisionMap = new int[mapSizeX][mapSizeY]; 
 
-		for(int y = 0; y < this.getModel().getMapSizeY(); y++) {
-			for(int x = 0; x < this.getModel().getMapSizeX(); x++) {
+		for(int y = 0; y < mapSizeY; y++) {
+			for(int x = 0; x < mapSizeX; x++) {
 				
-				if (this.getModel().getSqState()[x][y] == RoomModel.OPEN) {
+				if (this.getModel().getSquareStates()[x][y] == RoomModel.OPEN) {
+
 					collisionMap[x][y] = RoomModel.OPEN;
+					
+					if (!this.allowWalkthrough) { // if the room doesn't want players to be able to walk into each other
+						if (RoomLocator.findUser(this, new Point(x, y)) != null) {
+							collisionMap[x][y] = RoomModel.CLOSED;
+						}
+					}
+
 				} else {
 					collisionMap[x][y] = RoomModel.CLOSED;
 				}
@@ -90,31 +102,7 @@ public class Room {
 
 		return collisionMap;
 	}
-
-	public void serialise(Response response, boolean showEvents, boolean enterRoom) {
-		response.appendInt32(id);
-		response.appendString(this.name);
-		response.appendInt32(this.ownerId);
-		response.appendString(this.ownerName);
-		response.appendInt32(this.state);
-		response.appendInt32(this.usersNow);
-		response.appendInt32(this.usersMax);
-		response.appendString(this.description);
-		response.appendInt32(this.tradeState);
-		response.appendInt32(this.score);
-		response.appendInt32(0); // Ranking
-		response.appendInt32(this.category);
-		response.appendInt32(0); //TagCount
-
-		int enumType = enterRoom ? 32 : 0;
-
-		String roomType = "private";
-		if (roomType.equals("private")) enumType += 8;
-		if (this.allowPets) enumType += 16;
-
-		response.appendInt32(enumType);
-
-	}
+	
 
 	public void finaliseRoomEnter(Session session) {
 
@@ -159,8 +147,33 @@ public class Room {
 
 
 		}
+	}
+
+	public void serialise(Response response, boolean showEvents, boolean enterRoom) {
+		response.appendInt32(id);
+		response.appendString(this.name);
+		response.appendInt32(this.ownerId);
+		response.appendString(this.ownerName);
+		response.appendInt32(this.state);
+		response.appendInt32(this.usersNow);
+		response.appendInt32(this.usersMax);
+		response.appendString(this.description);
+		response.appendInt32(this.tradeState);
+		response.appendInt32(this.score);
+		response.appendInt32(0); // Ranking
+		response.appendInt32(this.category);
+		response.appendInt32(0); //TagCount
+
+		int enumType = enterRoom ? 32 : 0;
+
+		String roomType = "private";
+		if (roomType.equals("private")) enumType += 8;
+		if (this.allowPets) enumType += 16;
+
+		response.appendInt32(enumType);
 
 	}
+
 
 	public void send(Response response) {
 		for (Session session : this.users) {

@@ -4,6 +4,7 @@ import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.game.user.client.SessionRoom;
 import net.quackster.icarus.messages.Message;
 import net.quackster.icarus.netty.readers.Request;
+import net.quackster.icarus.pathfinder.Point;
 
 public class UserWalkMessageEvent implements Message {
 
@@ -15,7 +16,7 @@ public class UserWalkMessageEvent implements Message {
 
 		try {
 
-			if (X == session.getRoomUser().getX() && Y == session.getRoomUser().getY()) {
+			if (session.getRoomUser().getPoint().sameAs(new Point(X, Y))) {
 				return;
 			}
 

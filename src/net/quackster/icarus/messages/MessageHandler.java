@@ -15,7 +15,7 @@ import net.quackster.icarus.messages.incoming.misc.RequestLatencyTestMessageEven
 import net.quackster.icarus.messages.incoming.navigator.NewNavigatorMessageEvent;
 import net.quackster.icarus.messages.incoming.navigator.SearchNewNavigatorEvent;
 import net.quackster.icarus.messages.incoming.room.EnterPrivateRoomMessageEvent;
-import net.quackster.icarus.messages.incoming.room.RoomGetHeightmapMessageEvent;
+import net.quackster.icarus.messages.incoming.room.RequestHeightmapMessageEvent;
 import net.quackster.icarus.messages.incoming.room.RoomSuccessMessageEvent;
 import net.quackster.icarus.messages.incoming.room.UserWalkMessageEvent;
 import net.quackster.icarus.messages.incoming.user.GetCurrencyBalanceMessageEvent;
@@ -40,9 +40,7 @@ public class MessageHandler {
 		this.registerMiscPackets();
 		this.registerNavigatorPackets();
 		this.registerRoomPackets();
-	
 	}
-	
 
 	private void registerHandshakePackets() {
 		this.messages.put(Incoming.InitCryptoMessageEvent, new InitCryptoMessageEvent());
@@ -50,13 +48,6 @@ public class MessageHandler {
 		this.messages.put(Incoming.GenerateSecretKeyMessageEvent, new GenerateSecretKeyMessageEvent());
 		this.messages.put(Incoming.UniqueIDMessageEvent, new UniqueIDMessageEvent());
 		this.messages.put(Incoming.SSOTicketMessageEvent, new SSOTicketMessageEvent());
-	}
-	
-	private void registerRoomPackets() {
-		this.messages.put(Incoming.EnterPrivateRoomMessageEvent, new EnterPrivateRoomMessageEvent());
-		this.messages.put(Incoming.RoomGetHeightmapMessageEvent, new RoomGetHeightmapMessageEvent());
-		this.messages.put(Incoming.RoomSuccessMessageEvent, new RoomSuccessMessageEvent());
-		this.messages.put(Incoming.UserWalkMessageEvent, new UserWalkMessageEvent());
 	}
 	
 	private void registerUserPackets() {
@@ -72,6 +63,13 @@ public class MessageHandler {
 	private void registerMiscPackets() {
 		this.messages.put(Incoming.EventLogMessageEvent, new EventLogMessageEvent());
 		this.messages.put(Incoming.RequestLatencyTestMessageEvent, new RequestLatencyTestMessageEvent());
+	}
+	
+	private void registerRoomPackets() {
+		this.messages.put(Incoming.EnterPrivateRoomMessageEvent, new EnterPrivateRoomMessageEvent());
+		this.messages.put(Incoming.RequestHeightmapMessageEvent, new RequestHeightmapMessageEvent());
+		this.messages.put(Incoming.RoomSuccessMessageEvent, new RoomSuccessMessageEvent());
+		this.messages.put(Incoming.UserWalkMessageEvent, new UserWalkMessageEvent());
 	}
 
 	public void handleRequest(Session session, Request message) {

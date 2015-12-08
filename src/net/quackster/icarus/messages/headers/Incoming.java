@@ -122,7 +122,7 @@ public class Incoming {
     //public static final short EnableInventoryEffectMessageEvent = 1781;
     public static final short EffectEnableMessageEvent = 2516;
     public static final short EnterPrivateRoomMessageEvent = 3662;//53;
-    public static final short RoomGetHeightmapMessageEvent = 53;//1781;//2188;
+    public static final short RequestHeightmapMessageEvent = 53;//1781;//2188;
     //public static final short RoomGetInfoMessageEvent = 3662;
     public static final short RoomUserActionMessageEvent = 3346;
     public static final short RoomOnLoadMessageEvent = 213;

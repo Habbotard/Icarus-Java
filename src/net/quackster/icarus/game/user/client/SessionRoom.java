@@ -10,7 +10,6 @@ import net.quackster.icarus.pathfinder.AStar;
 import net.quackster.icarus.pathfinder.AreaMap;
 import net.quackster.icarus.pathfinder.Point;
 import net.quackster.icarus.pathfinder.heuristics.ClosestHeuristic;
-import net.quackster.icarus.pathfinder.heuristics.DiagonalHeuristic;
 
 public class SessionRoom {
 
@@ -77,9 +76,13 @@ public class SessionRoom {
 	
 
 	public void dispose() {
+		
 		this.room = null;
 		this.pathfinder = null;
 		this.session = null;
+		
+		this.statuses.clear();
+		this.statuses = null;
 		
 	}
 	
