@@ -4,11 +4,13 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import net.quackster.icarus.game.room.Room;
+import net.quackster.icarus.game.room.models.RoomModel;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.outgoing.room.UpdateUserStatusMessageComposer;
-import net.quackster.icarus.pathfinder.AStar;
+import net.quackster.icarus.pathfinder.Pathfinder;
 import net.quackster.icarus.pathfinder.AreaMap;
 import net.quackster.icarus.pathfinder.Point;
+import net.quackster.icarus.pathfinder.heuristics.AStarHeuristic;
 import net.quackster.icarus.pathfinder.heuristics.ClosestHeuristic;
 
 public class SessionRoom {
@@ -33,7 +35,8 @@ public class SessionRoom {
 	
 	private Room room;
 	private Session session;
-	private AStar pathfinder;
+	private Pathfinder pathfinder;
+	private RoomModel model;
 	
 	public SessionRoom(Session session) {
 		
@@ -53,8 +56,11 @@ public class SessionRoom {
 	}
 
 	public void createPathfinder() {
-		int[][] collisionMap = this.getRoom().regenerateCollisionMap();
-		this.pathfinder = new AStar(new AreaMap(this.getRoom().getModel(), collisionMap), new ClosestHeuristic());//new DiagonalHeuristic());
+		
+		AreaMap map = new AreaMap(this.model, this.room.regenerateCollisionMap());
+		AStarHeuristic heuristic = new ClosestHeuristic();
+		
+		this.pathfinder = new Pathfinder(map, heuristic);//new DiagonalHeuristic());
 	}
 	
 	public void stopWalking(boolean needsStatusUpdate) {
@@ -98,12 +104,17 @@ public class SessionRoom {
 		return room;
 	}
 	
+	public RoomModel getModel() {
+		return model;
+	}
+
 	public int getRoomId() {
 		return (room == null ? -1 : room.getId());
 	}
 
 	public void setRoom(Room room) {
 		this.room = room;
+		this.model = room.getModel();
 	}
 
 	public boolean isLoadingRoom() {
@@ -203,11 +214,11 @@ public class SessionRoom {
 		this.path = path;
 	}
 
-	public AStar getPathfinder() {
+	public Pathfinder getPathfinder() {
 		return pathfinder;
 	}
 
-	public void setPathfinder(AStar pathfinder) {
+	public void setPathfinder(Pathfinder pathfinder) {
 		this.pathfinder = pathfinder;
 	}
 

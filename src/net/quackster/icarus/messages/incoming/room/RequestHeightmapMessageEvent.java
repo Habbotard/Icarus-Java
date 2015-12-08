@@ -35,30 +35,6 @@ public class RequestHeightmapMessageEvent implements Message {
 		response = new Response(Outgoing.FloorMapMessageComposer);
 		response.appendBoolean(true);
 		response.appendInt32(room.getWallHeight());
-
-		/*StringBuilder stringBuilder = new StringBuilder();
-
-		for (int i = 0; i < roomModel.getMapSizeY(); i++) {
-			for (int j = 0; j < roomModel.getMapSizeX(); j++) {
-
-				try {
-
-					if (j == roomModel.getDoorX() && i == roomModel.getDoorY())	{
-						stringBuilder.append(roomModel.getDoorZ());
-					} else {
-
-						stringBuilder.append(roomModel.getSquareChar()[j][i].toString());
-					}
-				}
-				catch (Exception e) {
-					stringBuilder.append("0");
-				}
-			}
-			stringBuilder.append((char)13);
-		}
-
-		String s = stringBuilder.toString();
-		response.appendString(s);*/
 		response.appendString(room.getModel().getFloorMap());
 		session.send(response);
 	}

@@ -109,7 +109,6 @@ public class Room {
 		if (this.users.size() == 0) {
 			Log.println("[ROOM " + this.id + "] Pathfinder task start");
 			this.tickTask = Icarus.getUtilities().getThreadPooling().getScheduledThreadPool().scheduleAtFixedRate(new RoomCycle(this), 0, 500, TimeUnit.MILLISECONDS);
-			//this.tickTask.
 		}
 
 		if (!this.users.contains(session)) {

@@ -6,17 +6,15 @@ import java.util.LinkedList;
 
 import net.quackster.icarus.pathfinder.heuristics.AStarHeuristic;
 
-public class AStar {
+public class Pathfinder {
+	
 	private AreaMap map;
 	private AStarHeuristic heuristic;
-	/**
-	 * closedList The list of Nodes not searched yet, sorted by their distance to the goal as guessed by our heuristic.
-	 */
 	private LinkedList<Node> closedList;
 	private SortedNodeList openList;
 	private LinkedList<Point> shortestPath;
 
-	public AStar(AreaMap map, AStarHeuristic heuristic) {
+	public Pathfinder(AreaMap map, AStarHeuristic heuristic) {
 		
 		this.map = map;
 		this.heuristic = heuristic;

@@ -79,7 +79,7 @@ public class RoomModel
 				
 				if (this.doorX == x && this.doorY == y) {
 					squares[x][y] = OPEN;
-					squareHeight[x][y] = 0D;//Double.parseDouble(this.doorZ + "");
+					squareHeight[x][y] = Double.parseDouble(this.doorZ + "");
 				}
 				
 				squareChar[x][y] = square;

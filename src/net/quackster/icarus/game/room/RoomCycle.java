@@ -25,7 +25,7 @@ public class RoomCycle implements Runnable {
 
 		try {
 
-			synchronized (room.getUsers()) {
+			synchronized (room.getUsers()) { // gotta have dat thread safety, amirite? 
 
 				for (Session session : room.getUsers()) {
 
