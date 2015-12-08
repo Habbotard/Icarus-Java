@@ -30,8 +30,8 @@ public class RoomModel
 	private int mapSizeX;
 	private int mapSizeY;
 	private int mapSize;
-	private int OPEN = 0;
-	private int CLOSED = 1;
+	public final static int OPEN = 0;
+	public final static int CLOSED = 1;
 	private int[][] squares;
 	private double[][] squareHeight;
 	private RoomTileState[][] squareState;

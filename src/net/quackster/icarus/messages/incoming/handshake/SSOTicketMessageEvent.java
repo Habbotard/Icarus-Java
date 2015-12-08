@@ -1,14 +1,8 @@
 package net.quackster.icarus.messages.incoming.handshake;
 
-import java.sql.SQLException;
-import java.util.List;
-
-import net.quackster.icarus.Icarus;
 import net.quackster.icarus.dao.PlayerDao;
 import net.quackster.icarus.dao.RoomDao;
-import net.quackster.icarus.game.room.Room;
 import net.quackster.icarus.game.user.Session;
-import net.quackster.icarus.log.Log;
 import net.quackster.icarus.messages.Message;
 import net.quackster.icarus.messages.outgoing.handshake.AuthenticationOKMessageComposer;
 import net.quackster.icarus.messages.outgoing.handshake.UniqueMachineIDMessageComposer;

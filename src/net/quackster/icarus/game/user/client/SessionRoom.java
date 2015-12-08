@@ -1,8 +1,15 @@
 package net.quackster.icarus.game.user.client;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 
 import net.quackster.icarus.game.room.Room;
+import net.quackster.icarus.game.user.Session;
+import net.quackster.icarus.messages.outgoing.room.UpdateUserStatusMessageComposer;
+import net.quackster.icarus.pathfinder.AStar;
+import net.quackster.icarus.pathfinder.AreaMap;
+import net.quackster.icarus.pathfinder.Point;
+import net.quackster.icarus.pathfinder.heuristics.DiagonalHeuristic;
 
 public class SessionRoom {
 
@@ -19,21 +26,42 @@ public class SessionRoom {
 	private int rotation;
 	private double height;
 	
-	public HashMap<String, String> Statuses;
-	private boolean setIsWalking;
-
-	public SessionRoom() {
+	private HashMap<String, String> Statuses;
+	private LinkedList<Point> path;
+	
+	private boolean isWalking;
+	private boolean needsUpdate;
+	private Session session;
+	private AStar pathfinder;
+	
+	public SessionRoom(Session session) {
+		
+		this.session = session;
 		this.inRoom = false;
 		this.isLoadingRoom = false;
+		this.needsUpdate = false;
 		
 		this.rotation = 0;
 		this.X = 0;
 		this.Y = 0;
 		this.GoalX = 0;
 		this.GoalY = 0;
+		
 		this.Statuses = new HashMap<String, String>();
+		this.path = new LinkedList<Point>();
 	}
 
+	public void createPathfinder() {
+
+		int[][] collisionMap = this.getRoom().regenerateCollisionMap();
+		this.pathfinder = new AStar(new AreaMap(this.getRoom().getModel(), collisionMap), new DiagonalHeuristic());
+		
+	}
+
+	public void updateStatus() {
+		this.room.send(new UpdateUserStatusMessageComposer(session));
+	}
+	
 	public boolean isInRoom() {
 		return inRoom;
 	}
@@ -77,6 +105,10 @@ public class SessionRoom {
 	public void setY(int y) {
 		Y = y;
 	}
+	
+	public Point getPoint() {
+		return new Point(this.X, this.Y);
+	}
 
 	public int getGoalX() {
 		return GoalX;
@@ -92,6 +124,10 @@ public class SessionRoom {
 
 	public void setGoalY(int goalY) {
 		GoalY = goalY;
+	}
+	
+	public Point getGoalPoint() {
+		return new Point(this.GoalX, this.GoalY);
 	}
 
 	public int getRotation() {
@@ -115,12 +151,39 @@ public class SessionRoom {
 	}
 
 	public boolean isWalking() {
-		return setIsWalking;
+		return isWalking;
 	}
 
-	public void setIsWalking(boolean setIsWalking) {
-		this.setIsWalking = setIsWalking;
+	public void setWalking(boolean setIsWalking) {
+		this.isWalking = setIsWalking;
 	}
 
+	public boolean needsUpdate() {
+		return needsUpdate;
+	}
 
+	public void setNeedUpdate(boolean needsWalkUpdate) {
+		this.needsUpdate = needsWalkUpdate;
+		
+		if (!this.needsUpdate) {
+			this.GoalX = -1;
+			this.GoalY = -1;
+		}
+	}
+
+	public LinkedList<Point> getPath() {
+		return path;
+	}
+
+	public void setPath(LinkedList<Point> path) {
+		this.path = path;
+	}
+
+	public AStar getPathfinder() {
+		return pathfinder;
+	}
+
+	public void setPathfinder(AStar pathfinder) {
+		this.pathfinder = pathfinder;
+	}
 }

@@ -1,7 +1,6 @@
 package net.quackster.icarus.messages.outgoing.room;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.headers.Outgoing;
@@ -10,10 +9,10 @@ import net.quackster.icarus.netty.readers.Response;
 public class RoomUsersMessageComposer extends Response {
 
 	public RoomUsersMessageComposer(Session session) {
-		this(Arrays.asList(new Session[] { session }));
+		//this(Arrays.asList(new Session[] { session }));
 	}
 	
-	public RoomUsersMessageComposer(List<Session> users) {
+	public RoomUsersMessageComposer(ConcurrentLinkedQueue<Session> users) {
 		
 		this.init(Outgoing.RoomUsersMessageComposer);
 		this.appendInt32(users.size());

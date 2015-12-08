@@ -2,8 +2,7 @@ package net.quackster.icarus.game.room;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -13,13 +12,12 @@ import net.quackster.icarus.game.room.models.RoomModel;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.game.user.client.SessionRoom;
 import net.quackster.icarus.log.Log;
-import net.quackster.icarus.messages.headers.Outgoing;
 import net.quackster.icarus.messages.outgoing.room.RoomUsersMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.UpdateUserStatusMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.UserLeftRoomMessageComposer;
 import net.quackster.icarus.netty.readers.Response;
 
-public class Room implements Runnable {
+public class Room {
 
 	private int id;
 	private int ownerId;
@@ -44,17 +42,13 @@ public class Room implements Runnable {
 	private int wallThickness;
 	private int floorThickness;
 	private String tagFormat;
-	
-	private List<Session> users;
+
+	private ConcurrentLinkedQueue<Session> users;
 	private ScheduledFuture<?> tickTask;
-	
-	public Room() {
-		this.users = new ArrayList<Session>();
-	}
 
 	public Room(ResultSet row, String ownerName) throws SQLException {
 
-		super();
+		this.users = new ConcurrentLinkedQueue<Session>();
 		
 		this.id = row.getInt("id");
 		this.ownerId = row.getInt("owner_id");
@@ -77,15 +71,25 @@ public class Room implements Runnable {
 		this.wallThickness = row.getInt("wall_thickness");
 		this.floorThickness = row.getInt("floor_thickness");
 		this.tagFormat = row.getString("tags");
-
-	}
-	
-	@Override
-	public void run() {
-		
-		
 	}
 
+	public int[][] regenerateCollisionMap() {
+		
+		int[][] collisionMap = new int[this.getModel().getMapSizeX()][this.getModel().getMapSizeY()]; 
+
+		for(int y = 0; y < this.getModel().getMapSizeY(); y++) {
+			for(int x = 0; x < this.getModel().getMapSizeX(); x++) {
+				
+				if (this.getModel().getSqState()[x][y] == RoomModel.OPEN) {
+					collisionMap[x][y] = RoomModel.OPEN;
+				} else {
+					collisionMap[x][y] = RoomModel.CLOSED;
+				}
+			}
+		}
+
+		return collisionMap;
+	}
 
 	public void serialise(Response response, boolean showEvents, boolean enterRoom) {
 		response.appendInt32(id);
@@ -116,35 +120,36 @@ public class Room implements Runnable {
 
 		if (this.users.size() == 0) {
 			Log.println("[ROOM " + this.id + "] Pathfinder task start");
-			this.tickTask = Icarus.getUtilities().getThreadPooling().getScheduledThreadPool().scheduleAtFixedRate(this, 0, 1, TimeUnit.SECONDS);
+			this.tickTask = Icarus.getUtilities().getThreadPooling().getScheduledThreadPool().scheduleAtFixedRate(new RoomCycle(this), 0, 500, TimeUnit.MILLISECONDS);
+			//this.tickTask.
 		}
-		
+
 		if (!this.users.contains(session)) {
 			this.users.add(session);
 		}
-		
+
 		SessionRoom user = session.getRoomUser();
-		
+
 		user.setX(this.getModel().getDoorX());
 		user.setY(this.getModel().getDoorY());
 		user.setRotation(this.getModel().getDoorRot());
 		user.setHeight(this.getModel().getSquareHeight()[user.getX()][user.getY()]);
-		
+
 		this.send(new RoomUsersMessageComposer(this.users));
 		this.send(new UpdateUserStatusMessageComposer(this.users));
-	
+
 	}
 
 	public void leaveRoom(Session session, boolean hotelView) {
 
 		this.send(new UserLeftRoomMessageComposer(session.getDetails().getId()));
 		this.getUsers().remove(session);
-		
+
 		if (this.users.size() == 0) {
 			if (this.tickTask != null) {
-				
+
 				Log.println("[ROOM " + this.id + "] Pathfinder task finish");
-				
+
 				this.tickTask.cancel(true);
 				this.tickTask = null;
 			}
@@ -326,11 +331,11 @@ public class Room implements Runnable {
 	}
 
 	public int getUsersNow() {
-		
+
 		if (this.users == null) {
-			this.users = new ArrayList<Session>();
+			this.users = new ConcurrentLinkedQueue<Session>();
 		}
-		
+
 		this.usersNow = this.users.size();
 		return usersNow;
 	}
@@ -347,7 +352,7 @@ public class Room implements Runnable {
 		this.usersMax = usersMax;
 	}
 
-	public List<Session> getUsers() {
+	public ConcurrentLinkedQueue<Session> getUsers() {
 		return users;
 	}
 

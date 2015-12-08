@@ -1,8 +1,8 @@
 package net.quackster.icarus.messages.outgoing.room;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.headers.Outgoing;
@@ -11,10 +11,23 @@ import net.quackster.icarus.netty.readers.Response;
 public class UpdateUserStatusMessageComposer extends Response {
 
 	public UpdateUserStatusMessageComposer(Session session) {
-		this(Arrays.asList(new Session[] { session }));
+		ConcurrentLinkedQueue<Session> single = new ConcurrentLinkedQueue<Session>();
+		single.add(session);
+		this.compose(single);
 	}
 	
-	public UpdateUserStatusMessageComposer(List<Session> users) {
+	
+	public UpdateUserStatusMessageComposer(ConcurrentLinkedQueue<Session> users) {
+		this.compose(users);
+	}
+	
+	public UpdateUserStatusMessageComposer(List<Session> usersToUpdate) {
+		ConcurrentLinkedQueue<Session> users = new ConcurrentLinkedQueue<Session>(usersToUpdate);
+		this.compose(users);
+	}
+
+
+	public void compose(ConcurrentLinkedQueue<Session> users) {
 		
 		this.init(Outgoing.UpdateUserStatusMessageComposer);
 		this.appendInt32(users.size());

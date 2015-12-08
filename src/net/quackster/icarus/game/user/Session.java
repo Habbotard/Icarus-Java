@@ -28,7 +28,7 @@ public class Session {
 		this.details = new CharacterDetails();
 		this.sessionEncryption = new SessionEncryption();
 		this.connection = new SessionConnection(this);
-		this.roomUser = new SessionRoom();
+		this.roomUser = new SessionRoom(this);
 	}
 
 	public void invoke(short header, Request message) {
