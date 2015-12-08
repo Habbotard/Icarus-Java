@@ -31,9 +31,13 @@ public class RoomCycle implements Runnable {
 
 					SessionRoom roomUser = session.getRoomUser();
 
-					if (roomUser.getPath() == null || roomUser.getPoint().sameAs(roomUser.getGoalPoint())) {
+					if (roomUser.getPath() == null) { 
+						continue;
+					}
+					
+					if (roomUser.getPoint().sameAs(roomUser.getGoalPoint())) {
 						roomUser.setPath(new LinkedList<Point>());
-						this.stopWalking(roomUser, true);
+						roomUser.stopWalking(true);
 					}
 					
 					if (roomUser.getPath() != null) {
@@ -65,12 +69,12 @@ public class RoomCycle implements Runnable {
 						}
 
 					} else if (roomUser.isWalking()) {
-						this.stopWalking(roomUser, true);
+						roomUser.stopWalking(true);
 					}
 
 					if (roomUser.needsUpdate()) {
 
-						this.stopWalking(roomUser, false);
+						roomUser.stopWalking(false);
 						usersToUpdate.add(session);
 						
 						if (roomUser.getPoint().sameAs(new Point(room.getModel().getDoorX(), room.getModel().getDoorY()))) {
@@ -92,18 +96,5 @@ public class RoomCycle implements Runnable {
 			e.printStackTrace();
 
 		}
-	}
-
-	private void stopWalking(SessionRoom roomUser, boolean needsUpdate) {
-
-		if (roomUser.getStatuses().containsKey("mv")) {
-			roomUser.getStatuses().remove("mv");
-		}
-
-		usersToUpdate.add(roomUser.getSession());
-		
-		roomUser.setNeedUpdate(needsUpdate);
-		roomUser.setWalking(false);
-		
 	}
 }

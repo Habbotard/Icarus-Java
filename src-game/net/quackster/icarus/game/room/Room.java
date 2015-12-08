@@ -132,7 +132,10 @@ public class Room {
 
 		this.send(new UserLeftRoomMessageComposer(session.getDetails().getId()));
 		
-		session.getRoomUser().getStatuses().clear();
+		SessionRoom roomUser = session.getRoomUser();
+		
+		roomUser.getStatuses().clear();
+		roomUser.stopWalking(false);
 		
 		this.getUsers().remove(session);
 

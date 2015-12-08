@@ -28,6 +28,7 @@ public class PlayerDao {
 			}
 
 			details.fill(row);
+			details.setAuthenticated(true);
 			
 			Storage.releaseObject(row);
 			

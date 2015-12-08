@@ -63,17 +63,16 @@ public class SessionRoom {
 		this.pathfinder = new Pathfinder(map, heuristic);//new DiagonalHeuristic());
 	}
 	
-	public void stopWalking(boolean needsStatusUpdate) {
-		
-		if (this.isWalking) {
-			
-			if (this.statuses.containsKey("mv")) {
-				this.statuses.remove("mv");
-			}
 
-			this.needsUpdate = needsStatusUpdate;
-			this.isWalking = false;
+	public void stopWalking(boolean needsUpdate) {
+
+		if (this.statuses.containsKey("mv")) {
+			this.statuses.remove("mv");
 		}
+
+		this.needsUpdate = needsUpdate;
+		this.isWalking = false;
+		
 	}
 
 	public void updateStatus() {
