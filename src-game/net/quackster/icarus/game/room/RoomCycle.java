@@ -8,7 +8,7 @@ import net.quackster.icarus.game.room.models.Rotation;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.game.user.client.SessionRoom;
 import net.quackster.icarus.messages.outgoing.room.UpdateUserStatusMessageComposer;
-import net.quackster.icarus.pathfinder.Point;
+import net.quackster.icarus.game.pathfinder.Point;
 
 public class RoomCycle implements Runnable {
 

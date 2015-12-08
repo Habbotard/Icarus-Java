@@ -1,4 +1,4 @@
-package net.quackster.icarus.pathfinder;
+package net.quackster.icarus.game.pathfinder;
 
 import java.util.ArrayList;
 

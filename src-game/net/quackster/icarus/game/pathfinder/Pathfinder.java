@@ -1,10 +1,10 @@
-package net.quackster.icarus.pathfinder;
+package net.quackster.icarus.game.pathfinder;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 
-import net.quackster.icarus.pathfinder.heuristics.AStarHeuristic;
+import net.quackster.icarus.game.pathfinder.heuristics.AStarHeuristic;
 
 public class Pathfinder {
 	

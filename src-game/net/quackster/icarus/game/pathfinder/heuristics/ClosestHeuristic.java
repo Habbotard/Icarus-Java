@@ -1,6 +1,6 @@
-package net.quackster.icarus.pathfinder.heuristics;
+package net.quackster.icarus.game.pathfinder.heuristics;
 
-import net.quackster.icarus.pathfinder.Point;
+import net.quackster.icarus.game.pathfinder.Point;
 
 /**
  * A heuristic that uses the tile that is closest to the target

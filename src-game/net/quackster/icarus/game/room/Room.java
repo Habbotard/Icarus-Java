@@ -17,7 +17,7 @@ import net.quackster.icarus.messages.outgoing.room.RoomUsersMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.UpdateUserStatusMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.UserLeftRoomMessageComposer;
 import net.quackster.icarus.netty.readers.Response;
-import net.quackster.icarus.pathfinder.Point;
+import net.quackster.icarus.game.pathfinder.Point;
 
 public class Room {
 

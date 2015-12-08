@@ -3,15 +3,15 @@ package net.quackster.icarus.game.user.client;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import net.quackster.icarus.game.pathfinder.AreaMap;
+import net.quackster.icarus.game.pathfinder.Pathfinder;
+import net.quackster.icarus.game.pathfinder.Point;
+import net.quackster.icarus.game.pathfinder.heuristics.AStarHeuristic;
+import net.quackster.icarus.game.pathfinder.heuristics.ClosestHeuristic;
 import net.quackster.icarus.game.room.Room;
 import net.quackster.icarus.game.room.models.RoomModel;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.outgoing.room.UpdateUserStatusMessageComposer;
-import net.quackster.icarus.pathfinder.Pathfinder;
-import net.quackster.icarus.pathfinder.AreaMap;
-import net.quackster.icarus.pathfinder.Point;
-import net.quackster.icarus.pathfinder.heuristics.AStarHeuristic;
-import net.quackster.icarus.pathfinder.heuristics.ClosestHeuristic;
 
 public class SessionRoom {
 

@@ -1,7 +1,7 @@
 package net.quackster.icarus.game.room;
 
+import net.quackster.icarus.game.pathfinder.Point;
 import net.quackster.icarus.game.user.Session;
-import net.quackster.icarus.pathfinder.Point;
 
 public class RoomLocator {
 
