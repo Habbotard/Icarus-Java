@@ -9,6 +9,7 @@ import net.quackster.icarus.messages.outgoing.room.UpdateUserStatusMessageCompos
 import net.quackster.icarus.pathfinder.AStar;
 import net.quackster.icarus.pathfinder.AreaMap;
 import net.quackster.icarus.pathfinder.Point;
+import net.quackster.icarus.pathfinder.heuristics.ClosestHeuristic;
 import net.quackster.icarus.pathfinder.heuristics.DiagonalHeuristic;
 
 public class SessionRoom {
@@ -25,7 +26,7 @@ public class SessionRoom {
 	private int rotation;
 	private double height;
 	
-	private HashMap<String, String> Statuses;
+	private HashMap<String, String> statuses;
 	private LinkedList<Point> path;
 	
 	private boolean isWalking;
@@ -48,15 +49,26 @@ public class SessionRoom {
 		this.GoalX = 0;
 		this.GoalY = 0;
 		
-		this.Statuses = new HashMap<String, String>();
+		this.statuses = new HashMap<String, String>();
 		this.path = new LinkedList<Point>();
 	}
 
 	public void createPathfinder() {
-
 		int[][] collisionMap = this.getRoom().regenerateCollisionMap();
-		this.pathfinder = new AStar(new AreaMap(this.getRoom().getModel(), collisionMap), new DiagonalHeuristic());
+		this.pathfinder = new AStar(new AreaMap(this.getRoom().getModel(), collisionMap), new ClosestHeuristic());//new DiagonalHeuristic());
+	}
+	
+	public void stopWalking(boolean needsStatusUpdate) {
 		
+		if (this.isWalking) {
+			
+			if (this.statuses.containsKey("mv")) {
+				this.statuses.remove("mv");
+			}
+
+			this.needsUpdate = needsStatusUpdate;
+			this.isWalking = false;
+		}
 	}
 
 	public void updateStatus() {
@@ -156,7 +168,7 @@ public class SessionRoom {
 	}
 
 	public HashMap<String, String> getStatuses() {
-		return Statuses;
+		return statuses;
 	}
 
 	public boolean isWalking() {
@@ -194,5 +206,9 @@ public class SessionRoom {
 
 	public void setPathfinder(AStar pathfinder) {
 		this.pathfinder = pathfinder;
+	}
+
+	public Session getSession() {
+		return this.session;
 	}
 }

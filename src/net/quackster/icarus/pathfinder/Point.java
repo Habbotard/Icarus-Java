@@ -26,5 +26,8 @@ public class Point {
 		Y = y;
 	}
 	
+	public boolean sameAs(Point point) {	
+		return (this.X == point.getX() && this.Y == point.getY());
+	}
 	
 }
