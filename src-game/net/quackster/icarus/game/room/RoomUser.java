@@ -1,30 +1,40 @@
-package net.quackster.icarus.game.user.client;
+package net.quackster.icarus.game.room;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import net.quackster.icarus.Icarus;
 import net.quackster.icarus.game.pathfinder.AreaMap;
 import net.quackster.icarus.game.pathfinder.Pathfinder;
 import net.quackster.icarus.game.pathfinder.Point;
 import net.quackster.icarus.game.pathfinder.heuristics.*;
-import net.quackster.icarus.game.room.Room;
 import net.quackster.icarus.game.room.models.RoomModel;
 import net.quackster.icarus.game.user.Session;
+import net.quackster.icarus.messages.outgoing.room.user.FloodFilterMessageComposer;
+import net.quackster.icarus.messages.outgoing.room.user.TalkMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.user.UpdateUserStatusMessageComposer;
+import net.quackster.icarus.util.GameSettings;
 
-public class SessionRoom {
+public class RoomUser {
 
 	private boolean inRoom;
 	private boolean isLoadingRoom;
 
+	private int virtualId;
+	private int lastChatId;
+	
 	private int X;
 	private int Y;
-
-	private int GoalX;
-	private int GoalY;
+	private double height;
+	
+	private int goalX;
+	private int goalY;
 
 	private int rotation;
-	private double height;
+	private int headRotation;
+	
+	private long chatFloodTimer;
+	private int chatCount;
 
 	private HashMap<String, String> statuses;
 	private LinkedList<Point> path;
@@ -37,23 +47,31 @@ public class SessionRoom {
 	private Pathfinder pathfinder;
 	private RoomModel model;
 
-	public SessionRoom(Session session) {
+	public RoomUser(Session session) {
 
 		this.session = session;
-		this.inRoom = false;
-		this.isLoadingRoom = false;
-		this.needsUpdate = false;
-
-		this.rotation = 0;
-		this.X = 0;
-		this.Y = 0;
-		this.GoalX = 0;
-		this.GoalY = 0;
 
 		this.statuses = new HashMap<String, String>();
 		this.path = new LinkedList<Point>();
+		
+		this.reset();
 	}
 
+	public void reset() {
+		
+		this.statuses.clear();
+		this.goalX = -1;
+		this.goalY = -1;
+		this.lastChatId = 0;
+		this.virtualId = -1;
+		this.chatFloodTimer = 0;
+		this.chatCount = 0;
+
+		this.room = null;
+		this.inRoom = false;
+		this.isLoadingRoom = false;
+	}
+	
 	public void createPathfinder() {
 
 		AreaMap map = new AreaMap(this.model, this.room.getCollisionMap());
@@ -78,7 +96,41 @@ public class SessionRoom {
 	public void updateStatus() {
 		this.room.send(new UpdateUserStatusMessageComposer(session));
 	}
+	
 
+	public void chat(String message, int bubble, int count, boolean shout) {
+
+		// if current time less than the chat flood timer (last chat time + seconds to check)
+		// say that they still need to wait before shouting again
+		if (Icarus.getUtilities().getTimestamp() < this.chatFloodTimer && this.chatCount >= GameSettings.MAX_CHAT_BEFORE_FLOOD && !session.getDetails().hasFuse("moderator")) {
+			session.send(new FloodFilterMessageComposer(GameSettings.CHAT_FLOOD_WAIT));
+			return;
+		}
+
+		// TODO: Check if not bot
+		// The below function validates the chat bubbles
+		if (bubble == 2 || (bubble == 23 && !session.getDetails().hasFuse("moderator")) || bubble < 0 || bubble > 29) {
+			bubble = this.lastChatId;
+		}
+
+		room.send(new TalkMessageComposer(this, shout, message, count, bubble));
+
+		// if the users timestamp has passed the check but the chat count is still high
+		// the chat count is reset then
+
+		if (!session.getDetails().hasFuse("moderator")) {
+			
+			if (Icarus.getUtilities().getTimestamp() > this.chatFloodTimer && this.chatCount >= GameSettings.MAX_CHAT_BEFORE_FLOOD) {
+				this.chatCount = 0;
+			} else {
+				this.chatCount = this.chatCount + 1;
+			}
+
+			this.setChatFloodTimer(Icarus.getUtilities().getTimestamp() + GameSettings.CHAT_FLOOD_SECONDS);
+
+		}
+	}
+		
 
 	public void dispose() {
 
@@ -131,6 +183,22 @@ public class SessionRoom {
 		this.isLoadingRoom = isLoadingRoom;
 	}
 
+	public int getVirtualId() {
+		return virtualId;
+	}
+
+	public void setVirtualId(int virtualId) {
+		this.virtualId = virtualId;
+	}
+
+	public int getLastChatId() {
+		return lastChatId;
+	}
+
+	public void setLastChatId(int lastChatId) {
+		this.lastChatId = lastChatId;
+	}
+
 	public int getX() {
 		return X;
 	}
@@ -152,31 +220,40 @@ public class SessionRoom {
 	}
 
 	public int getGoalX() {
-		return GoalX;
+		return goalX;
 	}
 
 	public void setGoalX(int goalX) {
-		GoalX = goalX;
+		this.goalX = goalX;
 	}
 
 	public int getGoalY() {
-		return GoalY;
+		return goalY;
 	}
 
 	public void setGoalY(int goalY) {
-		GoalY = goalY;
+		this.goalY = goalY;
 	}
 
 	public Point getGoalPoint() {
-		return new Point(this.GoalX, this.GoalY);
+		return new Point(this.goalX, this.goalY);
 	}
 
 	public int getRotation() {
 		return rotation;
 	}
 
-	public void setRotation(int rotation) {
-		this.rotation = rotation;
+	public int getHeadRotation() {
+		return headRotation;
+	}
+
+	public void setRotation(int rotation, boolean headOnly) {
+
+		this.headRotation = rotation;
+		
+		if (!headOnly) {
+			this.rotation = rotation;
+		}
 	}
 
 	public double getHeight() {
@@ -207,8 +284,8 @@ public class SessionRoom {
 		this.needsUpdate = needsWalkUpdate;
 
 		if (!this.needsUpdate) {
-			this.GoalX = -1;
-			this.GoalY = -1;
+			this.goalX = -1;
+			this.goalY = -1;
 		}
 	}
 
@@ -245,5 +322,21 @@ public class SessionRoom {
 
 	public Session getSession() {
 		return this.session;
+	}
+
+	public long getChatFloodTimer() {
+		return chatFloodTimer;
+	}
+
+	public void setChatFloodTimer(long lastChatTime) {
+		this.chatFloodTimer = lastChatTime;
+	}
+
+	public int getChatCount() {
+		return chatCount;
+	}
+
+	public void setChatCount(int chatCount) {
+		this.chatCount = chatCount;
 	}
 }

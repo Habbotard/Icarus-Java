@@ -7,6 +7,7 @@ import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.buffer.ChannelBufferOutputStream;
 import org.jboss.netty.buffer.ChannelBuffers;
 
+import net.quackster.icarus.game.room.RoomUser;
 import net.quackster.icarus.log.Log;
 
 public class Response
@@ -23,7 +24,6 @@ public class Response
 	public Response(int id) {
 		this.init(id);
 	}
-
 
 	public Response init(int id) {
 		

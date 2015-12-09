@@ -2,8 +2,8 @@ package net.quackster.icarus.messages.incoming.room;
 
 import net.quackster.icarus.dao.room.RoomDao;
 import net.quackster.icarus.game.room.Room;
+import net.quackster.icarus.game.room.RoomUser;
 import net.quackster.icarus.game.user.Session;
-import net.quackster.icarus.game.user.client.SessionRoom;
 import net.quackster.icarus.messages.Message;
 import net.quackster.icarus.messages.outgoing.room.engine.RoomDataMessageComposer;
 import net.quackster.icarus.netty.readers.Request;
@@ -19,7 +19,7 @@ public class RoomInfoMessageEvent implements Message {
 			return;
 		}
 		
-		SessionRoom roomUser = session.getRoomUser();
+		RoomUser roomUser = session.getRoomUser();
 		
 		boolean forwardPlayer = true;
 		
@@ -35,6 +35,7 @@ public class RoomInfoMessageEvent implements Message {
 		}
 		
 		if (roomUser.isLoadingRoom()) {
+			System.out.println("xd");
 			return;
 		} 
 		

@@ -1,6 +1,5 @@
-package net.quackster.icarus.game.user.client;
+package net.quackster.icarus.game.user;
 
-import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.headers.Incoming;
 
 public class SessionConnection {

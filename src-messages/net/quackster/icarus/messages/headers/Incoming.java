@@ -90,7 +90,7 @@ public class Incoming {
     public static final short ShoutMessageEvent = 42;
     public static final short UserWhisperMessageEvent = 1094;
     public static final short UserWalkMessageEvent = 2839;
-    public static final short UserDanceMessageEvent = 2156;
+    public static final short DanceMessageEvent = 2156;
     public static final short UserSignMessageEvent = 3780;
     public static final short RoomBanUserMessageEvent = 1933;
     public static final short RoomUnbanUserMessageEvent = 1375;

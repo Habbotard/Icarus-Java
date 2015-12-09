@@ -21,6 +21,10 @@ public class Util {
 	    return param == null || param.trim().length() == 0;
 	}
 	
+	public long getTimestamp() {
+		return System.currentTimeMillis() / 1000L; // return timestamp converted to seconds
+	}
+	
 	public Configuration getConfiguration() {
 		return configuration;
 	}

@@ -5,7 +5,6 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.jboss.netty.channel.Channel;
 
-import net.quackster.icarus.Icarus;
 import net.quackster.icarus.game.user.Session;
 
 public class SessionManager

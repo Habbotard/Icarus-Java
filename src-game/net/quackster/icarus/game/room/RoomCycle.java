@@ -7,7 +7,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import net.quackster.icarus.game.room.models.Rotation;
 import net.quackster.icarus.game.user.Session;
-import net.quackster.icarus.game.user.client.SessionRoom;
 import net.quackster.icarus.messages.outgoing.room.user.UpdateUserStatusMessageComposer;
 import net.quackster.icarus.game.pathfinder.Point;
 
@@ -32,7 +31,7 @@ public class RoomCycle implements Runnable {
 
 				for (Session session : users) {
 
-					SessionRoom roomUser = session.getRoomUser();
+					RoomUser roomUser = session.getRoomUser();
 
 					if (roomUser.getPath() == null) { 
 						continue;
@@ -60,7 +59,7 @@ public class RoomCycle implements Runnable {
 								roomUser.getStatuses().remove("lay");
 							}
 
-							roomUser.setRotation(Rotation.calculate(roomUser.getX(), roomUser.getY(), next.getX(), next.getY()));
+							roomUser.setRotation(Rotation.calculate(roomUser.getX(), roomUser.getY(), next.getX(), next.getY()), false);
 
 							roomUser.getStatuses().put("mv", String.valueOf(next.getX()).concat(",").concat(String.valueOf(next.getY())).concat(",").concat(String.valueOf(room.getModel().getSquareHeight()[next.getX()][next.getY()])));
 							roomUser.updateStatus();

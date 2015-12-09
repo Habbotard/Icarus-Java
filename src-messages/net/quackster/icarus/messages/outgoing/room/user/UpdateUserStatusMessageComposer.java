@@ -30,21 +30,20 @@ public class UpdateUserStatusMessageComposer extends Response {
 
 			for (Session user : users) {
 
-				this.appendInt32(user.getDetails().getId());
+				this.appendInt32(user.getRoomUser().getVirtualId());
 				this.appendInt32(user.getRoomUser().getX());
 				this.appendInt32(user.getRoomUser().getY());
 				this.appendString(Double.toString(user.getRoomUser().getHeight()));
-				this.appendInt32(user.getRoomUser().getRotation());
+				this.appendInt32(user.getRoomUser().getHeadRotation());
 				this.appendInt32(user.getRoomUser().getRotation());
 
-				String Status = "/";
+				String status = "/";
 
-				for (Entry<String, String> set : user.getRoomUser().getStatuses().entrySet())
-				{
-					Status += set.getKey() + " " + set.getValue() + "/";
+				for (Entry<String, String> set : user.getRoomUser().getStatuses().entrySet()) {
+					status += set.getKey() + " " + set.getValue() + "/";
 				}
 
-				this.appendString(Status + "/");
+				this.appendString(status + "/");
 			}
 		}
 	}

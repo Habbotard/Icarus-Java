@@ -1,13 +1,13 @@
 package net.quackster.icarus.messages.incoming.room;
 
 import net.quackster.icarus.game.user.Session;
-import net.quackster.icarus.game.user.client.SessionRoom;
 import net.quackster.icarus.messages.Message;
 import net.quackster.icarus.netty.readers.Request;
 
 import java.util.LinkedList;
 
 import net.quackster.icarus.game.pathfinder.Point;
+import net.quackster.icarus.game.room.RoomUser;
 
 public class UserWalkMessageEvent implements Message {
 
@@ -23,7 +23,7 @@ public class UserWalkMessageEvent implements Message {
 				return;
 			}
 
-			SessionRoom roomUser = session.getRoomUser();
+			RoomUser roomUser = session.getRoomUser();
 			roomUser.createPathfinder();
 
 			roomUser.setGoalX(X);

@@ -2,8 +2,8 @@ package net.quackster.icarus.messages.headers;
 
 public class Outgoing {
 
-	public static int InitCryptoMessageComposer = 2172;
-	public static int SecretKeyMessageComposer = 690;
+	public static final short InitCryptoMessageComposer = 2172;
+	public static final short SecretKeyMessageComposer = 690;
 	public static final short AuthenticationOKMessageComposer = 3151;
     public static final short UniqueMachineIDMessageComposer = 3540;
     public static final short DisconnectReasonMessageComposer = 4000;

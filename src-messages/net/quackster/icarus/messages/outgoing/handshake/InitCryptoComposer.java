@@ -1,6 +1,6 @@
 package net.quackster.icarus.messages.outgoing.handshake;
 
-import net.quackster.icarus.game.user.client.SessionEncryption;
+import net.quackster.icarus.game.user.SessionEncryption;
 import net.quackster.icarus.messages.headers.Outgoing;
 import net.quackster.icarus.netty.readers.Response;
 

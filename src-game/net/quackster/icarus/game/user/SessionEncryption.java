@@ -1,4 +1,4 @@
-package net.quackster.icarus.game.user.client;
+package net.quackster.icarus.game.user;
 
 import net.quackster.icarus.game.encryption.RC4;
 import net.quackster.icarus.game.encryption.RSA;

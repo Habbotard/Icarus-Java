@@ -11,7 +11,6 @@ import net.quackster.icarus.Icarus;
 import net.quackster.icarus.dao.room.RoomDao;
 import net.quackster.icarus.game.room.models.RoomModel;
 import net.quackster.icarus.game.user.Session;
-import net.quackster.icarus.game.user.client.SessionRoom;
 import net.quackster.icarus.log.Log;
 import net.quackster.icarus.messages.headers.Outgoing;
 import net.quackster.icarus.messages.outgoing.room.user.RoomUsersMessageComposer;
@@ -120,11 +119,12 @@ public class Room {
 		}
 
 
-		SessionRoom user = session.getRoomUser();
+		RoomUser user = session.getRoomUser();
 
+		user.setVirtualId(this.getVirtualId());
 		user.setX(this.getModel().getDoorX());
 		user.setY(this.getModel().getDoorY());
-		user.setRotation(this.getModel().getDoorRot());
+		user.setRotation(this.getModel().getDoorRot(), false);
 		user.setHeight(this.getModel().getSquareHeight()[user.getX()][user.getY()]);
 
 		// notify users of new person
@@ -152,18 +152,13 @@ public class Room {
 
 		this.send(new UserLeftRoomMessageComposer(session.getDetails().getId()));
 		
-		SessionRoom roomUser = session.getRoomUser();
+		RoomUser roomUser = session.getRoomUser();
 
 		roomUser.stopWalking(false);
-		roomUser.getStatuses().clear();
-		roomUser.setGoalX(-1);
-		roomUser.setGoalY(-1);
-
-		roomUser.setRoom(null);
-		roomUser.setInRoom(false);
-		roomUser.setLoadingRoom(false);
+		roomUser.reset();
 
 		this.getUsers().remove(session);
+		this.privateId = this.privateId - 1;
 
 		if (this.users.size() == 0) {
 			if (this.tickTask != null) {
@@ -238,7 +233,8 @@ public class Room {
 	}
 
 	public int getVirtualId() {
-		return this.privateId++;
+		this.privateId = this.privateId + 1;
+		return this.privateId;
 	}
 
 	public String getName() {

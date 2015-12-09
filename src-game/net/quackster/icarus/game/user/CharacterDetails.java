@@ -24,6 +24,11 @@ public class CharacterDetails {
 		this.authenticated = true;
 	}
 	
+	// TODO: permissions
+	public boolean hasFuse(String fuse) {
+		return false;
+	}
+	
 	public void dispose() {
 		
 		this.username = null;

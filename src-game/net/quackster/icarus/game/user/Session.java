@@ -7,9 +7,7 @@ import org.jboss.netty.channel.Channel;
 import net.quackster.icarus.Icarus;
 import net.quackster.icarus.dao.room.RoomDao;
 import net.quackster.icarus.game.room.Room;
-import net.quackster.icarus.game.user.client.SessionConnection;
-import net.quackster.icarus.game.user.client.SessionEncryption;
-import net.quackster.icarus.game.user.client.SessionRoom;
+import net.quackster.icarus.game.room.RoomUser;
 import net.quackster.icarus.netty.readers.Request;
 import net.quackster.icarus.netty.readers.Response;
 
@@ -20,7 +18,7 @@ public class Session {
 	private String machineId;
 	private CharacterDetails details;
 	private SessionConnection connection;
-	private SessionRoom roomUser;
+	private RoomUser roomUser;
 
 	public Session(Channel channel) {
 
@@ -28,7 +26,7 @@ public class Session {
 		this.details = new CharacterDetails();
 		this.sessionEncryption = new SessionEncryption();
 		this.connection = new SessionConnection(this);
-		this.roomUser = new SessionRoom(this);
+		this.roomUser = new RoomUser(this);
 	}
 
 	public void invoke(short header, Request message) {
@@ -126,11 +124,11 @@ public class Session {
 		return details;
 	}
 
-	public SessionRoom getRoomUser() {
+	public RoomUser getRoomUser() {
 		return roomUser;
 	}
 
-	public void setRoomUser(SessionRoom roomUser) {
+	public void setRoomUser(RoomUser roomUser) {
 		this.roomUser = roomUser;
 	}
 

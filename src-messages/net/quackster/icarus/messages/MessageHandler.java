@@ -9,6 +9,9 @@ import net.quackster.icarus.messages.incoming.handshake.*;
 import net.quackster.icarus.messages.incoming.misc.*;
 import net.quackster.icarus.messages.incoming.navigator.*;
 import net.quackster.icarus.messages.incoming.room.*;
+import net.quackster.icarus.messages.incoming.room.user.ChatMessageEvent;
+import net.quackster.icarus.messages.incoming.room.user.DanceMessageEvent;
+import net.quackster.icarus.messages.incoming.room.user.ShoutMessageEvent;
 import net.quackster.icarus.messages.incoming.user.*;
 import net.quackster.icarus.netty.readers.Request;
 import net.quackster.icarus.netty.readers.Response;
@@ -61,6 +64,9 @@ public class MessageHandler {
 		this.messages.put(Incoming.RequestHeightmapMessageEvent, new RequestHeightmapMessageEvent());
 		this.messages.put(Incoming.UserWalkMessageEvent, new UserWalkMessageEvent());
 		this.messages.put(Incoming.LeaveRoomMessageEvent, new LeaveRoomMessageEvent());
+		this.messages.put(Incoming.ChatMessageEvent, new ChatMessageEvent());
+		this.messages.put(Incoming.ShoutMessageEvent, new ShoutMessageEvent());
+		this.messages.put(Incoming.DanceMessageEvent, new DanceMessageEvent());
 	}
 
 	public void handleRequest(Session session, Request message) {
