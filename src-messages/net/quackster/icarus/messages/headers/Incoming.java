@@ -30,7 +30,7 @@ public class Incoming {
     public static final short SetRelationshipMessageEvent = 835;
     public static final short GetUserBadgesMessageEvent = 1961;
     public static final short DisconnectMessageEvent = 1025;
-    public static final short GoToHotelViewMessageEvent = 151;
+    public static final short LeaveRoomMessageEvent = 151;
     public static final short UserUpdateLookMessageEvent = 1093;
     public static final short UserUpdateMottoMessageEvent = 1056;
     public static final short CheckUsernameMessageEvent = 442;
@@ -121,8 +121,8 @@ public class Incoming {
     public static final short SetActivatedBadgesMessageEvent = 2228;
     //public static final short EnableInventoryEffectMessageEvent = 1781;
     public static final short EffectEnableMessageEvent = 2516;
-    public static final short EnterPrivateRoomMessageEvent = 3662;//53;
-    public static final short RequestHeightmapMessageEvent = 53;//1781;//2188;
+    public static final short EnterRoomMessageEvent = 53;
+    public static final short RequestHeightmapMessageEvent = 2188;//1781;//2188;
     //public static final short RoomGetInfoMessageEvent = 3662;
     public static final short RoomUserActionMessageEvent = 3346;
     public static final short RoomOnLoadMessageEvent = 213;
@@ -307,4 +307,5 @@ public class Incoming {
     public static final short BullyRequestAcceptMessageEvent = 1763;
     public static final short BullyRequestVoteMessageEvent = 601;
     public static final short BullyRequestNoVoteMessageEvent = 1950;
+	public static final short RoomInfoMessageEvent = 3662;
 }

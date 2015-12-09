@@ -5,6 +5,7 @@ import net.quackster.icarus.game.room.models.RoomModel;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.Message;
 import net.quackster.icarus.messages.headers.Outgoing;
+import net.quackster.icarus.messages.outgoing.room.engine.RoomDataMessageComposer;
 import net.quackster.icarus.netty.readers.Request;
 import net.quackster.icarus.netty.readers.Response;
 
@@ -37,5 +38,12 @@ public class RequestHeightmapMessageEvent implements Message {
 		response.appendInt32(room.getWallHeight());
 		response.appendString(room.getModel().getFloorMap());
 		session.send(response);
+		
+		
+		session.getRoomUser().setLoadingRoom(false);
+		session.getRoomUser().setInRoom(true);
+		
+		room.finaliseRoomEnter(session);
+		session.send(new RoomDataMessageComposer(room, session, false));
 	}
 }

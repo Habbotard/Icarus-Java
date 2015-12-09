@@ -1,4 +1,4 @@
-package net.quackster.icarus.messages.outgoing.room;
+package net.quackster.icarus.messages.outgoing.room.engine;
 
 import net.quackster.icarus.game.room.Room;
 import net.quackster.icarus.messages.headers.Outgoing;

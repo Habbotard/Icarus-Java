@@ -14,8 +14,9 @@ import net.quackster.icarus.messages.incoming.misc.EventLogMessageEvent;
 import net.quackster.icarus.messages.incoming.misc.RequestLatencyTestMessageEvent;
 import net.quackster.icarus.messages.incoming.navigator.NewNavigatorMessageEvent;
 import net.quackster.icarus.messages.incoming.navigator.SearchNewNavigatorEvent;
-import net.quackster.icarus.messages.incoming.room.EnterPrivateRoomMessageEvent;
-import net.quackster.icarus.messages.incoming.room.GoToHotelViewMessageEvent;
+import net.quackster.icarus.messages.incoming.room.EnterRoomMessageEvent;
+import net.quackster.icarus.messages.incoming.room.RoomInfoMessageEvent;
+import net.quackster.icarus.messages.incoming.room.LeaveRoomMessageEvent;
 import net.quackster.icarus.messages.incoming.room.RequestHeightmapMessageEvent;
 import net.quackster.icarus.messages.incoming.room.RoomSuccessMessageEvent;
 import net.quackster.icarus.messages.incoming.room.UserWalkMessageEvent;
@@ -67,11 +68,12 @@ public class MessageHandler {
 	}
 	
 	private void registerRoomPackets() {
-		this.messages.put(Incoming.EnterPrivateRoomMessageEvent, new EnterPrivateRoomMessageEvent());
+		this.messages.put(Incoming.RoomInfoMessageEvent, new RoomInfoMessageEvent());
+		this.messages.put(Incoming.EnterRoomMessageEvent, new EnterRoomMessageEvent());
 		this.messages.put(Incoming.RequestHeightmapMessageEvent, new RequestHeightmapMessageEvent());
-		this.messages.put(Incoming.RoomSuccessMessageEvent, new RoomSuccessMessageEvent());
+		//this.messages.put(Incoming.RoomSuccessMessageEvent, new RoomSuccessMessageEvent());
 		this.messages.put(Incoming.UserWalkMessageEvent, new UserWalkMessageEvent());
-		this.messages.put(Incoming.GoToHotelViewMessageEvent, new GoToHotelViewMessageEvent());
+		this.messages.put(Incoming.LeaveRoomMessageEvent, new LeaveRoomMessageEvent());
 	}
 
 	public void handleRequest(Session session, Request message) {
@@ -81,7 +83,15 @@ public class MessageHandler {
 			response.appendInt32(message.readInt());
 			response.appendInt32(0);
 			session.send(response);
+			return;
 		}
+		
+		if (message.getMessageId() == 213) {
+			Response response = new Response(Outgoing.SendRoomCampaignFurnitureMessageComposer);
+			response.appendInt32(0);
+			session.send(response);
+		}
+		
 		
 		/*            Response.Init(LibraryParser.OutgoingRequest("RelationshipMessageComposer"));
             Response.AppendInteger(habboForId.Id);

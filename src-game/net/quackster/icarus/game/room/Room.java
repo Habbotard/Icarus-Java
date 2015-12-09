@@ -2,6 +2,8 @@ package net.quackster.icarus.game.room;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -13,9 +15,9 @@ import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.game.user.client.SessionRoom;
 import net.quackster.icarus.log.Log;
 import net.quackster.icarus.messages.headers.Outgoing;
-import net.quackster.icarus.messages.outgoing.room.RoomUsersMessageComposer;
-import net.quackster.icarus.messages.outgoing.room.UpdateUserStatusMessageComposer;
-import net.quackster.icarus.messages.outgoing.room.UserLeftRoomMessageComposer;
+import net.quackster.icarus.messages.outgoing.room.user.RoomUsersMessageComposer;
+import net.quackster.icarus.messages.outgoing.room.user.UpdateUserStatusMessageComposer;
+import net.quackster.icarus.messages.outgoing.room.user.UserLeftRoomMessageComposer;
 import net.quackster.icarus.netty.readers.Response;
 import net.quackster.icarus.game.pathfinder.Point;
 
@@ -45,12 +47,12 @@ public class Room {
 	private int floorThickness;
 	private String tagFormat;
 
-	private ConcurrentLinkedQueue<Session> users;
+	private List<Session> users;
 	private ScheduledFuture<?> tickTask;
 
 	public Room(ResultSet row, String ownerName) throws SQLException {
 
-		this.users = new ConcurrentLinkedQueue<Session>();
+		this.users = new ArrayList<Session>();
 		
 		this.id = row.getInt("id");
 		this.ownerId = row.getInt("owner_id");
@@ -111,31 +113,50 @@ public class Room {
 			Log.println("[ROOM " + this.id + "] Pathfinder task start");
 			this.tickTask = Icarus.getUtilities().getThreadPooling().getScheduledThreadPool().scheduleAtFixedRate(new RoomCycle(this), 0, 500, TimeUnit.MILLISECONDS);
 		}
-
-		if (!this.users.contains(session)) {
-			this.users.add(session);
-		}
+		
 
 		SessionRoom user = session.getRoomUser();
-
+		
 		user.setX(this.getModel().getDoorX());
 		user.setY(this.getModel().getDoorY());
 		user.setRotation(this.getModel().getDoorRot());
 		user.setHeight(this.getModel().getSquareHeight()[user.getX()][user.getY()]);
+		
+		//session.send(new RoomUsersMessageComposer(session));
+		//session.send(new UpdateUserStatusMessageComposer(session));
 
-		this.send(new RoomUsersMessageComposer(this.users));
-		this.send(new UpdateUserStatusMessageComposer(this.users));
+		this.send(new RoomUsersMessageComposer(session));
+		this.send(new UpdateUserStatusMessageComposer(session));
+		
+		if (!this.users.contains(session)) {
+			this.users.add(session);
+		}
+		
+		session.send(new RoomUsersMessageComposer(this.users));
+		session.send(new UpdateUserStatusMessageComposer(this.users));
 
 	}
 
 	public void leaveRoom(Session session, boolean hotelView) {
 
-		this.send(new UserLeftRoomMessageComposer(session.getDetails().getId()));
+		if (hotelView) {
+
+			Response response = new Response(Outgoing.OutOfRoomMessageComposer);
+			response.appendInt32(3);
+			session.send(response);
+		}
 		
+		this.send(new UserLeftRoomMessageComposer(session.getDetails().getId()));
 		SessionRoom roomUser = session.getRoomUser();
 		
-		roomUser.getStatuses().clear();
 		roomUser.stopWalking(false);
+		roomUser.getStatuses().clear();
+		roomUser.setGoalX(-1);
+		roomUser.setGoalY(-1);
+		
+		roomUser.setRoom(null);
+		roomUser.setInRoom(false);
+		roomUser.setLoadingRoom(false);
 		
 		this.getUsers().remove(session);
 
@@ -147,13 +168,6 @@ public class Room {
 				this.tickTask.cancel(true);
 				this.tickTask = null;
 			}
-		}
-
-		if (hotelView) {
-
-			Response response = new Response(Outgoing.OutOfRoomMessageComposer);
-			response.appendInt32(3);
-			session.send(response);
 		}
 	}
 
@@ -354,7 +368,7 @@ public class Room {
 	public int getUsersNow() {
 
 		if (this.users == null) {
-			this.users = new ConcurrentLinkedQueue<Session>();
+			this.users = new ArrayList<Session>();
 		}
 
 		this.usersNow = this.users.size();
@@ -373,7 +387,7 @@ public class Room {
 		this.usersMax = usersMax;
 	}
 
-	public ConcurrentLinkedQueue<Session> getUsers() {
+	public List<Session> getUsers() {
 		return users;
 	}
 

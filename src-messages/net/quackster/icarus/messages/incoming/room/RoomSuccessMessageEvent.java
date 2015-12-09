@@ -3,7 +3,7 @@ package net.quackster.icarus.messages.incoming.room;
 import net.quackster.icarus.game.room.Room;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.Message;
-import net.quackster.icarus.messages.outgoing.room.RoomDataMessageComposer;
+import net.quackster.icarus.messages.outgoing.room.engine.RoomDataMessageComposer;
 import net.quackster.icarus.netty.readers.Request;
 
 public class RoomSuccessMessageEvent implements Message {
@@ -16,13 +16,7 @@ public class RoomSuccessMessageEvent implements Message {
 		if (room == null) {
 			return;
 		}
-		
-		session.getRoomUser().setLoadingRoom(false);
-		session.getRoomUser().setInRoom(true);
-		
-		session.send(new RoomDataMessageComposer(room, session, false));
-		
-		room.finaliseRoomEnter(session);
+
 	}
 
 }

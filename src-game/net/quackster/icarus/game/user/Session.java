@@ -72,7 +72,7 @@ public class Session {
 					}
 				}
 				
-				if (this.roomUser.isInRoom()) {
+				if (this.roomUser.inRoom()) {
 					this.roomUser.getRoom().leaveRoom(this, false);
 				}
 				

@@ -11,58 +11,58 @@ import net.quackster.icarus.game.pathfinder.heuristics.ClosestHeuristic;
 import net.quackster.icarus.game.room.Room;
 import net.quackster.icarus.game.room.models.RoomModel;
 import net.quackster.icarus.game.user.Session;
-import net.quackster.icarus.messages.outgoing.room.UpdateUserStatusMessageComposer;
+import net.quackster.icarus.messages.outgoing.room.user.UpdateUserStatusMessageComposer;
 
 public class SessionRoom {
 
 	private boolean inRoom;
 	private boolean isLoadingRoom;
-	
+
 	private int X;
 	private int Y;
-	
+
 	private int GoalX;
 	private int GoalY;
-	
+
 	private int rotation;
 	private double height;
-	
+
 	private HashMap<String, String> statuses;
 	private LinkedList<Point> path;
-	
+
 	private boolean isWalking;
 	private boolean needsUpdate;
-	
+
 	private Room room;
 	private Session session;
 	private Pathfinder pathfinder;
 	private RoomModel model;
-	
+
 	public SessionRoom(Session session) {
-		
+
 		this.session = session;
 		this.inRoom = false;
 		this.isLoadingRoom = false;
 		this.needsUpdate = false;
-		
+
 		this.rotation = 0;
 		this.X = 0;
 		this.Y = 0;
 		this.GoalX = 0;
 		this.GoalY = 0;
-		
+
 		this.statuses = new HashMap<String, String>();
 		this.path = new LinkedList<Point>();
 	}
 
 	public void createPathfinder() {
-		
+
 		AreaMap map = new AreaMap(this.model, this.room.regenerateCollisionMap());
 		AStarHeuristic heuristic = new ClosestHeuristic();
-		
+
 		this.pathfinder = new Pathfinder(map, heuristic);//new DiagonalHeuristic());
 	}
-	
+
 
 	public void stopWalking(boolean needsUpdate) {
 
@@ -72,27 +72,27 @@ public class SessionRoom {
 
 		this.needsUpdate = needsUpdate;
 		this.isWalking = false;
-		
+
 	}
 
 	public void updateStatus() {
 		this.room.send(new UpdateUserStatusMessageComposer(session));
 	}
-	
+
 
 	public void dispose() {
-		
+
 		this.room = null;
 		this.pathfinder = null;
 		this.session = null;
-		
+
 		this.statuses.clear();
 		this.statuses = null;
-		
+
 	}
-	
-	public boolean isInRoom() {
-		return inRoom;
+
+	public boolean inRoom() {
+		return room != null;
 	}
 
 	public void setInRoom(boolean inRoom) {
@@ -102,7 +102,7 @@ public class SessionRoom {
 	public Room getRoom() {
 		return room;
 	}
-	
+
 	public RoomModel getModel() {
 		return model;
 	}
@@ -113,7 +113,10 @@ public class SessionRoom {
 
 	public void setRoom(Room room) {
 		this.room = room;
-		this.model = room.getModel();
+
+		if (room != null) {
+			this.model = room.getModel();
+		}
 	}
 
 	public boolean isLoadingRoom() {
@@ -139,7 +142,7 @@ public class SessionRoom {
 	public void setY(int y) {
 		Y = y;
 	}
-	
+
 	public Point getPoint() {
 		return new Point(this.X, this.Y);
 	}
@@ -159,7 +162,7 @@ public class SessionRoom {
 	public void setGoalY(int goalY) {
 		GoalY = goalY;
 	}
-	
+
 	public Point getGoalPoint() {
 		return new Point(this.GoalX, this.GoalY);
 	}
@@ -198,7 +201,7 @@ public class SessionRoom {
 
 	public void setNeedUpdate(boolean needsWalkUpdate) {
 		this.needsUpdate = needsWalkUpdate;
-		
+
 		if (!this.needsUpdate) {
 			this.GoalX = -1;
 			this.GoalY = -1;

@@ -7,14 +7,14 @@ import java.util.List;
 import net.quackster.icarus.game.room.models.Rotation;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.game.user.client.SessionRoom;
-import net.quackster.icarus.messages.outgoing.room.UpdateUserStatusMessageComposer;
+import net.quackster.icarus.messages.outgoing.room.user.UpdateUserStatusMessageComposer;
 import net.quackster.icarus.game.pathfinder.Point;
 
 public class RoomCycle implements Runnable {
 
 	private Room room;
 	private List<Session> usersToUpdate;
-	
+
 	public RoomCycle (Room room) {
 		this.room = room;
 		this.usersToUpdate = new ArrayList<Session>();
@@ -34,12 +34,12 @@ public class RoomCycle implements Runnable {
 					if (roomUser.getPath() == null) { 
 						continue;
 					}
-					
+
 					if (roomUser.getPoint().sameAs(roomUser.getGoalPoint())) {
 						roomUser.setPath(new LinkedList<Point>());
 						roomUser.stopWalking(true);
 					}
-					
+
 					if (roomUser.getPath() != null) {
 						if (roomUser.isWalking() && roomUser.getPath().size() > 0) {
 
@@ -76,14 +76,12 @@ public class RoomCycle implements Runnable {
 
 						roomUser.stopWalking(false);
 						usersToUpdate.add(session);
-						
+
 						if (roomUser.getPoint().sameAs(new Point(room.getModel().getDoorX(), room.getModel().getDoorY()))) {
 							roomUser.getRoom().leaveRoom(session, true);
 							continue;
 						}
 					}
-
-
 				}
 			}
 
