@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.jboss.netty.channel.Channel;
 
+import net.quackster.icarus.Icarus;
 import net.quackster.icarus.game.user.Session;
 
 public class SessionManager
@@ -31,6 +32,16 @@ public class SessionManager
 		try {
 			sessions.remove(channel.getId());
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public Session findById (int userId) {
+		
+		try {
+			return this.sessions.values().stream().filter(s -> s.getDetails().getId() == userId).findFirst().get();
+		} catch (Exception e) {
+			return null;
 		}
 	}
 	

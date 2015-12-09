@@ -7,7 +7,6 @@ import net.quackster.icarus.messages.Message;
 import net.quackster.icarus.messages.headers.Outgoing;
 import net.quackster.icarus.messages.outgoing.room.engine.InitialRoomInfoMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.engine.PrepareRoomMessageComposer;
-import net.quackster.icarus.messages.outgoing.room.engine.RoomDataMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.engine.RoomSpacesMessageComposer;
 import net.quackster.icarus.netty.readers.Request;
 import net.quackster.icarus.netty.readers.Response;

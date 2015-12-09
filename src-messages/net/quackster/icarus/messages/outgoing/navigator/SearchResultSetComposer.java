@@ -56,6 +56,8 @@ public class SearchResultSetComposer extends Response {
 					rooms = null;
 				}
 			}
+			
+			tabs.clear();
 
 		} else { // TODO: Search
 			this.appendInt32(0);

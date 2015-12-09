@@ -4,6 +4,9 @@ import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.game.user.client.SessionRoom;
 import net.quackster.icarus.messages.Message;
 import net.quackster.icarus.netty.readers.Request;
+
+import java.util.LinkedList;
+
 import net.quackster.icarus.game.pathfinder.Point;
 
 public class UserWalkMessageEvent implements Message {
@@ -25,12 +28,14 @@ public class UserWalkMessageEvent implements Message {
 
 			roomUser.setGoalX(X);
 			roomUser.setGoalY(Y);
-			roomUser.setPath(roomUser.getPathfinder().calculateShortestPath(roomUser.getPoint(), roomUser.getGoalPoint()));
+			
+			LinkedList<Point> path = roomUser.getPathfinder().calculateShortestPath(roomUser.getPoint(), roomUser.getGoalPoint());
 
-			if (roomUser.getPath() == null) { // user selected invalid tile, cannot walk there!
+			if (path == null) { // user selected invalid tile, cannot walk there!
 				return;
 			}
 			
+			roomUser.setPath(path);
 			roomUser.setWalking(true);
 
 		}catch (Exception e) {

@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import net.quackster.icarus.game.pathfinder.heuristics.AStarHeuristic;
 
 public class Pathfinder {
-	
+
 	private AreaMap map;
 	private AStarHeuristic heuristic;
 	private LinkedList<Node> closedList;
@@ -15,7 +15,7 @@ public class Pathfinder {
 	private LinkedList<Point> shortestPath;
 
 	public Pathfinder(AreaMap map, AStarHeuristic heuristic) {
-		
+
 		this.map = map;
 		this.heuristic = heuristic;
 		this.closedList = new LinkedList<Node>();
@@ -25,9 +25,9 @@ public class Pathfinder {
 	public LinkedList<Point> calculateShortestPath(Point start, Point goal) {
 		return this.calculateShortestPath(start.getX(), start.getY(), goal.getX(), goal.getY());
 	}
-	
+
 	public LinkedList<Point> calculateShortestPath(int startX, int startY, int goalX, int goalY) {
-		
+
 		//mark start and goal node
 		map.setStartLocation(startX, startY);
 		map.setGoalLocation(goalX, goalY);
@@ -116,6 +116,29 @@ public class Pathfinder {
 	 */
 	public void setShortestPath(LinkedList<Point> shortestPath) {
 		this.shortestPath = shortestPath;
+	}
+
+	public void dispose() {
+
+		if (this.closedList != null) {
+			this.closedList.clear();
+			this.closedList = null;
+		}
+
+		if (this.shortestPath != null) {
+			this.shortestPath.clear();
+			this.shortestPath = null;
+		}
+
+		if (this.openList != null) {
+			this.openList.clear();
+			this.openList = null;
+		}
+		
+		if (this.map != null) {
+			this.map.dispose();
+			this.map = null;
+		}
 	}
 
 	private class SortedNodeList {

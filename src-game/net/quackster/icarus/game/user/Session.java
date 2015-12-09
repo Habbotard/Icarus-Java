@@ -36,6 +36,9 @@ public class Session {
 	}
 
 	public void checkForDuplicates() {
+		
+		System.out.println("Sessions: " + Icarus.getServer().getSessionManager().getSessions().size());
+		
 		for (Session player : Icarus.getServer().getSessionManager().getSessions().values()) {
 			if (player.getDetails().getId() == this.getDetails().getId()) {
 				if (player.getChannel().getId() != this.getChannel().getId()) { // user tries to login twice
@@ -44,7 +47,7 @@ public class Session {
 			}
 		}
 	}
-	
+
 	public void send(Response response) {
 
 		if (response != null) {
@@ -61,8 +64,12 @@ public class Session {
 	public void dispose() {
 
 		try {
-			
+
 			if (this.details.isAuthenticated()) {
+
+				if (this.roomUser.inRoom()) {
+					this.roomUser.getRoom().leaveRoom(this, false);
+				}
 
 				List<Room> rooms = RoomDao.getPlayerRooms(this.details);
 
@@ -71,21 +78,17 @@ public class Session {
 						room.dispose();
 					}
 				}
-				
-				if (this.roomUser.inRoom()) {
-					this.roomUser.getRoom().leaveRoom(this, false);
-				}
-				
-			}
-			
-		} catch (Exception e) {
 
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		
+
 		this.roomUser.dispose();
 		this.roomUser = null;
 
-		this.channel = null;
+		this.details.dispose();
 		this.details = null;
 
 		this.sessionEncryption.dispose();
@@ -93,6 +96,9 @@ public class Session {
 
 		this.connection.dispose();
 		this.connection = null;
+
+		//this.channel = null;
+		this.machineId = null;
 	}
 
 
@@ -123,7 +129,7 @@ public class Session {
 	public SessionRoom getRoomUser() {
 		return roomUser;
 	}
-	
+
 	public void setRoomUser(SessionRoom roomUser) {
 		this.roomUser = roomUser;
 	}

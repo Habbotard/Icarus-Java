@@ -20,7 +20,7 @@ public class AreaMap {
 	private int goalLocationX = 0;
 	private int goalLocationY = 0;
 	private int[][] obstacleMap = {{0}};
-	
+
 	/**
 	 * Class constructor specifying the With, Height and Obstacles of the map.
 	 * (no start and goal location)
@@ -35,7 +35,18 @@ public class AreaMap {
 		this.obstacleMap = obstacleMap;
 		createMap();
 	}
-	
+
+	public void dispose() {
+
+		if (this.map != null) {
+			this.map.clear();
+			this.map = null;
+		}
+
+		this.obstacleMap = null;
+	}
+
+
 	/**
 	 * Sets up the Nodes of the map with the With and Height specified in the constructor
 	 * or set methods.
@@ -88,7 +99,7 @@ public class AreaMap {
 	public int getStartLocationY() {
 		return startLocationY;
 	}
-	
+
 	public Node getStartNode() {
 		return map.get(startLocationX).get(startLocationY);
 	}
@@ -100,11 +111,11 @@ public class AreaMap {
 	public int getGoalLocationY() {
 		return goalLocationY;
 	}
-	
+
 	public Point getGoalPoint() {
 		return new Point(goalLocationX, goalLocationY);
 	}
-	
+
 	/**
 	 * @return Node	The Goal Node
 	 * @see Node
@@ -112,7 +123,7 @@ public class AreaMap {
 	public Node getGoalNode() {
 		return map.get(goalLocationX).get(goalLocationY);
 	}
-	
+
 	/**
 	 * Determine the distance between two neighbor Nodes 
 	 * as used by the AStar algorithm.
@@ -129,14 +140,14 @@ public class AreaMap {
 			return (float) 1.9;//*(mapHeight+mapWith);
 		}
 	}
-	
+
 	public int getMapWith() {
 		return mapWith;
 	}
 	public int getMapHeight() {
 		return mapHeight;
 	}
-	
+
 	/**
 	 * Removes all the map information about start location, goal location and obstacles.
 	 * Then remakes the map with the original With and Height. 
@@ -148,4 +159,5 @@ public class AreaMap {
 		goalLocationY = 0;
 		createMap();
 	}
+
 }

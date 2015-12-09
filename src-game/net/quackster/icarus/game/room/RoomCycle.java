@@ -3,6 +3,7 @@ package net.quackster.icarus.game.room;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import net.quackster.icarus.game.room.models.Rotation;
 import net.quackster.icarus.game.user.Session;
@@ -24,10 +25,12 @@ public class RoomCycle implements Runnable {
 	public void run() {
 
 		try {
+			
+			ConcurrentLinkedQueue<Session> users = new ConcurrentLinkedQueue<Session>(room.getUsers());
+			
+			synchronized (users) { // gotta have dat thread safety, amirite? 
 
-			synchronized (room.getUsers()) { // gotta have dat thread safety, amirite? 
-
-				for (Session session : room.getUsers()) {
+				for (Session session : users) {
 
 					SessionRoom roomUser = session.getRoomUser();
 
@@ -89,6 +92,8 @@ public class RoomCycle implements Runnable {
 				room.send(new UpdateUserStatusMessageComposer(usersToUpdate));
 				this.usersToUpdate.clear();
 			}
+			
+			users.clear();
 
 		} catch (Exception e) {
 			e.printStackTrace();

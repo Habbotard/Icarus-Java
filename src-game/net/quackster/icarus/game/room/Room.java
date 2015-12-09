@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -47,13 +46,14 @@ public class Room {
 	private int floorThickness;
 	private String tagFormat;
 
+	private int[][] collisionMap;
+
 	private List<Session> users;
+	private int privateId;
 	private ScheduledFuture<?> tickTask;
 
 	public Room(ResultSet row, String ownerName) throws SQLException {
 
-		this.users = new ArrayList<Session>();
-		
 		this.id = row.getInt("id");
 		this.ownerId = row.getInt("owner_id");
 		this.ownerName = ownerName;
@@ -75,22 +75,27 @@ public class Room {
 		this.wallThickness = row.getInt("wall_thickness");
 		this.floorThickness = row.getInt("floor_thickness");
 		this.tagFormat = row.getString("tags");
+
+		this.users = new ArrayList<Session>();
+		this.privateId = 0;
+
+		this.regenerateCollisionMap();
 	}
 
-	public int[][] regenerateCollisionMap() {
-		
+	public void regenerateCollisionMap() {
+
 		int mapSizeX = this.getModel().getMapSizeX();
 		int mapSizeY = this.getModel().getMapSizeY();
-		
+
 		int[][] collisionMap = new int[mapSizeX][mapSizeY]; 
 
 		for(int y = 0; y < mapSizeY; y++) {
 			for(int x = 0; x < mapSizeX; x++) {
-				
+
 				if (this.getModel().getSquareStates()[x][y] == RoomModel.OPEN) {
 
 					collisionMap[x][y] = RoomModel.OPEN;
-					
+
 					if (!this.allowWalkthrough) { // if the room doesn't want players to be able to walk into each other
 						if (RoomLocator.findUser(this, new Point(x, y)) != null) {
 							collisionMap[x][y] = RoomModel.CLOSED;
@@ -103,9 +108,9 @@ public class Room {
 			}
 		}
 
-		return collisionMap;
+		this.collisionMap = collisionMap;
 	}
-	
+
 
 	public void finaliseRoomEnter(Session session) {
 
@@ -113,25 +118,24 @@ public class Room {
 			Log.println("[ROOM " + this.id + "] Pathfinder task start");
 			this.tickTask = Icarus.getUtilities().getThreadPooling().getScheduledThreadPool().scheduleAtFixedRate(new RoomCycle(this), 0, 500, TimeUnit.MILLISECONDS);
 		}
-		
+
 
 		SessionRoom user = session.getRoomUser();
-		
+
 		user.setX(this.getModel().getDoorX());
 		user.setY(this.getModel().getDoorY());
 		user.setRotation(this.getModel().getDoorRot());
 		user.setHeight(this.getModel().getSquareHeight()[user.getX()][user.getY()]);
-		
-		//session.send(new RoomUsersMessageComposer(session));
-		//session.send(new UpdateUserStatusMessageComposer(session));
 
+		// notify users of new person
 		this.send(new RoomUsersMessageComposer(session));
 		this.send(new UpdateUserStatusMessageComposer(session));
-		
+
 		if (!this.users.contains(session)) {
 			this.users.add(session);
 		}
-		
+
+		// send new person entering everyone else in the room
 		session.send(new RoomUsersMessageComposer(this.users));
 		session.send(new UpdateUserStatusMessageComposer(this.users));
 
@@ -145,19 +149,20 @@ public class Room {
 			response.appendInt32(3);
 			session.send(response);
 		}
-		
+
 		this.send(new UserLeftRoomMessageComposer(session.getDetails().getId()));
-		SessionRoom roomUser = session.getRoomUser();
 		
+		SessionRoom roomUser = session.getRoomUser();
+
 		roomUser.stopWalking(false);
 		roomUser.getStatuses().clear();
 		roomUser.setGoalX(-1);
 		roomUser.setGoalY(-1);
-		
+
 		roomUser.setRoom(null);
 		roomUser.setInRoom(false);
 		roomUser.setLoadingRoom(false);
-		
+
 		this.getUsers().remove(session);
 
 		if (this.users.size() == 0) {
@@ -168,8 +173,37 @@ public class Room {
 				this.tickTask.cancel(true);
 				this.tickTask = null;
 			}
+
+			this.dispose();
 		}
 	}
+
+	public void dispose() {
+
+		// if there's no users and the owner isn't online then we dispose 8)
+		try {
+			
+			if (this.users.size() > 0 && (Icarus.getServer().getSessionManager().findById(this.ownerId) == null)) {
+				return;
+			}
+
+			this.name = null;
+			this.ownerName = null;
+			this.description = null;
+			this.tagFormat = null;
+			this.landscape = null;
+			this.model = null;
+			this.wall = null;
+			this.collisionMap = null;
+			this.tickTask = null;
+
+			Icarus.getGame().getRoomManager().getLoadedRooms().remove(this);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 
 	public void serialise(Response response, boolean showEvents, boolean enterRoom) {
 		response.appendInt32(id);
@@ -203,21 +237,8 @@ public class Room {
 		}
 	}
 
-	public void dispose() {
-
-		if (this.users.size() > 0) {
-			return;
-		}
-
-		this.name = null;
-		this.ownerName = null;
-		this.description = null;
-		this.tagFormat = null;
-		this.landscape = null;
-		this.model = null;
-		this.wall = null;
-
-		Icarus.getGame().getRoomManager().getLoadedRooms().remove(this);
+	public int getVirtualId() {
+		return this.privateId++;
 	}
 
 	public String getName() {
@@ -389,6 +410,10 @@ public class Room {
 
 	public List<Session> getUsers() {
 		return users;
+	}
+
+	public int[][] getCollisionMap() {
+		return collisionMap;
 	}
 
 }

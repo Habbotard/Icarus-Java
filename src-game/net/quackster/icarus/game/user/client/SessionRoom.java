@@ -6,8 +6,7 @@ import java.util.LinkedList;
 import net.quackster.icarus.game.pathfinder.AreaMap;
 import net.quackster.icarus.game.pathfinder.Pathfinder;
 import net.quackster.icarus.game.pathfinder.Point;
-import net.quackster.icarus.game.pathfinder.heuristics.AStarHeuristic;
-import net.quackster.icarus.game.pathfinder.heuristics.ClosestHeuristic;
+import net.quackster.icarus.game.pathfinder.heuristics.*;
 import net.quackster.icarus.game.room.Room;
 import net.quackster.icarus.game.room.models.RoomModel;
 import net.quackster.icarus.game.user.Session;
@@ -57,10 +56,10 @@ public class SessionRoom {
 
 	public void createPathfinder() {
 
-		AreaMap map = new AreaMap(this.model, this.room.regenerateCollisionMap());
+		AreaMap map = new AreaMap(this.model, this.room.getCollisionMap());
 		AStarHeuristic heuristic = new ClosestHeuristic();
 
-		this.pathfinder = new Pathfinder(map, heuristic);//new DiagonalHeuristic());
+		this.setPathfinder(new Pathfinder(map, heuristic));//new DiagonalHeuristic());
 	}
 
 
@@ -72,6 +71,7 @@ public class SessionRoom {
 
 		this.needsUpdate = needsUpdate;
 		this.isWalking = false;
+		this.setPath(null);
 
 	}
 
@@ -85,6 +85,10 @@ public class SessionRoom {
 		this.room = null;
 		this.pathfinder = null;
 		this.session = null;
+		this.model = null;
+		
+		this.path.clear();
+		this.path = null;
 
 		this.statuses.clear();
 		this.statuses = null;
@@ -92,7 +96,7 @@ public class SessionRoom {
 	}
 
 	public boolean inRoom() {
-		return room != null;
+		return inRoom;
 	}
 
 	public void setInRoom(boolean inRoom) {
@@ -213,6 +217,13 @@ public class SessionRoom {
 	}
 
 	public void setPath(LinkedList<Point> path) {
+		
+		if (this.path != null) {
+			
+			this.path.clear();
+			this.path = null;
+		}
+		
 		this.path = path;
 	}
 
@@ -221,6 +232,14 @@ public class SessionRoom {
 	}
 
 	public void setPathfinder(Pathfinder pathfinder) {
+		
+		if (this.pathfinder != null) {
+			
+			this.pathfinder.dispose();
+			this.pathfinder = null;
+		}
+		
+		
 		this.pathfinder = pathfinder;
 	}
 

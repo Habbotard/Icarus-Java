@@ -5,23 +5,11 @@ import java.util.HashMap;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.headers.Incoming;
 import net.quackster.icarus.messages.headers.Outgoing;
-import net.quackster.icarus.messages.incoming.handshake.GenerateSecretKeyMessageEvent;
-import net.quackster.icarus.messages.incoming.handshake.InitCryptoMessageEvent;
-import net.quackster.icarus.messages.incoming.handshake.SSOTicketMessageEvent;
-import net.quackster.icarus.messages.incoming.handshake.UniqueIDMessageEvent;
-import net.quackster.icarus.messages.incoming.handshake.VersionCheckMessageEvent;
-import net.quackster.icarus.messages.incoming.misc.EventLogMessageEvent;
-import net.quackster.icarus.messages.incoming.misc.RequestLatencyTestMessageEvent;
-import net.quackster.icarus.messages.incoming.navigator.NewNavigatorMessageEvent;
-import net.quackster.icarus.messages.incoming.navigator.SearchNewNavigatorEvent;
-import net.quackster.icarus.messages.incoming.room.EnterRoomMessageEvent;
-import net.quackster.icarus.messages.incoming.room.RoomInfoMessageEvent;
-import net.quackster.icarus.messages.incoming.room.LeaveRoomMessageEvent;
-import net.quackster.icarus.messages.incoming.room.RequestHeightmapMessageEvent;
-import net.quackster.icarus.messages.incoming.room.RoomSuccessMessageEvent;
-import net.quackster.icarus.messages.incoming.room.UserWalkMessageEvent;
-import net.quackster.icarus.messages.incoming.user.GetCurrencyBalanceMessageEvent;
-import net.quackster.icarus.messages.incoming.user.InfoRetrieveMessageEvent;
+import net.quackster.icarus.messages.incoming.handshake.*;
+import net.quackster.icarus.messages.incoming.misc.*;
+import net.quackster.icarus.messages.incoming.navigator.*;
+import net.quackster.icarus.messages.incoming.room.*;
+import net.quackster.icarus.messages.incoming.user.*;
 import net.quackster.icarus.netty.readers.Request;
 import net.quackster.icarus.netty.readers.Response;
 
@@ -71,7 +59,6 @@ public class MessageHandler {
 		this.messages.put(Incoming.RoomInfoMessageEvent, new RoomInfoMessageEvent());
 		this.messages.put(Incoming.EnterRoomMessageEvent, new EnterRoomMessageEvent());
 		this.messages.put(Incoming.RequestHeightmapMessageEvent, new RequestHeightmapMessageEvent());
-		//this.messages.put(Incoming.RoomSuccessMessageEvent, new RoomSuccessMessageEvent());
 		this.messages.put(Incoming.UserWalkMessageEvent, new UserWalkMessageEvent());
 		this.messages.put(Incoming.LeaveRoomMessageEvent, new LeaveRoomMessageEvent());
 	}

@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 public class CharacterDetails {
 
-	private int id;
+	private int id = -1;
 	private String username = "Alex";
 	private String motto = "banana man";
 	private String figure = "fa-1201-0.lg-270-91.hd-180-1.sh-300-91.ch-805-84.hr-125-42";
@@ -22,6 +22,13 @@ public class CharacterDetails {
 		this.motto = row.getString("motto");
 		this.figure = row.getString("figure");
 		this.authenticated = true;
+	}
+	
+	public void dispose() {
+		
+		this.username = null;
+		this.motto = null;
+		this.figure = null;
 	}
 	
 	public int getId() {
