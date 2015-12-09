@@ -13,6 +13,7 @@ import net.quackster.icarus.game.room.models.RoomModel;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.log.Log;
 import net.quackster.icarus.messages.headers.Outgoing;
+import net.quackster.icarus.messages.outgoing.room.user.DanceMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.user.RoomUsersMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.user.UpdateUserStatusMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.user.UserLeftRoomMessageComposer;
@@ -138,6 +139,14 @@ public class Room {
 		// send new person entering everyone else in the room
 		session.send(new RoomUsersMessageComposer(this.users));
 		session.send(new UpdateUserStatusMessageComposer(this.users));
+		
+		// send new player the people who are dancing
+		for (Session players : this.users) {
+			
+			if (players.getRoomUser().isDancing()) {
+				session.send(new DanceMessageComposer(players.getRoomUser().getVirtualId(), players.getRoomUser().getDanceId()));
+			}
+		}
 
 	}
 
@@ -158,7 +167,7 @@ public class Room {
 		roomUser.reset();
 
 		this.getUsers().remove(session);
-		this.privateId = this.privateId - 1;
+		//this.privateId = this.privateId - 1;
 
 		if (this.users.size() == 0) {
 			if (this.tickTask != null) {

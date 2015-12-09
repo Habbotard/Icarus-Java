@@ -22,6 +22,7 @@ public class RoomUser {
 
 	private int virtualId;
 	private int lastChatId;
+	private int danceId;
 	
 	private int X;
 	private int Y;
@@ -66,6 +67,7 @@ public class RoomUser {
 		this.virtualId = -1;
 		this.chatFloodTimer = 0;
 		this.chatCount = 0;
+		this.danceId = 0;
 
 		this.room = null;
 		this.inRoom = false;
@@ -197,6 +199,18 @@ public class RoomUser {
 
 	public void setLastChatId(int lastChatId) {
 		this.lastChatId = lastChatId;
+	}
+
+	public int getDanceId() {
+		return danceId;
+	}
+
+	public void setDanceId(int danceId) {
+		this.danceId = danceId;
+	}
+	
+	public boolean isDancing() {
+		return this.danceId != 0;
 	}
 
 	public int getX() {
