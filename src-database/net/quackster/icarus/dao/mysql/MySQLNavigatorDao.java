@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.quackster.icarus.Icarus;
 import net.quackster.icarus.dao.INavigatorDao;
 import net.quackster.icarus.game.navigator.NavigatorTab;
 import net.quackster.icarus.log.Log;

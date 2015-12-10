@@ -1,6 +1,5 @@
 package net.quackster.icarus.game.navigator;
 
-import java.sql.ResultSet;
 import java.util.List;
 import java.util.stream.Collectors;
 

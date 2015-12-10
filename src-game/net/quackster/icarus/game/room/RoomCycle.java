@@ -90,6 +90,11 @@ public class RoomCycle implements Runnable {
 			if (usersToUpdate.size() > 0) {
 				room.send(new UserStatusMessageComposer(usersToUpdate));
 				this.usersToUpdate.clear();
+				
+				// regenerate map at the end of people walking if the room disallows people walking through each other
+				if (!room.isAllowWalkthrough()) {
+					room.regenerateCollisionMap();
+				}
 			}
 			
 			users.clear();
