@@ -8,7 +8,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import net.quackster.icarus.Icarus;
-import net.quackster.icarus.dao.room.RoomDao;
+import net.quackster.icarus.dao.mysql.MySQLRoomDao;
 import net.quackster.icarus.game.room.models.RoomModel;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.log.Log;
@@ -52,35 +52,45 @@ public class Room {
 	private int privateId;
 	private ScheduledFuture<?> tickTask;
 
-	public Room(ResultSet row, String ownerName) throws SQLException {
-
-		this.id = row.getInt("id");
-		this.ownerId = row.getInt("owner_id");
-		this.ownerName = ownerName;
-		this.groupId = row.getInt("group_id");
-		this.name = row.getString("name");
-		this.description = row.getString("description");
-		this.state = row.getInt("state");
-		this.tradeState = row.getInt("trade_state");
-		this.model = row.getString("model");
-		this.wall = row.getString("wallpaper");
-		this.floor = row.getString("floor");
-		this.landscape = row.getString("outside");
-		this.usersNow =  row.getInt("users_now");
-		this.usersMax =  row.getInt("users_max");
-		this.allowPets = row.getBoolean("allow_pets");
-		this.allowPetsEat = row.getBoolean("allow_pets_eat");
-		this.allowWalkthrough = row.getBoolean("allow_walkthrough");
-		this.hideWall = row.getBoolean("hidewall");
-		this.wallThickness = row.getInt("wall_thickness");
-		this.floorThickness = row.getInt("floor_thickness");
-		this.tagFormat = row.getString("tags");
-
+	public Room() {
 		this.users = new ArrayList<Session>();
 		this.privateId = 0;
-
-		this.regenerateCollisionMap();
 	}
+	
+	public void fill(int id, int ownerId, String ownerName, String name, int state, int usersNow, int usersMax,
+			String description, int tradeState, int score, int category, int groupId, String model, String wall,
+			String floor, String landscape, boolean allowPets, boolean allowPetsEat, boolean allowWalkthrough,
+			boolean hideWall, int wallThickness, int floorThickness, String tagFormat) {
+		
+		this.id = id;
+		this.ownerId = ownerId;
+		this.ownerName = ownerName;
+		this.name = name;
+		this.state = state;
+		this.usersNow = usersNow;
+		this.usersMax = usersMax;
+		this.description = description;
+		this.tradeState = tradeState;
+		this.score = score;
+		this.category = category;
+		this.groupId = groupId;
+		this.model = model;
+		this.wall = wall;
+		this.floor = floor;
+		this.landscape = landscape;
+		this.allowPets = allowPets;
+		this.allowPetsEat = allowPetsEat;
+		this.allowWalkthrough = allowWalkthrough;
+		this.hideWall = hideWall;
+		this.wallThickness = wallThickness;
+		this.floorThickness = floorThickness;
+		this.tagFormat = tagFormat;
+	}
+
+	/*public void fill(ResultSet row, String ownerName) throws SQLException {
+		
+		this.regenerateCollisionMap();
+	}*/
 
 	public void regenerateCollisionMap() {
 
@@ -402,7 +412,7 @@ public class Room {
 	}
 
 	public RoomModel getModel() {
-		return RoomDao.getModel(this.model);
+		return Icarus.getDao().getRoom().getModel(this.model);
 	}
 
 	public String getTagFormat() {

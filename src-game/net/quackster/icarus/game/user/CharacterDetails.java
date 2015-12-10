@@ -1,6 +1,5 @@
 package net.quackster.icarus.game.user;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CharacterDetails {
@@ -15,12 +14,12 @@ public class CharacterDetails {
 		this.authenticated = false;
 	}
 	
-	public void fill(ResultSet row) throws SQLException {
+	public void fill(int id, String username, String motto, String figure) throws SQLException {
 		
-		this.id = row.getInt("id");
-		this.username = row.getString("username");
-		this.motto = row.getString("motto");
-		this.figure = row.getString("figure");
+		this.id = id;
+		this.username = username;
+		this.motto = motto;
+		this.figure = figure;
 		this.authenticated = true;
 	}
 	

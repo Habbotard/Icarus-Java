@@ -5,7 +5,7 @@ import java.util.List;
 import org.jboss.netty.channel.Channel;
 
 import net.quackster.icarus.Icarus;
-import net.quackster.icarus.dao.room.RoomDao;
+import net.quackster.icarus.dao.mysql.MySQLRoomDao;
 import net.quackster.icarus.game.room.Room;
 import net.quackster.icarus.game.room.RoomUser;
 import net.quackster.icarus.netty.readers.Request;
@@ -69,7 +69,7 @@ public class Session {
 					this.roomUser.getRoom().leaveRoom(this, false);
 				}
 
-				List<Room> rooms = RoomDao.getPlayerRooms(this.details);
+				List<Room> rooms = Icarus.getDao().getRoom().getPlayerRooms(this.details);
 
 				if (rooms.size() > 0) {
 					for (Room room : rooms) {

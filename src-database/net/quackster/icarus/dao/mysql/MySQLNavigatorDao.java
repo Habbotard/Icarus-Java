@@ -1,17 +1,18 @@
-package net.quackster.icarus.dao.navigator;
+package net.quackster.icarus.dao.mysql;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
 import net.quackster.icarus.Icarus;
+import net.quackster.icarus.dao.INavigatorDao;
 import net.quackster.icarus.game.navigator.NavigatorTab;
 import net.quackster.icarus.log.Log;
 import net.quackster.icarus.mysql.Storage;
 
-public class NavigatorDao {
+public class MySQLNavigatorDao implements INavigatorDao {
 
-	public static List<NavigatorTab> getTabs(int childId) {
+	public List<NavigatorTab> getTabs(int childId) {
 
 		List<NavigatorTab> tabs = new ArrayList<NavigatorTab>();
 
@@ -25,7 +26,7 @@ public class NavigatorDao {
 				
 				NavigatorTab tab = new NavigatorTab(row);
 				tabs.add(tab);	
-				tabs.addAll(NavigatorDao.getTabs(tab.getId()));
+				tabs.addAll(getTabs(tab.getId()));
 			}
 
 		} catch (Exception e) {

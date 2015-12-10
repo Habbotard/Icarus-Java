@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import net.quackster.icarus.dao.Dao;
+import net.quackster.icarus.dao.mysql.MySQLDao;
 import net.quackster.icarus.game.Game;
 import net.quackster.icarus.log.Log;
 import net.quackster.icarus.mysql.Storage;
@@ -17,6 +19,7 @@ public class Icarus {
 	public static int PublicCount = 0;
 	private static Storage mysql;
 	private static Game game;
+	private static Dao dao;
 
 	//private static final String REVISION = "PRODUCTION-201506161211-776084490";
 	private static final String REVISION = "PRODUCTION-201506161211-776084490";//PRODUCTION-201512012203-525044429";
@@ -31,8 +34,15 @@ public class Icarus {
 			printSystemInfo();
 			Log.println();
 
-			if (connectMySQL()) {
-
+			boolean databaseSuccess = false;
+			
+			if (utilities.getConfiguration().get("database-type").equalsIgnoreCase("mysql")) {
+				databaseSuccess = connectMySQL();
+				dao = new MySQLDao();
+			}
+			
+			if (databaseSuccess) {
+				
 				game = new Game();
 				startServer();
 			
@@ -67,6 +77,8 @@ public class Icarus {
 		writer.println();
 		writer.println("server-ip=127.0.0.1");
 		writer.println("server-port=30000");
+		writer.println();
+		writer.println("database-type=mysql");
 		writer.println();
 		writer.println("mysql-hostname=127.0.0.1");
 		writer.println("mysql-username=root");
@@ -137,5 +149,9 @@ public class Icarus {
 
 	public static Game getGame() {
 		return game;
+	}
+
+	public static Dao getDao() {
+		return dao;
 	}
 }

@@ -3,14 +3,15 @@ package net.quackster.icarus.game.navigator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import net.quackster.icarus.dao.navigator.NavigatorDao;
+import net.quackster.icarus.Icarus;
+import net.quackster.icarus.dao.mysql.MySQLNavigatorDao;
 
 public class NavigatorManager {
 
 	private List<NavigatorTab> tabs;
 	
 	public NavigatorManager() throws Exception {
-		this.tabs = NavigatorDao.getTabs(-1);
+		this.tabs = Icarus.getDao().getNavigator().getTabs(-1);
 	}
 	
 	public NavigatorTab getTab(String tabName) {

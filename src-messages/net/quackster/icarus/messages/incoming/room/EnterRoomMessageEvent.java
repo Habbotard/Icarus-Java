@@ -1,6 +1,7 @@
 package net.quackster.icarus.messages.incoming.room;
 
-import net.quackster.icarus.dao.room.RoomDao;
+import net.quackster.icarus.Icarus;
+import net.quackster.icarus.dao.mysql.MySQLRoomDao;
 import net.quackster.icarus.game.room.Room;
 import net.quackster.icarus.game.room.RoomUser;
 import net.quackster.icarus.game.user.Session;
@@ -17,7 +18,7 @@ public class EnterRoomMessageEvent implements Message {
 	@Override
 	public void handle(Session session, Request request) {
 
-		Room room = RoomDao.getRoom(request.readInt(), true);
+		Room room = Icarus.getDao().getRoom().getRoom(request.readInt(), true);
 		
 		if (room == null) {
 			return;

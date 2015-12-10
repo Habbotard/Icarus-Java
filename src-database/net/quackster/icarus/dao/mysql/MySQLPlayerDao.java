@@ -1,18 +1,20 @@
-package net.quackster.icarus.dao.user;
+package net.quackster.icarus.dao.mysql;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import net.quackster.icarus.Icarus;
+import net.quackster.icarus.dao.IPlayerDao;
 import net.quackster.icarus.game.user.CharacterDetails;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.log.Log;
 import net.quackster.icarus.mysql.Storage;
 
-public class PlayerDao {
+public class MySQLPlayerDao implements IPlayerDao {
 
-	public static CharacterDetails getDetails(int userId) {
+	@Override
+	public CharacterDetails getDetails(int userId) {
 		
 		try {
 			
@@ -27,8 +29,7 @@ public class PlayerDao {
 				return null;
 			}
 
-			details.fill(row);
-			details.setAuthenticated(true);
+			this.fill(details, row);
 			
 			Storage.releaseObject(row);
 			
@@ -41,7 +42,7 @@ public class PlayerDao {
 		return null;
 	}
 	
-	public static boolean login(Session session, String ssoTicket) {
+	public boolean login(Session session, String ssoTicket) {
 		
 		try {
 			
@@ -54,7 +55,7 @@ public class PlayerDao {
 				return false;
 			}
 			
-			session.getDetails().fill(row);
+			this.fill(session.getDetails(), row);
 			
 			Storage.releaseObject(row);
 			
@@ -65,6 +66,15 @@ public class PlayerDao {
 		}
 		
 		return false;
+	}
+
+	@Override
+	public CharacterDetails fill(CharacterDetails instance, Object data) throws SQLException {
+		
+		ResultSet row = (ResultSet)data;
+		instance.fill(row.getInt("id"), row.getString("username"), row.getString("motto"),  row.getString("figure"));
+		
+		return instance;
 	}
 	
 }
