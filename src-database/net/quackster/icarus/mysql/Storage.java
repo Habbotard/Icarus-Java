@@ -16,13 +16,13 @@ public class Storage {
 
 	private BoneCP connections = null;
 	private BoneCPConfig config;
-	private boolean failedConnection;
+	private boolean isConnected;
 
 	public Storage(String host, String username, String password, String db) {
 		
 		checkDriver();
 
-		this.failedConnection = false;
+		this.isConnected = true;
 
 		try {
 			config = new BoneCPConfig();
@@ -35,10 +35,11 @@ public class Storage {
 			config.setMaxConnectionsPerPartition(5);
 			config.setConnectionTimeout(1000, TimeUnit.SECONDS);
 			config.setPartitionCount(Runtime.getRuntime().availableProcessors()); // set partion count to number of cores (inc. hyperthreading)
+			
 			this.connections = new BoneCP(config);
 
 		} catch(Exception e) {
-			this.failedConnection = true;
+			this.isConnected = false;
 			Log.exception(e);
 		}
 	}
@@ -219,7 +220,6 @@ public class Storage {
 		}
 	}
 	
-
 	public void checkDriver() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -236,7 +236,7 @@ public class Storage {
 		return this.connections;
 	}
 
-	public boolean connectionFailed() {
-		return this.failedConnection;
+	public boolean isConnected() {
+		return this.isConnected;
 	}
 }

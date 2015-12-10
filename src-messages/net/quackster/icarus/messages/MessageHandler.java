@@ -75,7 +75,7 @@ public class MessageHandler {
 			Response response = new Response(Outgoing.RelationshipMessageComposer);
 			response.appendInt32(message.readInt());
 			response.appendInt32(0);
-			session.send(response);
+			//session.send(response);
 			return;
 		}
 		

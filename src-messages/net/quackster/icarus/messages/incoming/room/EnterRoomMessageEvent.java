@@ -2,6 +2,7 @@ package net.quackster.icarus.messages.incoming.room;
 
 import net.quackster.icarus.dao.room.RoomDao;
 import net.quackster.icarus.game.room.Room;
+import net.quackster.icarus.game.room.RoomUser;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.Message;
 import net.quackster.icarus.messages.headers.Outgoing;
@@ -22,16 +23,11 @@ public class EnterRoomMessageEvent implements Message {
 			return;
 		}
 		
-		if (session.getRoomUser().inRoom()) {
-
-			if (session.getRoomUser().getRoom() != room) {
-				session.getRoomUser().getRoom().leaveRoom(session, false);
-			}
-		}
+		RoomUser roomUser = session.getRoomUser();
 		
-		session.getRoomUser().setRoom(room);
-		session.getRoomUser().setLoadingRoom(true);
-		session.getRoomUser().getStatuses().clear();
+		roomUser.setRoom(room);
+		roomUser.setLoadingRoom(true);
+		roomUser.getStatuses().clear();
 		
         session.send(new InitialRoomInfoMessageComposer(room));
 		
@@ -47,7 +43,13 @@ public class EnterRoomMessageEvent implements Message {
 		
 
 		Response response = new Response(Outgoing.RoomRatingMessageComposer);
-        response.appendInt32(0);
+		
+		if (roomUser.getRoom().getOwnerId() == session.getDetails().getId()) {
+			response.appendInt32(4);
+			roomUser.getStatuses().put("flatctrl 1", "");
+		} else {
+			response.appendInt32(0);
+		}
         response.appendBoolean(false); // did i rate it and NOT owner
         session.send(response);
 		

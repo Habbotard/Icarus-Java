@@ -27,17 +27,14 @@ public class RoomInfoMessageEvent implements Message {
 
 			if (roomUser.getRoom() != room) {
 				roomUser.getRoom().leaveRoom(session, false);
-			}
-			
-			if (roomUser.getRoom() == room) {
+			} else {
 				forwardPlayer = false;
 			}
 		}
 		
 		if (roomUser.isLoadingRoom()) {
-			System.out.println("xd");
-			return;
-		} 
+			forwardPlayer = false;
+		}
 		
 		session.send(new RoomDataMessageComposer(room, session, forwardPlayer));
 

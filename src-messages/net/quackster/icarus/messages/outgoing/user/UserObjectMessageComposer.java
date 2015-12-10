@@ -9,7 +9,7 @@ public class UserObjectMessageComposer extends Response {
 	public UserObjectMessageComposer(CharacterDetails details) {
 		
 		this.init(Outgoing.UserObjectMessageComposer);
-		this.appendInt32(1); // User ID
+		this.appendInt32(details.getId()); // User ID
 		this.appendString(details.getUsername()); // Username
 		this.appendString(details.getFigure()); // Figure
 		this.appendString("M"); // Gender

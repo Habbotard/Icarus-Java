@@ -12,7 +12,7 @@ import net.quackster.icarus.game.room.models.RoomModel;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.outgoing.room.user.FloodFilterMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.user.TalkMessageComposer;
-import net.quackster.icarus.messages.outgoing.room.user.UpdateUserStatusMessageComposer;
+import net.quackster.icarus.messages.outgoing.room.user.UserStatusMessageComposer;
 import net.quackster.icarus.util.GameSettings;
 
 public class RoomUser {
@@ -23,17 +23,17 @@ public class RoomUser {
 	private int virtualId;
 	private int lastChatId;
 	private int danceId;
-	
+
 	private int X;
 	private int Y;
 	private double height;
-	
+
 	private int goalX;
 	private int goalY;
 
 	private int rotation;
 	private int headRotation;
-	
+
 	private long chatFloodTimer;
 	private int chatCount;
 
@@ -54,12 +54,12 @@ public class RoomUser {
 
 		this.statuses = new HashMap<String, String>();
 		this.path = new LinkedList<Point>();
-		
+
 		this.reset();
 	}
 
 	public void reset() {
-		
+
 		this.statuses.clear();
 		this.goalX = -1;
 		this.goalY = -1;
@@ -70,10 +70,11 @@ public class RoomUser {
 		this.danceId = 0;
 
 		this.room = null;
-		this.inRoom = false;
 		this.isLoadingRoom = false;
+		
+		this.inRoom = false;
 	}
-	
+
 	public void createPathfinder() {
 
 		AreaMap map = new AreaMap(this.model, this.room.getCollisionMap());
@@ -96,9 +97,9 @@ public class RoomUser {
 	}
 
 	public void updateStatus() {
-		this.room.send(new UpdateUserStatusMessageComposer(session));
+		this.room.send(new UserStatusMessageComposer(session));
 	}
-	
+
 
 	public void chat(String message, int bubble, int count, boolean shout) {
 
@@ -121,7 +122,7 @@ public class RoomUser {
 		// the chat count is reset then
 
 		if (!session.getDetails().hasFuse("moderator")) {
-			
+
 			if (Icarus.getUtilities().getTimestamp() > this.chatFloodTimer && this.chatCount >= GameSettings.MAX_CHAT_BEFORE_FLOOD) {
 				this.chatCount = 0;
 			} else {
@@ -132,7 +133,7 @@ public class RoomUser {
 
 		}
 	}
-		
+
 
 	public void dispose() {
 
@@ -140,7 +141,7 @@ public class RoomUser {
 		this.pathfinder = null;
 		this.session = null;
 		this.model = null;
-		
+
 		this.path.clear();
 		this.path = null;
 
@@ -150,7 +151,7 @@ public class RoomUser {
 	}
 
 	public boolean inRoom() {
-		return inRoom;
+		return inRoom && !this.isLoadingRoom; // player is actually inside the room and not busy loading it
 	}
 
 	public void setInRoom(boolean inRoom) {
@@ -208,7 +209,7 @@ public class RoomUser {
 	public void setDanceId(int danceId) {
 		this.danceId = danceId;
 	}
-	
+
 	public boolean isDancing() {
 		return this.danceId != 0;
 	}
@@ -264,7 +265,7 @@ public class RoomUser {
 	public void setRotation(int rotation, boolean headOnly) {
 
 		this.headRotation = rotation;
-		
+
 		if (!headOnly) {
 			this.rotation = rotation;
 		}
@@ -308,13 +309,13 @@ public class RoomUser {
 	}
 
 	public void setPath(LinkedList<Point> path) {
-		
+
 		if (this.path != null) {
-			
+
 			this.path.clear();
 			this.path = null;
 		}
-		
+
 		this.path = path;
 	}
 
@@ -323,14 +324,14 @@ public class RoomUser {
 	}
 
 	public void setPathfinder(Pathfinder pathfinder) {
-		
+
 		if (this.pathfinder != null) {
-			
+
 			this.pathfinder.dispose();
 			this.pathfinder = null;
 		}
-		
-		
+
+
 		this.pathfinder = pathfinder;
 	}
 

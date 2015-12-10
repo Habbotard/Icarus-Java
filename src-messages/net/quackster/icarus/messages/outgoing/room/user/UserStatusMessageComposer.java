@@ -8,22 +8,22 @@ import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.headers.Outgoing;
 import net.quackster.icarus.netty.readers.Response;
 
-public class UpdateUserStatusMessageComposer extends Response {
+public class UserStatusMessageComposer extends Response {
 
-	public UpdateUserStatusMessageComposer(Session session) {
-		this.compose(Arrays.asList(new Session[] { session } ));
+	public UserStatusMessageComposer(Session session) {
+		this.compose(Arrays.asList(new Session[] { session }));
 	}
 
 
-	public UpdateUserStatusMessageComposer(List<Session> users) {
+	public UserStatusMessageComposer(List<Session> users) {
 		this.compose(users);
 	}
 
 
 	public void compose(List<Session> users) {
 
-		this.init(Outgoing.UpdateUserStatusMessageComposer);
-
+		this.init(Outgoing.UserStatusMessageComposer);
+		
 		synchronized (users) {
 
 			this.appendInt32(users.size());

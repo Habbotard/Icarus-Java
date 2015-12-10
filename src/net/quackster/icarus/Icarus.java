@@ -31,11 +31,12 @@ public class Icarus {
 			printSystemInfo();
 			Log.println();
 
-			connectMySQL();
+			if (connectMySQL()) {
 
-			game = new Game();
-
-			startServer();
+				game = new Game();
+				startServer();
+			
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -79,12 +80,17 @@ public class Icarus {
 
 	}
 
-	private static void connectMySQL() {
+	private static boolean connectMySQL() {
 
 		Log.println("Connecting to MySQL server");
 
+		boolean success = true;
+		
 		mysql = new Storage(utilities.getConfiguration().get("mysql-hostname"), utilities.getConfiguration().get("mysql-username"), utilities.getConfiguration().get("mysql-password"), utilities.getConfiguration().get("mysql-database")); {
-			if (mysql.connectionFailed()) {
+			
+			success = mysql.isConnected();
+			
+			if (!success) {
 				Log.println("Could not connect");
 			} else {
 				Log.println("Connection to MySQL was a success");
@@ -92,6 +98,8 @@ public class Icarus {
 		}
 
 		Log.println();
+		
+		return success;
 	}
 
 	private static void startServer() {

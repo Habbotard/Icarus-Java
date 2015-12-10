@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import net.quackster.icarus.game.room.models.Rotation;
 import net.quackster.icarus.game.user.Session;
-import net.quackster.icarus.messages.outgoing.room.user.UpdateUserStatusMessageComposer;
+import net.quackster.icarus.messages.outgoing.room.user.UserStatusMessageComposer;
 import net.quackster.icarus.game.pathfinder.Point;
 
 public class RoomCycle implements Runnable {
@@ -88,7 +88,7 @@ public class RoomCycle implements Runnable {
 			}
 
 			if (usersToUpdate.size() > 0) {
-				room.send(new UpdateUserStatusMessageComposer(usersToUpdate));
+				room.send(new UserStatusMessageComposer(usersToUpdate));
 				this.usersToUpdate.clear();
 			}
 			

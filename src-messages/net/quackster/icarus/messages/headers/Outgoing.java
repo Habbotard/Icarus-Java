@@ -94,8 +94,8 @@ public class Outgoing {
     public static final short HeightMapMessageComposer = 3677;
     public static final short FloorMapMessageComposer = 2759;
     public static final short HasOwnerRightsMessageComposer = 2599;
-    public static final short RoomUsersMessageComposer = 1321;
-    public static final short UpdateUserStatusMessageComposer = 2463;
+    public static final short UserDisplayMessageComposer = 1321;
+    public static final short UserStatusMessageComposer = 2463;
     public static final short RoomSpacesMessageComposer = 3139;
     public static final short RoomChatOptionsMessageComposer = 3635;
     public static final short RoomErrorMessageComposer = 1214;

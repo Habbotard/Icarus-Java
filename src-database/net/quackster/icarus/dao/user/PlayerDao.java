@@ -16,7 +16,7 @@ public class PlayerDao {
 		
 		try {
 			
-			PreparedStatement statement = Icarus.getStorage().prepare("SELECT * FROM users WHERE user_id = ? LIMIT 1");
+			PreparedStatement statement = Icarus.getStorage().prepare("SELECT * FROM users WHERE id = ? LIMIT 1");
 			statement.setInt(1, userId);
 
 			ResultSet row = statement.executeQuery();

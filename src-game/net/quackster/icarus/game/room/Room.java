@@ -14,9 +14,9 @@ import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.log.Log;
 import net.quackster.icarus.messages.headers.Outgoing;
 import net.quackster.icarus.messages.outgoing.room.user.DanceMessageComposer;
-import net.quackster.icarus.messages.outgoing.room.user.RoomUsersMessageComposer;
-import net.quackster.icarus.messages.outgoing.room.user.UpdateUserStatusMessageComposer;
-import net.quackster.icarus.messages.outgoing.room.user.UserLeftRoomMessageComposer;
+import net.quackster.icarus.messages.outgoing.room.user.UserDisplayMessageComposer;
+import net.quackster.icarus.messages.outgoing.room.user.UserStatusMessageComposer;
+import net.quackster.icarus.messages.outgoing.room.user.RemoveUserMessageComposer;
 import net.quackster.icarus.netty.readers.Response;
 import net.quackster.icarus.game.pathfinder.Point;
 
@@ -129,16 +129,16 @@ public class Room {
 		user.setHeight(this.getModel().getSquareHeight()[user.getX()][user.getY()]);
 
 		// notify users of new person
-		this.send(new RoomUsersMessageComposer(session));
-		this.send(new UpdateUserStatusMessageComposer(session));
+		this.send(new UserDisplayMessageComposer(session));
+		this.send(new UserStatusMessageComposer(session));
 
 		if (!this.users.contains(session)) {
 			this.users.add(session);
 		}
 
 		// send new person entering everyone else in the room
-		session.send(new RoomUsersMessageComposer(this.users));
-		session.send(new UpdateUserStatusMessageComposer(this.users));
+		session.send(new UserDisplayMessageComposer(this.users));
+		session.send(new UserStatusMessageComposer(this.users));
 		
 		// send new player the people who are dancing
 		for (Session players : this.users) {
@@ -159,7 +159,7 @@ public class Room {
 			session.send(response);
 		}
 
-		this.send(new UserLeftRoomMessageComposer(session.getDetails().getId()));
+		this.send(new RemoveUserMessageComposer(session.getRoomUser().getVirtualId()));
 		
 		RoomUser roomUser = session.getRoomUser();
 
