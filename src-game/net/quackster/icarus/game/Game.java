@@ -1,6 +1,5 @@
 package net.quackster.icarus.game;
 
-import net.quackster.icarus.dao.mysql.MySQLRoomDao;
 import net.quackster.icarus.game.navigator.NavigatorManager;
 import net.quackster.icarus.game.room.RoomManager;
 

@@ -1,0 +1,76 @@
+---------------------------------------------
+ 12/11/2015 02:31:06 - Error has occured!
+org.jboss.netty.channel.ChannelException: Failed to bind to: /127.0.0.1:30000
+	at org.jboss.netty.bootstrap.ServerBootstrap.bind(ServerBootstrap.java:272)
+	at net.quackster.icarus.netty.connections.Connection.listenSocket(Connection.java:81)
+	at net.quackster.icarus.Icarus.startServer(Icarus.java:127)
+	at net.quackster.icarus.Icarus.main(Icarus.java:47)
+Caused by: java.net.BindException: Address already in use: bind
+	at sun.nio.ch.Net.bind0(Native Method)
+	at sun.nio.ch.Net.bind(Net.java:433)
+	at sun.nio.ch.Net.bind(Net.java:425)
+	at sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:223)
+	at sun.nio.ch.ServerSocketAdaptor.bind(ServerSocketAdaptor.java:74)
+	at org.jboss.netty.channel.socket.nio.NioServerBoss$RegisterTask.run(NioServerBoss.java:193)
+	at org.jboss.netty.channel.socket.nio.AbstractNioSelector.processTaskQueue(AbstractNioSelector.java:391)
+	at org.jboss.netty.channel.socket.nio.AbstractNioSelector.run(AbstractNioSelector.java:315)
+	at org.jboss.netty.channel.socket.nio.NioServerBoss.run(NioServerBoss.java:42)
+	at org.jboss.netty.util.ThreadRenamingRunnable.run(ThreadRenamingRunnable.java:108)
+	at org.jboss.netty.util.internal.DeadLockProofWorker$1.run(DeadLockProofWorker.java:42)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+
+---------------------------------------------
+ 12/11/2015 02:46:32 - Error has occured!
+java.lang.NullPointerException
+	at net.quackster.icarus.dao.mysql.MySQLRoomDao.getModel(MySQLRoomDao.java:128)
+	at net.quackster.icarus.game.room.Room.getModel(Room.java:414)
+	at net.quackster.icarus.game.room.Room.regenerateCollisionMap(Room.java:96)
+	at net.quackster.icarus.game.room.Room.fill(Room.java:86)
+	at net.quackster.icarus.dao.mysql.MySQLRoomDao.fill(MySQLRoomDao.java:136)
+	at net.quackster.icarus.dao.mysql.MySQLRoomDao.getPlayerRooms(MySQLRoomDao.java:71)
+	at net.quackster.icarus.messages.incoming.handshake.SSOTicketMessageEvent.handle(SSOTicketMessageEvent.java:30)
+	at net.quackster.icarus.messages.MessageHandler.handleRequest(MessageHandler.java:116)
+	at net.quackster.icarus.netty.connections.ConnectionHandler.messageReceived(ConnectionHandler.java:54)
+	at org.jboss.netty.channel.SimpleChannelHandler.handleUpstream(SimpleChannelHandler.java:88)
+	at org.jboss.netty.channel.DefaultChannelPipeline.sendUpstream(DefaultChannelPipeline.java:564)
+	at org.jboss.netty.channel.DefaultChannelPipeline$DefaultChannelHandlerContext.sendUpstream(DefaultChannelPipeline.java:791)
+	at org.jboss.netty.channel.Channels.fireMessageReceived(Channels.java:296)
+	at org.jboss.netty.handler.codec.frame.FrameDecoder.unfoldAndFireMessageReceived(FrameDecoder.java:462)
+	at org.jboss.netty.handler.codec.frame.FrameDecoder.callDecode(FrameDecoder.java:443)
+	at org.jboss.netty.handler.codec.frame.FrameDecoder.messageReceived(FrameDecoder.java:303)
+	at org.jboss.netty.channel.SimpleChannelUpstreamHandler.handleUpstream(SimpleChannelUpstreamHandler.java:70)
+	at org.jboss.netty.channel.DefaultChannelPipeline.sendUpstream(DefaultChannelPipeline.java:564)
+	at org.jboss.netty.channel.DefaultChannelPipeline$DefaultChannelHandlerContext.sendUpstream(DefaultChannelPipeline.java:791)
+	at org.jboss.netty.channel.SimpleChannelHandler.messageReceived(SimpleChannelHandler.java:142)
+	at org.jboss.netty.channel.SimpleChannelHandler.handleUpstream(SimpleChannelHandler.java:88)
+	at org.jboss.netty.channel.DefaultChannelPipeline.sendUpstream(DefaultChannelPipeline.java:564)
+	at org.jboss.netty.channel.DefaultChannelPipeline.sendUpstream(DefaultChannelPipeline.java:559)
+	at org.jboss.netty.channel.Channels.fireMessageReceived(Channels.java:268)
+	at org.jboss.netty.channel.Channels.fireMessageReceived(Channels.java:255)
+	at org.jboss.netty.channel.socket.nio.NioWorker.read(NioWorker.java:88)
+	at org.jboss.netty.channel.socket.nio.AbstractNioWorker.process(AbstractNioWorker.java:108)
+	at org.jboss.netty.channel.socket.nio.AbstractNioSelector.run(AbstractNioSelector.java:337)
+	at org.jboss.netty.channel.socket.nio.AbstractNioWorker.run(AbstractNioWorker.java:89)
+	at org.jboss.netty.channel.socket.nio.NioWorker.run(NioWorker.java:178)
+	at org.jboss.netty.util.ThreadRenamingRunnable.run(ThreadRenamingRunnable.java:108)
+	at org.jboss.netty.util.internal.DeadLockProofWorker$1.run(DeadLockProofWorker.java:42)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+
+---------------------------------------------
+ 12/11/2015 02:46:53 - Error has occured!
+java.lang.NullPointerException
+	at net.quackster.icarus.dao.mysql.MySQLRoomDao.<init>(MySQLRoomDao.java:31)
+	at net.quackster.icarus.dao.mysql.MySQLDao.<init>(MySQLDao.java:22)
+	at net.quackster.icarus.Icarus.main(Icarus.java:36)
+
+---------------------------------------------
+ 12/11/2015 02:46:57 - Error has occured!
+java.lang.NullPointerException
+	at net.quackster.icarus.dao.mysql.MySQLRoomDao.<init>(MySQLRoomDao.java:31)
+	at net.quackster.icarus.dao.mysql.MySQLDao.<init>(MySQLDao.java:22)
+	at net.quackster.icarus.Icarus.main(Icarus.java:36)
+

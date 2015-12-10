@@ -1,8 +1,6 @@
 package net.quackster.icarus.messages.incoming.handshake;
 
 import net.quackster.icarus.Icarus;
-import net.quackster.icarus.dao.mysql.MySQLPlayerDao;
-import net.quackster.icarus.dao.mysql.MySQLRoomDao;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.Message;
 import net.quackster.icarus.messages.outgoing.handshake.AuthenticationOKMessageComposer;

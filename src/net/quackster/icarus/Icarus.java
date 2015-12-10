@@ -17,7 +17,6 @@ public class Icarus {
 	private static Connection server;
 	private static Util utilities;
 	public static int PublicCount = 0;
-	private static Storage mysql;
 	private static Game game;
 	private static Dao dao;
 
@@ -32,16 +31,12 @@ public class Icarus {
 			Log.startup();
 
 			printSystemInfo();
-			Log.println();
 
-			boolean databaseSuccess = false;
-			
 			if (utilities.getConfiguration().get("database-type").equalsIgnoreCase("mysql")) {
-				databaseSuccess = connectMySQL();
 				dao = new MySQLDao();
 			}
 			
-			if (databaseSuccess) {
+			if (dao.isConnected()) {
 				
 				game = new Game();
 				startServer();
@@ -92,28 +87,6 @@ public class Icarus {
 
 	}
 
-	private static boolean connectMySQL() {
-
-		Log.println("Connecting to MySQL server");
-
-		boolean success = true;
-		
-		mysql = new Storage(utilities.getConfiguration().get("mysql-hostname"), utilities.getConfiguration().get("mysql-username"), utilities.getConfiguration().get("mysql-password"), utilities.getConfiguration().get("mysql-database")); {
-			
-			success = mysql.isConnected();
-			
-			if (!success) {
-				Log.println("Could not connect");
-			} else {
-				Log.println("Connection to MySQL was a success");
-			}
-		}
-
-		Log.println();
-		
-		return success;
-	}
-
 	private static void startServer() {
 
 		String IPAddress = utilities.getConfiguration().get("server-ip");
@@ -129,10 +102,6 @@ public class Icarus {
 		} else {
 			Log.println("Server could not listen on " + IPAddress + ":" + serverPort + ", please double check everything is correct in icarus.properties");
 		}
-	}
-
-	public static Storage getStorage() {
-		return mysql;
 	}
 
 	public static Connection getServer() {

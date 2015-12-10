@@ -13,12 +13,18 @@ import net.quackster.icarus.mysql.Storage;
 
 public class MySQLPlayerDao implements IPlayerDao {
 
+	private MySQLDao dao;
+
+	public MySQLPlayerDao(MySQLDao dao) {
+		this.dao = dao;
+	}
+
 	@Override
 	public CharacterDetails getDetails(int userId) {
 		
 		try {
 			
-			PreparedStatement statement = Icarus.getStorage().prepare("SELECT * FROM users WHERE id = ? LIMIT 1");
+			PreparedStatement statement = dao.getStorage().prepare("SELECT * FROM users WHERE id = ? LIMIT 1");
 			statement.setInt(1, userId);
 
 			ResultSet row = statement.executeQuery();
@@ -46,7 +52,7 @@ public class MySQLPlayerDao implements IPlayerDao {
 		
 		try {
 			
-			PreparedStatement statement = Icarus.getStorage().prepare("SELECT * FROM users WHERE sso_ticket = ? LIMIT 1");
+			PreparedStatement statement = dao.getStorage().prepare("SELECT * FROM users WHERE sso_ticket = ? LIMIT 1");
 			statement.setString(1, ssoTicket);
 
 			ResultSet row = statement.executeQuery();

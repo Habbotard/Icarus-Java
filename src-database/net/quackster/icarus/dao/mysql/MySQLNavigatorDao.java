@@ -1,6 +1,7 @@
 package net.quackster.icarus.dao.mysql;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,12 @@ import net.quackster.icarus.mysql.Storage;
 
 public class MySQLNavigatorDao implements INavigatorDao {
 
+	private MySQLDao dao;
+
+	public MySQLNavigatorDao(MySQLDao dao) {
+		this.dao = dao;
+	}
+
 	public List<NavigatorTab> getTabs(int childId) {
 
 		List<NavigatorTab> tabs = new ArrayList<NavigatorTab>();
@@ -20,12 +27,14 @@ public class MySQLNavigatorDao implements INavigatorDao {
 
 		try {
 
-			row =  Icarus.getStorage().getTable("SELECT * FROM navigator_tabs WHERE child_id = " + childId);
+			row =  dao.getStorage().getTable("SELECT * FROM navigator_tabs WHERE child_id = " + childId);
 
 			while (row.next()) {
 				
-				NavigatorTab tab = new NavigatorTab(row);
-				tabs.add(tab);	
+				NavigatorTab tab = new NavigatorTab();
+				this.fill(tab, row);
+				
+				tabs.add(tab);
 				tabs.addAll(getTabs(tab.getId()));
 			}
 
@@ -36,5 +45,18 @@ public class MySQLNavigatorDao implements INavigatorDao {
 		}
 
 		return tabs;
+	}
+
+	@Override
+	public NavigatorTab fill(NavigatorTab instance, Object data) throws SQLException {
+		
+		ResultSet set = (ResultSet)data;
+		
+		instance.fill(set.getInt("id"), set.getInt("child_id"), set.getString("tab_name"), set.getString("title"), set.getByte("button_type"), 
+					set.getByte("closed") == 1, set.getByte("thumbnail") == 1, set.getString("room_populator"));
+		
+		System.out.println(instance.getTabName());
+		
+		return instance;
 	}
 }

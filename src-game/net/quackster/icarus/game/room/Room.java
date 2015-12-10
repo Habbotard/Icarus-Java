@@ -1,14 +1,11 @@
 package net.quackster.icarus.game.room;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import net.quackster.icarus.Icarus;
-import net.quackster.icarus.dao.mysql.MySQLRoomDao;
 import net.quackster.icarus.game.room.models.RoomModel;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.log.Log;

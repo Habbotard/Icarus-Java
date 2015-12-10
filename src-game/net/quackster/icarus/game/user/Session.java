@@ -5,7 +5,6 @@ import java.util.List;
 import org.jboss.netty.channel.Channel;
 
 import net.quackster.icarus.Icarus;
-import net.quackster.icarus.dao.mysql.MySQLRoomDao;
 import net.quackster.icarus.game.room.Room;
 import net.quackster.icarus.game.room.RoomUser;
 import net.quackster.icarus.netty.readers.Request;

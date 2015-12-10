@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import net.quackster.icarus.Icarus;
-import net.quackster.icarus.dao.mysql.MySQLNavigatorDao;
 
 public class NavigatorManager {
 
@@ -12,6 +11,7 @@ public class NavigatorManager {
 	
 	public NavigatorManager() throws Exception {
 		this.tabs = Icarus.getDao().getNavigator().getTabs(-1);
+		System.out.println("tab size: " + this.tabs.size());
 	}
 	
 	public NavigatorTab getTab(String tabName) {

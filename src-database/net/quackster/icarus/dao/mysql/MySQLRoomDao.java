@@ -18,15 +18,17 @@ import net.quackster.icarus.mysql.Storage;
 
 public class MySQLRoomDao implements IRoomDao {
 
+	private MySQLDao dao;
 	private Map<String, RoomModel> roomModels;
 	
-	public MySQLRoomDao() {
-		
+	public MySQLRoomDao(MySQLDao dao) {
+		this.dao = dao;
+
 		roomModels = new HashMap<String, RoomModel>();
 		
 		try {
 			
-			ResultSet Row = Icarus.getStorage().getTable("SELECT * FROM room_models");
+			ResultSet Row = dao.getStorage().getTable("SELECT * FROM room_models");
 			
 			while (Row.next()) {
 				roomModels.put(Row.getString("id"), new RoomModel(Row.getString("id"), Row.getString("heightmap"), Row.getInt("door_x"), Row.getInt("door_y"), Row.getInt("door_z"), Row.getInt("door_dir")));
@@ -38,6 +40,8 @@ public class MySQLRoomDao implements IRoomDao {
 		
 	}
 	
+
+
 	@Override
 	public List<Room> getPlayerRooms(CharacterDetails details) {
 		return getPlayerRooms(details, false);
@@ -51,7 +55,7 @@ public class MySQLRoomDao implements IRoomDao {
 
 		try {
 
-			row =  Icarus.getStorage().getTable("SELECT * FROM rooms WHERE owner_id = " + details.getId());
+			row =  dao.getStorage().getTable("SELECT * FROM rooms WHERE owner_id = " + details.getId());
 
 			while (row.next()) {
 
@@ -90,13 +94,12 @@ public class MySQLRoomDao implements IRoomDao {
 
 		try {
 
-			ResultSet row =  Icarus.getStorage().getRow("SELECT * FROM rooms WHERE id = " + roomId);
+			ResultSet row =  dao.getStorage().getRow("SELECT * FROM rooms WHERE id = " + roomId);
 			
 			Room room = Icarus.getGame().getRoomManager().find(roomId);
 
 			if (room == null) {
 				CharacterDetails details = Icarus.getDao().getPlayer().getDetails(row.getInt("owner_id"));
-				//room = new Room(row, details.getUsername());
 				this.fill(room, details.getUsername(), row);
 			}
 			
@@ -109,7 +112,7 @@ public class MySQLRoomDao implements IRoomDao {
 			return room;
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Log.exception(e);
 		} catch (NoSuchElementException e) {
 			return null;
 		}

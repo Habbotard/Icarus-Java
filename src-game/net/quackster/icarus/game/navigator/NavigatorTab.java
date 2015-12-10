@@ -18,18 +18,26 @@ public class NavigatorTab {
 	private boolean thumbnail;
 	
 	private IRoomPopulator roomPopulator;
-
-	public NavigatorTab(ResultSet set) throws Exception {
-
-		this.id = set.getInt("id");
-		this.childId = set.getInt("child_id");
-		this.tabName = set.getString("tab_name");
-		this.title = set.getString("title");
-		this.buttonType = set.getByte("button_type");
-		this.closed = set.getByte("closed") == 1;
-		this.thumbnail = set.getByte("thumbnail") == 1;
+	
+	public NavigatorTab() {
 		
-		String roomPopulatorClass = set.getString("room_populator");
+	}
+	
+	public void fill(int id, int childId, String tabName, String title, byte buttonType, boolean closed, boolean thumbnail, String roomPopulator) {
+		
+		this.id = id;
+		this.childId = childId;
+		this.tabName = tabName;
+		this.title = title;
+		this.buttonType = buttonType;
+		this.closed = closed;
+		this.thumbnail = thumbnail;
+
+		String roomPopulatorClass = roomPopulator;
+		
+		if (roomPopulator.isEmpty()) {
+			return;
+		}
 		
 		try {
 			
@@ -38,6 +46,7 @@ public class NavigatorTab {
 			this.roomPopulator.setNavigatorTab(this);
 			
 		} catch (Exception e) {
+			e.printStackTrace();
 			this.roomPopulator = null;
 		}
 	}
