@@ -85,6 +85,8 @@ public class Room {
 		this.wallThickness = wallThickness;
 		this.floorThickness = floorThickness;
 		this.tagFormat = tagFormat;
+		
+		this.regenerateCollisionMap();
 	}
 
 	/*public void fill(ResultSet row, String ownerName) throws SQLException {

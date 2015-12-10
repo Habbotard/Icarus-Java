@@ -125,32 +125,13 @@ public class MySQLRoomDao implements IRoomDao {
 	@Override
 	public Room fill(Room instance, String ownerName, Object data) throws SQLException {
 		
-		/*(int id, int ownerId, String ownerName, String name, int state, int usersNow, int usersMax,
-			String description, int tradeState, int score, int category, int groupId, String model, String wall,
-			String floor, String landscape, boolean allowPets, boolean allowPetsEat, boolean allowWalkthrough,
-			boolean hideWall, int wallThickness, int floorThickness, String tagFormat) {*/
+		ResultSet row = (ResultSet)data;
 		
-		/*this.id = row.getInt("id");
-		this.ownerId = row.getInt("owner_id");
-		this.ownerName = ownerName;
-		this.groupId = row.getInt("group_id");
-		this.name = row.getString("name");
-		this.description = row.getString("description");
-		this.state = row.getInt("state");
-		this.tradeState = row.getInt("trade_state");
-		this.model = row.getString("model");
-		this.wall = row.getString("wallpaper");
-		this.floor = row.getString("floor");
-		this.landscape = row.getString("outside");
-		this.usersNow =  row.getInt("users_now");
-		this.usersMax =  row.getInt("users_max");
-		this.allowPets = row.getBoolean("allow_pets");
-		this.allowPetsEat = row.getBoolean("allow_pets_eat");
-		this.allowWalkthrough = row.getBoolean("allow_walkthrough");
-		this.hideWall = row.getBoolean("hidewall");
-		this.wallThickness = row.getInt("wall_thickness");
-		this.floorThickness = row.getInt("floor_thickness");
-		this.tagFormat = row.getString("tags");*/
+		instance.fill(row.getInt("id"), row.getInt("owner_id"), ownerName, row.getString("name"), row.getInt("state"), row.getInt("users_now"),
+						row.getInt("users_max"), row.getString("description"), row.getInt("trade_state"), row.getInt("score"), row.getInt("category"), 
+						row.getInt("category"), row.getString("model"), row.getString("wallpaper"), row.getString("floor"), row.getString("outside"), 
+						row.getBoolean("allow_pets"), row.getBoolean("allow_pets_eat"), row.getBoolean("allow_walkthrough"), row.getBoolean("hidewall"), 
+						row.getInt("wall_thickness"), row.getInt("floor_thickness"), row.getString("tags"));
 		
 		return null;
 	}
