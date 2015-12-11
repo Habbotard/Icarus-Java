@@ -54,10 +54,12 @@ public class Room {
 	private int privateId;
 	private boolean disposed;
 
+	private RoomSearch search;
 	
 	public Room() {
 		this.privateId = 0;
 		this.users = new ArrayList<Session>();
+		this.search = new RoomSearch(this);
 	}
 	
 	public void fill(int id, int ownerId, String ownerName, String name, int state, int usersNow, int usersMax,
@@ -89,8 +91,6 @@ public class Room {
 		this.wallThickness = wallThickness;
 		this.floorThickness = floorThickness;
 		this.tagFormat = tagFormat;
-	}
-
 	}
 
 	public void finaliseRoomEnter(Session session) {
@@ -239,9 +239,11 @@ public class Room {
 
 					if (!this.allowWalkthrough) { // if the room doesn't want players to be able to walk into each other
 						
+						if (this.search.findUser(new Point(x, y)) != null) {
 							collisionMap[x][y] = RoomModel.CLOSED;
 						}
 					}
+
 				} else {
 					collisionMap[x][y] = RoomModel.CLOSED;
 				}
@@ -263,6 +265,7 @@ public class Room {
 	}
 
 	public RoomSearch getSearch() {
+		return this.search;
 	}
 
 	public int getVirtualId() {
