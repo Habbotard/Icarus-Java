@@ -21,7 +21,7 @@ public class Log {
 		output("-----------------------------------------", false);
 		output("", false);
 
-		println("Icarus - Habbo Hotel Java Server");
+		println("Icarus - Java Server");
 		println("Loading server with revision: " + Icarus.getRevision());
 		println();
 	}
