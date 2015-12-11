@@ -44,6 +44,10 @@ public class Response
 
 	public void appendString(Object obj) {
 
+		if (obj == null) {
+			obj = "";
+		}
+		
 		try {
 			bodystream.writeUTF(obj.toString());
 		} catch (IOException e) {

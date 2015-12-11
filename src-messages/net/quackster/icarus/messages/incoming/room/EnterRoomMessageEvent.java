@@ -54,7 +54,7 @@ public class EnterRoomMessageEvent implements Message {
         session.send(response);
 		
 		response = new Response(Outgoing.RoomRightsLevelMessageComposer);
-        response.appendInt32(0);
+        response.appendInt32(4);
         session.send(response);
 		
 		session.send(new PrepareRoomMessageComposer(room));

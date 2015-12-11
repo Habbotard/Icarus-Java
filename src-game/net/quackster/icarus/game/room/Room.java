@@ -212,6 +212,8 @@ public class Room {
 			if (this.users.size() > 0 && (Icarus.getServer().getSessionManager().findById(this.ownerId) != null)) {
 				return;
 			}
+			
+			Icarus.getGame().getRoomManager().getLoadedRooms().remove(this);
 
 			this.name = null;
 			this.ownerName = null;
@@ -222,8 +224,9 @@ public class Room {
 			this.wall = null;
 			this.collisionMap = null;
 			this.tickTask = null;
-
-			Icarus.getGame().getRoomManager().getLoadedRooms().remove(this);
+			
+			this.users.clear();
+			this.users = null;
 			
 			this.disposed = true;
 			
@@ -260,6 +263,11 @@ public class Room {
 
 
 	public void send(Response response) {
+		
+		if (this.disposed) {
+			return;
+		}
+		
 		for (Session session : this.users) {
 			session.send(response);
 		}
