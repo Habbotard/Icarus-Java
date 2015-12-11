@@ -100,6 +100,8 @@ public class MySQLRoomDao implements IRoomDao {
 
 			if (room == null) {
 				CharacterDetails details = Icarus.getDao().getPlayer().getDetails(row.getInt("owner_id"));
+				
+				room = new Room();
 				this.fill(room, details.getUsername(), row);
 			}
 			

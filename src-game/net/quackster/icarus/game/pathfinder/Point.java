@@ -5,6 +5,10 @@ public class Point {
 	private int X;
 	private int Y;
 	
+	public Point() {
+		this(0, 0);
+	}
+	
 	public Point(int x, int y) {
 		this.X = x;
 		this.Y = y;

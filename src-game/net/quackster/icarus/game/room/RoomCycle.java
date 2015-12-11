@@ -61,13 +61,14 @@ public class RoomCycle implements Runnable {
 
 							roomUser.setRotation(Rotation.calculate(roomUser.getX(), roomUser.getY(), next.getX(), next.getY()), false);
 
-							roomUser.getStatuses().put("mv", String.valueOf(next.getX()).concat(",").concat(String.valueOf(next.getY())).concat(",").concat(String.valueOf(room.getModel().getSquareHeight()[next.getX()][next.getY()])));
+							double height = room.getModel().getSquareHeight()[next.getX()][next.getY()];
+							
+							roomUser.getStatuses().put("mv", String.valueOf(next.getX()).concat(",").concat(String.valueOf(next.getY())).concat(",").concat(String.valueOf(height)));
 							roomUser.updateStatus();
 
 							roomUser.setX(next.getX());
 							roomUser.setY(next.getY());
-
-							roomUser.setHeight(room.getModel().getSquareHeight()[next.getX()][next.getY()]);
+							roomUser.setHeight(height);
 						}
 
 					} else if (roomUser.isWalking()) {

@@ -44,11 +44,13 @@ public class Room {
 	private String tagFormat;
 
 	private int[][] collisionMap;
-
-	private List<Session> users;
 	private int privateId;
+	private List<Session> users;
 	private ScheduledFuture<?> tickTask;
-
+	
+	private boolean disposed;
+	
+	
 	public Room() {
 		this.users = new ArrayList<Session>();
 		this.privateId = 0;
@@ -59,6 +61,7 @@ public class Room {
 			String floor, String landscape, boolean allowPets, boolean allowPetsEat, boolean allowWalkthrough,
 			boolean hideWall, int wallThickness, int floorThickness, String tagFormat) {
 		
+		this.disposed = false;
 		this.id = id;
 		this.ownerId = ownerId;
 		this.ownerName = ownerName;
@@ -93,6 +96,10 @@ public class Room {
 
 	public void regenerateCollisionMap() {
 
+		if (this.getModel() == null) {
+			return;
+		}
+		
 		int mapSizeX = this.getModel().getMapSizeX();
 		int mapSizeY = this.getModel().getMapSizeY();
 
@@ -125,7 +132,9 @@ public class Room {
 
 		if (this.users.size() == 0) {
 			Log.println("[ROOM " + this.id + "] Pathfinder task start");
-			this.tickTask = Icarus.getUtilities().getThreadPooling().getScheduledThreadPool().scheduleAtFixedRate(new RoomCycle(this), 0, 500, TimeUnit.MILLISECONDS);
+			
+			RoomCycle cycle = new RoomCycle(this);
+			this.tickTask = Icarus.getUtilities().getThreadPooling().getScheduledThreadPool().scheduleAtFixedRate(cycle, 0, 500, TimeUnit.MILLISECONDS);
 		}
 
 
@@ -193,10 +202,14 @@ public class Room {
 
 	public void dispose() {
 
-		// if there's no users and the owner isn't online then we dispose 8)
+		if (this.disposed) {
+			return;
+		}
+		
 		try {
 			
-			if (this.users.size() > 0 && (Icarus.getServer().getSessionManager().findById(this.ownerId) == null)) {
+			// if there's users in the room and the owner is online then we don't dispose
+			if (this.users.size() > 0 && (Icarus.getServer().getSessionManager().findById(this.ownerId) != null)) {
 				return;
 			}
 
@@ -211,6 +224,8 @@ public class Room {
 			this.tickTask = null;
 
 			Icarus.getGame().getRoomManager().getLoadedRooms().remove(this);
+			
+			this.disposed = true;
 			
 		} catch (Exception e) {
 			e.printStackTrace();
