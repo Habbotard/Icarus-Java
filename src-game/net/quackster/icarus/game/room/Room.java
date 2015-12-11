@@ -6,7 +6,9 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import net.quackster.icarus.Icarus;
+import net.quackster.icarus.game.room.models.Point;
 import net.quackster.icarus.game.room.models.RoomModel;
+import net.quackster.icarus.game.room.player.RoomUser;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.log.Log;
 import net.quackster.icarus.messages.headers.Outgoing;
@@ -15,7 +17,6 @@ import net.quackster.icarus.messages.outgoing.room.user.UserDisplayMessageCompos
 import net.quackster.icarus.messages.outgoing.room.user.UserStatusMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.user.RemoveUserMessageComposer;
 import net.quackster.icarus.netty.readers.Response;
-import net.quackster.icarus.game.pathfinder.Point;
 
 public class Room {
 
@@ -113,7 +114,7 @@ public class Room {
 					collisionMap[x][y] = RoomModel.OPEN;
 
 					if (!this.allowWalkthrough) { // if the room doesn't want players to be able to walk into each other
-						if (RoomLocator.findUser(this, new Point(x, y)) != null) {
+						if (this.findUser(new Point(x, y)) != null) {
 							collisionMap[x][y] = RoomModel.CLOSED;
 						}
 					}
@@ -270,6 +271,15 @@ public class Room {
 		
 		for (Session session : this.users) {
 			session.send(response);
+		}
+	}
+	
+	public Session findUser(Point coord) {
+		
+		try {
+			return this.users.stream().filter(session -> session.getRoomUser().getPoint().sameAs(coord) && !session.getRoomUser().isWalking()).findFirst().get();
+		} catch (Exception e) {
+			return null;
 		}
 	}
 

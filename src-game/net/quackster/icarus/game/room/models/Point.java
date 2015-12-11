@@ -1,4 +1,4 @@
-package net.quackster.icarus.game.pathfinder;
+package net.quackster.icarus.game.room.models;
 
 public class Point {
 

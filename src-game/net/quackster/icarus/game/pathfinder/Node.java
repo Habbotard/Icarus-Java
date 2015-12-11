@@ -2,6 +2,8 @@ package net.quackster.icarus.game.pathfinder;
 
 import java.util.ArrayList;
 
+import net.quackster.icarus.game.room.models.Point;
+
 public class Node implements Comparable<Node> {
 	/* Nodes that this is connected to */
 	AreaMap map;

@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import net.quackster.icarus.game.pathfinder.Point;
-import net.quackster.icarus.game.room.RoomUser;
 import net.quackster.icarus.messages.headers.Outgoing;
 import net.quackster.icarus.netty.readers.Response;
-
+import net.quackster.icarus.game.room.models.Point;
 import net.quackster.icarus.game.room.models.Rotation;
+import net.quackster.icarus.game.room.player.RoomUser;
 
 public class TalkMessageComposer extends Response {
 

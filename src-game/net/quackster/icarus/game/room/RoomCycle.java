@@ -5,10 +5,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import net.quackster.icarus.game.room.models.Point;
 import net.quackster.icarus.game.room.models.Rotation;
+import net.quackster.icarus.game.room.player.RoomUser;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.outgoing.room.user.UserStatusMessageComposer;
-import net.quackster.icarus.game.pathfinder.Point;
 
 public class RoomCycle implements Runnable {
 

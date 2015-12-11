@@ -6,8 +6,8 @@ import net.quackster.icarus.netty.readers.Request;
 
 import java.util.LinkedList;
 
-import net.quackster.icarus.game.pathfinder.Point;
-import net.quackster.icarus.game.room.RoomUser;
+import net.quackster.icarus.game.room.models.Point;
+import net.quackster.icarus.game.room.player.RoomUser;
 
 public class UserWalkMessageEvent implements Message {
 

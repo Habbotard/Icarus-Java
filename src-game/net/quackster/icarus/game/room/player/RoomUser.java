@@ -1,4 +1,4 @@
-package net.quackster.icarus.game.room;
+package net.quackster.icarus.game.room.player;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -6,8 +6,9 @@ import java.util.LinkedList;
 import net.quackster.icarus.Icarus;
 import net.quackster.icarus.game.pathfinder.AreaMap;
 import net.quackster.icarus.game.pathfinder.Pathfinder;
-import net.quackster.icarus.game.pathfinder.Point;
 import net.quackster.icarus.game.pathfinder.heuristics.*;
+import net.quackster.icarus.game.room.Room;
+import net.quackster.icarus.game.room.models.Point;
 import net.quackster.icarus.game.room.models.RoomModel;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.outgoing.room.user.FloodFilterMessageComposer;

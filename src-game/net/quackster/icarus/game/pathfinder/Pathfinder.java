@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 
 import net.quackster.icarus.game.pathfinder.heuristics.AStarHeuristic;
+import net.quackster.icarus.game.room.models.Point;
 
 public class Pathfinder {
 

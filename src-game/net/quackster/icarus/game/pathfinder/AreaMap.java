@@ -2,6 +2,7 @@ package net.quackster.icarus.game.pathfinder;
 
 import java.util.ArrayList;
 
+import net.quackster.icarus.game.room.models.Point;
 import net.quackster.icarus.game.room.models.RoomModel;
 
 /**

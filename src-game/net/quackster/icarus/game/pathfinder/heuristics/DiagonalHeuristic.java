@@ -1,6 +1,6 @@
 package net.quackster.icarus.game.pathfinder.heuristics;
 
-import net.quackster.icarus.game.pathfinder.Point;
+import net.quackster.icarus.game.room.models.Point;
 
 /**
  * Calculate the diagonal distance to goal when 
