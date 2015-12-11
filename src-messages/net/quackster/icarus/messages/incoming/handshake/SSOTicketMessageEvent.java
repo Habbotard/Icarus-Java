@@ -20,8 +20,13 @@ public class SSOTicketMessageEvent implements Message {
 			session.close();
 		}
 		
-		session.checkForDuplicates();
 		
+		if (session.getMachineId() == null) {
+			session.close();
+			return;
+		}
+		
+		session.checkForDuplicates();
 		session.send(new UniqueMachineIDMessageComposer(session.getMachineId()));
 		session.send(new AuthenticationOKMessageComposer());
 		session.send(new HomeRoomMessageComposer(2, false));

@@ -5,7 +5,7 @@ public class Incoming {
 	public static final short VersionCheckMessageEvent = 4000;
     public static final short InitCryptoMessageEvent = 112;
     public static final short GenerateSecretKeyMessageEvent = 3713;
-    public static final short UniqueIDMessageEvent = 135;
+    public static final short UniqueIDMessageEvent = 3659;
     public static final short SSOTicketMessageEvent = 1490;//
     public static final short PongMessageEvent = 2527;
     public static final short InfoRetrieveMessageEvent = 1978;//2173;

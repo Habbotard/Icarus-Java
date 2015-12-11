@@ -20,7 +20,7 @@ public class Icarus {
 	private static Dao dao;
 
 	private static final String REVISION = "PRODUCTION-201512012203-525044429";
-	private static final String OLD = "PRODUCTION-201506161211-776084490";//PRODUCTION-201512012203-525044429";
+	//private static final String OLD = "PRODUCTION-201506161211-776084490";//PRODUCTION-201512012203-525044429";
 
 	public static void main(String[] args) {
 
