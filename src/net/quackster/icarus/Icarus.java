@@ -8,7 +8,6 @@ import net.quackster.icarus.dao.Dao;
 import net.quackster.icarus.dao.mysql.MySQLDao;
 import net.quackster.icarus.game.Game;
 import net.quackster.icarus.log.Log;
-import net.quackster.icarus.mysql.Storage;
 import net.quackster.icarus.netty.connections.Connection;
 import net.quackster.icarus.util.Util;
 
@@ -37,8 +36,8 @@ public class Icarus {
 			}
 			
 			if (dao.isConnected()) {
-				
 				game = new Game();
+				
 				startServer();
 			
 			}

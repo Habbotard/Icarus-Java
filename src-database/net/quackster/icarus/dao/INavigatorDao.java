@@ -1,6 +1,5 @@
 package net.quackster.icarus.dao;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import net.quackster.icarus.game.navigator.NavigatorTab;

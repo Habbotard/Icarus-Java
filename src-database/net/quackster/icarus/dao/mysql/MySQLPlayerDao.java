@@ -4,7 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import net.quackster.icarus.Icarus;
 import net.quackster.icarus.dao.IPlayerDao;
 import net.quackster.icarus.game.user.CharacterDetails;
 import net.quackster.icarus.game.user.Session;

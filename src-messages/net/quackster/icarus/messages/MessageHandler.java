@@ -12,6 +12,7 @@ import net.quackster.icarus.messages.incoming.room.*;
 import net.quackster.icarus.messages.incoming.room.user.ChatMessageEvent;
 import net.quackster.icarus.messages.incoming.room.user.DanceMessageEvent;
 import net.quackster.icarus.messages.incoming.room.user.ShoutMessageEvent;
+import net.quackster.icarus.messages.incoming.room.user.TypingStatusMessageEvent;
 import net.quackster.icarus.messages.incoming.user.*;
 import net.quackster.icarus.netty.readers.Request;
 import net.quackster.icarus.netty.readers.Response;
@@ -67,6 +68,8 @@ public class MessageHandler {
 		this.messages.put(Incoming.ChatMessageEvent, new ChatMessageEvent());
 		this.messages.put(Incoming.ShoutMessageEvent, new ShoutMessageEvent());
 		this.messages.put(Incoming.DanceMessageEvent, new DanceMessageEvent());
+		this.messages.put(Incoming.StartTypingMessageEvent, new TypingStatusMessageEvent());
+		this.messages.put(Incoming.StopTypingMessageEvent, new TypingStatusMessageEvent());
 	}
 
 	public void handleRequest(Session session, Request message) {

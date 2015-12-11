@@ -11,7 +11,6 @@ public class NavigatorManager {
 	
 	public NavigatorManager() throws Exception {
 		this.tabs = Icarus.getDao().getNavigator().getTabs(-1);
-		System.out.println("tab size: " + this.tabs.size());
 	}
 	
 	public NavigatorTab getTab(String tabName) {

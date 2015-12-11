@@ -54,8 +54,6 @@ public class MySQLNavigatorDao implements INavigatorDao {
 		instance.fill(set.getInt("id"), set.getInt("child_id"), set.getString("tab_name"), set.getString("title"), set.getByte("button_type"), 
 					set.getByte("closed") == 1, set.getByte("thumbnail") == 1, set.getString("room_populator"));
 		
-		System.out.println(instance.getTabName());
-		
 		return instance;
 	}
 }
