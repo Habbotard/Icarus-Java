@@ -10,21 +10,22 @@ import java.util.NoSuchElementException;
 
 import net.quackster.icarus.Icarus;
 import net.quackster.icarus.dao.IRoomDao;
+import net.quackster.icarus.dao.util.IProcessStorage;
 import net.quackster.icarus.game.room.Room;
 import net.quackster.icarus.game.room.models.RoomModel;
 import net.quackster.icarus.game.user.CharacterDetails;
 import net.quackster.icarus.log.Log;
 import net.quackster.icarus.mysql.Storage;
 
-public class MySQLRoomDao implements IRoomDao {
+public class MySQLRoomDao implements IRoomDao, IProcessStorage<Room, ResultSet> {
 
 	private MySQLDao dao;
 	private Map<String, RoomModel> roomModels;
 	
 	public MySQLRoomDao(MySQLDao dao) {
+		
 		this.dao = dao;
-
-		roomModels = new HashMap<String, RoomModel>();
+		this.roomModels = new HashMap<String, RoomModel>();
 		
 		try {
 			
@@ -37,10 +38,8 @@ public class MySQLRoomDao implements IRoomDao {
 		} catch (Exception e) {
 			Log.exception(e);
 		}
-		
 	}
 	
-
 
 	@Override
 	public List<Room> getPlayerRooms(CharacterDetails details) {
@@ -65,7 +64,7 @@ public class MySQLRoomDao implements IRoomDao {
 
 				if (room == null) {
 					room = new Room();
-					this.fill(room, details.getUsername(), row);
+					this.fill(room, row);
 				}
 				
 				rooms.add(room);
@@ -99,10 +98,8 @@ public class MySQLRoomDao implements IRoomDao {
 			Room room = Icarus.getGame().getRoomManager().find(roomId);
 
 			if (room == null) {
-				CharacterDetails details = Icarus.getDao().getPlayer().getDetails(row.getInt("owner_id"));
-				
 				room = new Room();
-				this.fill(room, details.getUsername(), row);
+				this.fill(room, row);
 			}
 			
 			Storage.releaseObject(row);
@@ -128,11 +125,12 @@ public class MySQLRoomDao implements IRoomDao {
 	}
 
 	@Override
-	public Room fill(Room instance, String ownerName, Object data) throws SQLException {
+	public Room fill(Room instance, ResultSet row) throws SQLException {
 		
-		ResultSet row = (ResultSet)data;
+		CharacterDetails details = Icarus.getDao().getPlayer().getDetails(row.getInt("owner_id"));
 		
-		instance.fill(row.getInt("id"), row.getInt("owner_id"), ownerName, row.getString("name"), row.getInt("state"), row.getInt("users_now"),
+		
+		instance.fill(row.getInt("id"), row.getInt("owner_id"), details.getUsername(), row.getString("name"), row.getInt("state"), row.getInt("users_now"),
 						row.getInt("users_max"), row.getString("description"), row.getInt("trade_state"), row.getInt("score"), row.getInt("category"), 
 						row.getInt("category"), row.getString("model"), row.getString("wallpaper"), row.getString("floor"), row.getString("outside"), 
 						row.getBoolean("allow_pets"), row.getBoolean("allow_pets_eat"), row.getBoolean("allow_walkthrough"), row.getBoolean("hidewall"), 
@@ -140,5 +138,7 @@ public class MySQLRoomDao implements IRoomDao {
 		
 		return null;
 	}
+
+
 	
 }

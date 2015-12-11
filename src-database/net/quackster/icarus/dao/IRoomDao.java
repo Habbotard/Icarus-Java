@@ -12,5 +12,4 @@ public interface IRoomDao {
 	public Room getRoom(int roomId);
 	public Room getRoom(int roomId, boolean storeInMemory);
 	public RoomModel getModel(String model);
-	public Room fill(Room instance, String ownerName, Object data) throws Exception;
 }

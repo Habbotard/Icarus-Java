@@ -5,12 +5,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import net.quackster.icarus.dao.IPlayerDao;
+import net.quackster.icarus.dao.util.IProcessStorage;
 import net.quackster.icarus.game.user.CharacterDetails;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.log.Log;
 import net.quackster.icarus.mysql.Storage;
 
-public class MySQLPlayerDao implements IPlayerDao {
+public class MySQLPlayerDao implements IPlayerDao, IProcessStorage<CharacterDetails, ResultSet> {
 
 	private MySQLDao dao;
 
@@ -74,11 +75,9 @@ public class MySQLPlayerDao implements IPlayerDao {
 	}
 
 	@Override
-	public CharacterDetails fill(CharacterDetails instance, Object data) throws SQLException {
+	public CharacterDetails fill(CharacterDetails instance, ResultSet row) throws SQLException {
 		
-		ResultSet row = (ResultSet)data;
 		instance.fill(row.getInt("id"), row.getString("username"), row.getString("motto"),  row.getString("figure"));
-		
 		return instance;
 	}
 	

@@ -6,11 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.quackster.icarus.dao.INavigatorDao;
+import net.quackster.icarus.dao.util.IProcessStorage;
 import net.quackster.icarus.game.navigator.NavigatorTab;
 import net.quackster.icarus.log.Log;
 import net.quackster.icarus.mysql.Storage;
 
-public class MySQLNavigatorDao implements INavigatorDao {
+public class MySQLNavigatorDao implements INavigatorDao, IProcessStorage<NavigatorTab, ResultSet> {
 
 	private MySQLDao dao;
 
@@ -47,13 +48,13 @@ public class MySQLNavigatorDao implements INavigatorDao {
 	}
 
 	@Override
-	public NavigatorTab fill(NavigatorTab instance, Object data) throws SQLException {
-		
-		ResultSet set = (ResultSet)data;
+	public NavigatorTab fill(NavigatorTab instance, ResultSet set) throws SQLException {
 		
 		instance.fill(set.getInt("id"), set.getInt("child_id"), set.getString("tab_name"), set.getString("title"), set.getByte("button_type"), 
 					set.getByte("closed") == 1, set.getByte("thumbnail") == 1, set.getString("room_populator"));
 		
+		
 		return instance;
 	}
+
 }
