@@ -11,6 +11,8 @@ import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.Message;
 import net.quackster.icarus.messages.headers.Outgoing;
 import net.quackster.icarus.messages.outgoing.room.RoomDataMessageComposer;
+import net.quackster.icarus.messages.outgoing.room.heightmap.FloorMapMessageComposer;
+import net.quackster.icarus.messages.outgoing.room.heightmap.HeightMapMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.user.DanceMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.user.UserDisplayMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.user.UserStatusMessageComposer;
@@ -30,20 +32,8 @@ public class HeightmapMessageEvent implements Message {
 
 		RoomModel roomModel = room.getModel();
 
-		Response response = new Response(Outgoing.HeightMapMessageComposer);
-		response.appendInt32(roomModel.getMapSizeX() * roomModel.getMapSizeY());
-		for (int i = 0; i < roomModel.getMapSizeY(); i++) {
-			for (int j = 0; j < roomModel.getMapSizeX(); j++) {
-				response.appendShort((int) (roomModel.getSquareHeight()[j][i] * 256));
-			}
-		}
-		session.send(response);
-
-		response = new Response(Outgoing.FloorMapMessageComposer);
-		response.appendBoolean(true);
-		response.appendInt32(room.getWallHeight());
-		response.appendString(room.getModel().getFloorMap());
-		session.send(response);
+		session.send(new HeightMapMessageComposer(roomModel));
+		session.send(new FloorMapMessageComposer(room));
 		
 		session.getRoomUser().setLoadingRoom(false);
 		session.getRoomUser().setInRoom(true);
@@ -76,7 +66,6 @@ public class HeightmapMessageEvent implements Message {
 				session.send(new DanceMessageComposer(players.getRoomUser().getVirtualId(), players.getRoomUser().getDanceId()));
 			}
 		}
-
 
 		session.send(new RoomDataMessageComposer(room, session, true, true));
 	}
