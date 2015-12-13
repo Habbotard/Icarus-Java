@@ -46,6 +46,6 @@ public class RequestHeightmapMessageEvent implements Message {
 		session.getRoomUser().setInRoom(true);
 		
 		room.finaliseRoomEnter(session);
-		//session.send(new RoomDataMessageComposer(room, session, false, false));
+		session.send(new RoomDataMessageComposer(room, session, true, true));
 	}
 }
