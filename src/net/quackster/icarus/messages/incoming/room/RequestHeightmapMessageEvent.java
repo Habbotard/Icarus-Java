@@ -20,6 +20,8 @@ public class RequestHeightmapMessageEvent implements Message {
 			return;
 		}
 		
+		String pass = request.readString();
+		
 		RoomModel roomModel = room.getModel();
 		
 		Response response = new Response(Outgoing.HeightMapMessageComposer);
