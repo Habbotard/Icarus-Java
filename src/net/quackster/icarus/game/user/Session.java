@@ -32,24 +32,6 @@ public class Session {
 		Icarus.getServer().getMessageHandler().getMessages().get(header).handle(this, message);
 	}
 
-	public void checkForDuplicates() {
-		
-		System.out.println("Sessions: " + Icarus.getServer().getSessionManager().getSessions().size());
-		
-		for (Session player : Icarus.getServer().getSessionManager().getSessions().values()) {
-			
-			if (player.getDetails() == null) {
-				continue;
-			}
-			
-			if (player.getDetails().getId() == this.getDetails().getId()) {
-				if (player.getChannel().getId() != this.getChannel().getId()) { // user tries to login twice
-					this.close(); // fuck off
-				}
-			}
-		}
-	}
-
 	public void send(Response response) {
 		
 		if (response != null) {

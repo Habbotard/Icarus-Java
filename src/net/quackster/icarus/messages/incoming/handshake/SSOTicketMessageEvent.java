@@ -14,19 +14,21 @@ public class SSOTicketMessageEvent implements Message {
 	@Override
 	public void handle(Session session, Request request) {
 
-		boolean loginSucess = Icarus.getDao().getPlayer().login(session, request.readString());
+		boolean loginSuccess = Icarus.getDao().getPlayer().login(session, request.readString());
 		
-		if (!loginSucess) {
+		if (!loginSuccess) {
 			session.close();
+			return;
 		}
-		
 		
 		if (session.getMachineId() == null) {
 			session.close();
 			return;
 		}
 		
-		session.checkForDuplicates();
+		// clear any duplicate peoples
+		Icarus.getServer().getSessionManager().checkForDuplicates(session);
+		
 		session.send(new UniqueMachineIDMessageComposer(session.getMachineId()));
 		session.send(new AuthenticationOKMessageComposer());
 		session.send(new HomeRoomMessageComposer(2, false));
