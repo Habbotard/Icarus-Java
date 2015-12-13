@@ -87,6 +87,13 @@ public class RoomInfoMessageEvent implements Message {
 
 					return;
 				}
+				
+				if (room.getState() == RoomState.PASSWORD.getState()) {
+
+					
+
+					return;
+				}
 			}
 
 

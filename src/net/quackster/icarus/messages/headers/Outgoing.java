@@ -141,7 +141,7 @@ public class Outgoing {
     public static final short UserLeftRoomMessageComposer = 3475;//184;
     public static final short UserTagsMessageComposer = 3898;
     public static final short RelationshipMessageComposer = 1709;
-    public static final short FloodFilterMessageComposer = 1326;
+    public static final short FloodFilterMessageComposer = 626;//1326;
     public static final short NameChangedUpdatesMessageComposer = 3381;
     public static final short NotAcceptingRequestsMessageComposer = 1586;
     public static final short GiveRoomRightsMessageComposer = 3936;

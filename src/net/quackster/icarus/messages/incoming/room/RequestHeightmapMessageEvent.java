@@ -1,12 +1,11 @@
 package net.quackster.icarus.messages.incoming.room;
 
+import net.quackster.icarus.Icarus;
 import net.quackster.icarus.game.room.Room;
 import net.quackster.icarus.game.room.model.RoomModel;
-import net.quackster.icarus.game.room.player.RoomUser;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.Message;
 import net.quackster.icarus.messages.headers.Outgoing;
-import net.quackster.icarus.messages.outgoing.room.RoomDataMessageComposer;
 import net.quackster.icarus.netty.readers.Request;
 import net.quackster.icarus.netty.readers.Response;
 
@@ -15,15 +14,14 @@ public class RequestHeightmapMessageEvent implements Message {
 	@Override
 	public void handle(Session session, Request request) {
 
-		Room room = session.getRoomUser().getRoom();
-
+		Room room = Icarus.getDao().getRoom().getRoom(request.readInt(), true);
+		
 		if (room == null) {
 			return;
 		}
-
+		
 		RoomModel roomModel = room.getModel();
-		RoomUser roomUser = session.getRoomUser();
-
+		
 		Response response = new Response(Outgoing.HeightMapMessageComposer);
 		response.appendInt32(roomModel.getMapSizeX() * roomModel.getMapSizeY());
 
@@ -40,12 +38,6 @@ public class RequestHeightmapMessageEvent implements Message {
 		response.appendInt32(room.getWallHeight());
 		response.appendString(room.getModel().getFloorMap());
 		session.send(response);
-		
-		
-		session.getRoomUser().setLoadingRoom(false);
-		session.getRoomUser().setInRoom(true);
-		
-		room.finaliseRoomEnter(session);
-		session.send(new RoomDataMessageComposer(room, session, true, true));
 	}
+
 }

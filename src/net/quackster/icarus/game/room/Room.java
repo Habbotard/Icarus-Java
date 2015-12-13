@@ -3,8 +3,6 @@ package net.quackster.icarus.game.room;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
-
 import net.quackster.icarus.Icarus;
 import net.quackster.icarus.game.room.model.Point;
 import net.quackster.icarus.game.room.model.RoomModel;
@@ -12,10 +10,7 @@ import net.quackster.icarus.game.room.player.RoomSearch;
 import net.quackster.icarus.game.room.player.RoomUser;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.log.Log;
-import net.quackster.icarus.messages.outgoing.room.user.DanceMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.user.HotelScreenMessageComposer;
-import net.quackster.icarus.messages.outgoing.room.user.UserDisplayMessageComposer;
-import net.quackster.icarus.messages.outgoing.room.user.UserStatusMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.user.RemoveUserMessageComposer;
 import net.quackster.icarus.netty.readers.Response;
 
@@ -96,40 +91,7 @@ public class Room {
 		this.tagFormat = tagFormat;
 		this.rights = Icarus.getDao().getRoom().getRoomRights(this.id);
 	}
-
-	public void finaliseRoomEnter(Session session) {
-
-		if (this.users.size() == 0) {
-			this.tickTask = Icarus.getUtilities().getThreadPooling().getScheduledThreadPool().scheduleAtFixedRate(new RoomCycle(this), 0, 500, TimeUnit.MILLISECONDS);
-			this.regenerateCollisionMap();
-		}
-
-		RoomUser user = session.getRoomUser();
-
-		user.setVirtualId(this.getVirtualId());
-		user.setX(this.getModel().getDoorX());
-		user.setY(this.getModel().getDoorY());
-		user.setRotation(this.getModel().getDoorRot(), false);
-		user.setHeight(this.getModel().getSquareHeight()[user.getX()][user.getY()]);
-
-		this.send(new UserDisplayMessageComposer(session));
-		this.send(new UserStatusMessageComposer(session));
-
-		if (!this.users.contains(session)) {
-			this.users.add(session);
-		}
-
-		session.send(new UserDisplayMessageComposer(this.users));
-		session.send(new UserStatusMessageComposer(this.users));
-
-		for (Session players : this.users) {
-			if (players.getRoomUser().isDancing()) {
-				session.send(new DanceMessageComposer(players.getRoomUser().getVirtualId(), players.getRoomUser().getDanceId()));
-			}
-		}
-
-	}
-
+	
 	public void leaveRoom(Session session, boolean hotelView) {
 
 		if (hotelView) {;
@@ -480,6 +442,11 @@ public class Room {
 
 	public int[][] getCollisionMap() {
 		return collisionMap;
+	}
+	
+
+	public void setTickTask(ScheduledFuture<?> task) {
+		this.tickTask = task;
 	}
 
 }

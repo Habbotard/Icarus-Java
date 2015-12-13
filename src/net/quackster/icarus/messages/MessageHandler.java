@@ -61,8 +61,8 @@ public class MessageHandler {
 	
 	private void registerRoomPackets() {
 		this.messages.put(Incoming.RoomInfoMessageEvent, new RoomInfoMessageEvent());
-		this.messages.put(Incoming.EnterRoomMessageEvent, new EnterRoomMessageEvent());
 		this.messages.put(Incoming.RequestHeightmapMessageEvent, new RequestHeightmapMessageEvent());
+		this.messages.put(Incoming.RoomSucessMessageEvent, new RoomSucessMessageEvent());
 		this.messages.put(Incoming.UserWalkMessageEvent, new UserWalkMessageEvent());
 		this.messages.put(Incoming.LeaveRoomMessageEvent, new LeaveRoomMessageEvent());
 		this.messages.put(Incoming.ChatMessageEvent, new ChatMessageEvent());

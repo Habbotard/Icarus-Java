@@ -121,8 +121,8 @@ public class Incoming {
     public static final short SetActivatedBadgesMessageEvent = 2228;
     //public static final short EnableInventoryEffectMessageEvent = 1781;
     public static final short EffectEnableMessageEvent = 2516;
-    public static final short EnterRoomMessageEvent = 2258;//53;
-    public static final short RequestHeightmapMessageEvent = 815;//2188;
+    public static final short RequestHeightmapMessageEvent = 2258;//53;
+    public static final short RoomSucessMessageEvent = 815;//2188;
     //public static final short RoomGetInfoMessageEvent = 3662;
     public static final short RoomUserActionMessageEvent = 3346;
     public static final short RoomOnLoadMessageEvent = 213;
