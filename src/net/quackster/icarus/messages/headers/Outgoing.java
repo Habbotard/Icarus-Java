@@ -290,7 +290,7 @@ public class Outgoing {
     public static final short LatencyTestResponseMessageComposer = 3846;
     public static final short PingMessageComposer = 3548;
     public static final short SetCameraPriceMessageComposer = 230;
-    public static final short GenericErrorMessageComposer = 1494;
+    public static final short GenericErrorMessageComposer = 524;//1494;
     public static final short InternalLinkMessageComposer = 202;
     public static final short CameraStorageUrlMessageComposer = 2373;
     public static final short CameraPurchaseOk = 2275;
@@ -299,5 +299,5 @@ public class Outgoing {
     public static final short BullyRequestChatlogsMessageComposer = 127;
     public static final short BullyRequestVotesMessageComposer = 1507;
     public static final short BullyRequestResultMessageComposer = 2980;
-    public static final short OutOfRoomMessageComposer = 12 ;
+    public static final short OutOfRoomMessageComposer = 12;
 }

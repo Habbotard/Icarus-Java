@@ -47,87 +47,8 @@ public class RoomInfoMessageEvent implements Message {
 		}
 
 		if (forwardPlayer) {
-			this.loadRoom(session, room, request.readIntAsBool(), request.readIntAsBool(), "");
+			session.send(new RoomDataMessageComposer(room, session, request.readIntAsBool(), request.readIntAsBool()));
 		}
 	}
-
-	public void loadRoom (Session session, Room room, boolean loadRoom, boolean stalkingRoom, String password) {
-
-		RoomUser roomUser = session.getRoomUser();
-
-		session.send(new RoomDataMessageComposer(room, session, loadRoom, stalkingRoom));
-
-		if (room.getUsersNow() >= room.getUsersMax()) {
-
-			if (!session.getDetails().hasFuse("user_enter_full_rooms") && session.getDetails().getId() != room.getOwnerId()) {
-
-				session.send(new RoomEnterErrorMessageComposer(1));
-				session.send(new HotelScreenMessageComposer());
-				return;
-			}
-		}
-
-		if (room.getState() > 0 && !room.hasRights(session.getDetails().getId())) {
-
-			if (room.getState() == RoomState.DOORBELL.getState()) {
-
-				if (room.getUsers().size() > 0) {
-
-					session.send(new GenericDoorbellMessageComposer(1));
-					room.send(new GenericDoorbellMessageComposer(session.getDetails().getUsername()), true);
-
-				} else {
-
-					session.send(new GenericNoAnswerDoorbellMessageComposer());
-					session.send(new HotelScreenMessageComposer());
-
-				}
-
-				return;
-			}
-
-			if (room.getState() == RoomState.PASSWORD.getState()) {
-				session.send(new HotelScreenMessageComposer());
-				return;
-			}
-		}
-
-
-		roomUser.setRoom(room);
-		roomUser.setLoadingRoom(true);
-		roomUser.getStatuses().clear();
-
-		session.send(new InitialRoomInfoMessageComposer(room));
-
-		if (!room.getFloor().equals("0")) {
-			session.send(new RoomSpacesMessageComposer("floor", room.getFloor()));
-		}
-
-		if (!room.getWall().equals("0")) {
-			session.send(new RoomSpacesMessageComposer("wallpaper", room.getWall()));
-		}
-
-		session.send(new RoomSpacesMessageComposer("landscape", room.getLandscape()));
-
-
-		Response response = new Response(Outgoing.RoomRatingMessageComposer);
-
-		if (roomUser.getRoom().getOwnerId() == session.getDetails().getId()) {
-			response.appendInt32(4);
-			roomUser.getStatuses().put("flatctrl 1", "");
-		} else {
-			response.appendInt32(0);
-		}
-		response.appendBoolean(false); // did i rate it and NOT owner
-		session.send(response);
-
-		response = new Response(Outgoing.RoomRightsLevelMessageComposer);
-		response.appendInt32(4);
-		session.send(response);
-
-		session.send(new PrepareRoomMessageComposer(room));
-	}
-
-	//session.send(new RoomDataMessageComposer(room, session, forwardPlayer));
 
 }
