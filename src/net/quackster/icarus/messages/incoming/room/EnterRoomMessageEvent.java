@@ -43,8 +43,8 @@ public class EnterRoomMessageEvent implements Message {
 			}
 		}
 
-		if (room.getState() > 0 && !room.hasRights(session.getDetails().getId())) {
-			if (room.getState() == RoomState.DOORBELL.getState()) {
+		if (room.getState().getStateCode() > 0 && !room.hasRights(session.getDetails().getId())) {
+			if (room.getState() == RoomState.DOORBELL) {
 
 				if (room.getUsers().size() > 0) {
 					session.send(new GenericDoorbellMessageComposer(1));
@@ -58,7 +58,7 @@ public class EnterRoomMessageEvent implements Message {
 				return;
 			}
 
-			if (room.getState() == RoomState.PASSWORD.getState()) {
+			if (room.getState() == RoomState.PASSWORD) {
 				if (!pass.equals(room.getPassword())) {
 					session.send(new GenericErrorMessageComposer(-100002));
 					session.send(new HotelScreenMessageComposer());

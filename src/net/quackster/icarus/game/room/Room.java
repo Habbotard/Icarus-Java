@@ -12,15 +12,16 @@ import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.log.Log;
 import net.quackster.icarus.messages.outgoing.room.user.HotelScreenMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.user.RemoveUserMessageComposer;
+import net.quackster.icarus.netty.readers.ISerialize;
 import net.quackster.icarus.netty.readers.Response;
 
-public class Room {
+public class Room implements ISerialize {
 
 	private int id;
 	private int ownerId;
 	private String ownerName;
 	private String name;
-	private int state;
+	private RoomState state;
 	private int usersNow;
 	private int usersMax;
 	private String description;
@@ -42,7 +43,6 @@ public class Room {
 	private int[][] collisionMap;
 
 	private String tagFormat;
-	private String roomType = "private";
 
 	private List<Session> users;
 	private List<Integer> rights;
@@ -70,7 +70,7 @@ public class Room {
 		this.ownerId = ownerId;
 		this.ownerName = ownerName;
 		this.name = name;
-		this.state = state;
+		this.state = RoomState.getState(state);
 		this.usersNow = usersNow;
 		this.usersMax = usersMax;
 		this.description = description;
@@ -153,7 +153,6 @@ public class Room {
 			this.wall = null;
 			this.collisionMap = null;
 			this.tickTask = null;
-			this.roomType = null;
 
 			this.users.clear();
 			this.users = null;
@@ -166,12 +165,12 @@ public class Room {
 	}
 
 
-	public void serialise(Response response, boolean enterRoom) {
+	public void serialise(Response response) {
 		response.appendInt32(id);
 		response.appendString(this.name);
 		response.appendInt32(this.ownerId);
 		response.appendString(this.ownerName);
-		response.appendInt32(this.state);
+		response.appendInt32(this.state.getStateCode());
 		response.appendInt32(this.usersNow);
 		response.appendInt32(this.usersMax);
 		response.appendString(this.description);
@@ -181,7 +180,7 @@ public class Room {
 		response.appendInt32(this.category);
 		response.appendInt32(0); //TagCount
 
-		int enumType = enterRoom ? 32 : 0;
+		/*int enumType = enterRoom ? 32 : 0;
 
 		if (this.roomType .equals("private")) {
 			enumType += 8;
@@ -189,9 +188,9 @@ public class Room {
 
 		if (this.allowPets) { 
 			enumType += 16;
-		}
+		}*/
 
-		response.appendInt32(enumType);
+		response.appendInt32(0);
 
 	}
 
@@ -273,12 +272,12 @@ public class Room {
 		this.name = name;
 	}
 
-	public int getState() {
+	public RoomState getState() {
 		return state;
 	}
 
 	public void setState(int state) {
-		this.state = state;
+		this.state = RoomState.getState(state);
 	}
 
 	public String getDescription() {

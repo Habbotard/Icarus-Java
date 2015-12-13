@@ -30,7 +30,7 @@ public class RoomDataMessageComposer extends Response {
 		this.appendInt32(0);
 		this.appendInt32(0);*/
 		
-		room.serialise(this, isLoading);
+		this.appendBody(room);
 
 		this.appendBoolean(stalkingRoom); // stuff
 		this.appendBoolean(false); // staff picked
