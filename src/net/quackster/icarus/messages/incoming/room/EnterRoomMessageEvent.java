@@ -6,7 +6,7 @@ import net.quackster.icarus.game.room.RoomState;
 import net.quackster.icarus.game.room.player.RoomUser;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.Message;
-import net.quackster.icarus.messages.outgoing.room.InitialRoomInfoMessageComposer;
+import net.quackster.icarus.messages.outgoing.room.RoomModelMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.PrepareRoomMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.RoomRatingMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.RoomRightsLevelMessageComposer;
@@ -71,7 +71,7 @@ public class EnterRoomMessageEvent implements Message {
 		roomUser.setLoadingRoom(true);
 		roomUser.getStatuses().clear();
 
-		session.send(new InitialRoomInfoMessageComposer(room));
+		session.send(new RoomModelMessageComposer(room));
 
 		if (!room.getFloor().equals("0")) {
 			session.send(new RoomSpacesMessageComposer("floor", room.getFloor()));

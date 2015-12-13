@@ -13,6 +13,7 @@ import net.quackster.icarus.messages.incoming.room.user.ChatMessageEvent;
 import net.quackster.icarus.messages.incoming.room.user.DanceMessageEvent;
 import net.quackster.icarus.messages.incoming.room.user.ShoutMessageEvent;
 import net.quackster.icarus.messages.incoming.room.user.TypingStatusMessageEvent;
+import net.quackster.icarus.messages.incoming.room.user.UserWalkMessageEvent;
 import net.quackster.icarus.messages.incoming.user.*;
 import net.quackster.icarus.netty.readers.Request;
 import net.quackster.icarus.netty.readers.Response;

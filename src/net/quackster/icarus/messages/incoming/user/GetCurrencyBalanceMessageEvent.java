@@ -11,7 +11,7 @@ public class GetCurrencyBalanceMessageEvent implements Message {
 	@Override
 	public void handle(Session session, Request request) {
 
-        Response response = new Response();
+		Response response = new Response();
 		response.init(Outgoing.ActivityPointsMessageComposer);
 		response.appendInt32(2);
 		response.appendInt32(0);
