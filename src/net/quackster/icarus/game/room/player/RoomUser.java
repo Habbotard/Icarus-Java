@@ -172,7 +172,7 @@ public class RoomUser {
 	}
 
 	public int getRoomId() {
-		return (room == null ? -1 : room.getId());
+		return (room == null ? 0 : room.getId());
 	}
 
 	public void setRoom(Room room) {

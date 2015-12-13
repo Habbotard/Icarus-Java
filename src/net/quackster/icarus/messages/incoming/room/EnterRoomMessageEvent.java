@@ -25,39 +25,7 @@ public class EnterRoomMessageEvent implements Message {
 		
 		RoomUser roomUser = session.getRoomUser();
 		
-		roomUser.setRoom(room);
-		roomUser.setLoadingRoom(true);
-		roomUser.getStatuses().clear();
 		
-        session.send(new InitialRoomInfoMessageComposer(room));
-		
-		if (!room.getFloor().equals("0")) {
-		session.send(new RoomSpacesMessageComposer("floor", room.getFloor()));
-		}
-		
-		if (!room.getWall().equals("0")) {
-		session.send(new RoomSpacesMessageComposer("wallpaper", room.getWall()));
-		}
-		
-		session.send(new RoomSpacesMessageComposer("landscape", room.getLandscape()));
-		
-
-		Response response = new Response(Outgoing.RoomRatingMessageComposer);
-		
-		if (roomUser.getRoom().getOwnerId() == session.getDetails().getId()) {
-			response.appendInt32(4);
-			roomUser.getStatuses().put("flatctrl 1", "");
-		} else {
-			response.appendInt32(0);
-		}
-        response.appendBoolean(false); // did i rate it and NOT owner
-        session.send(response);
-		
-		response = new Response(Outgoing.RoomRightsLevelMessageComposer);
-        response.appendInt32(4);
-        session.send(response);
-	
-		session.send(new PrepareRoomMessageComposer(room));
 	}
 
 }

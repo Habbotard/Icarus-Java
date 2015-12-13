@@ -119,9 +119,8 @@ public class Outgoing {
     public static final short OnCreateRoomInfoMessageComposer = 1037;
     public static final short RoomUpdateMessageComposer = 1091;//2306;
     public static final short RoomWallItemsMessageComposer = 2246;
-    public static final short DoorbellMessageComposer = 1246;
-    public static final short DoorbellNoOneMessageComposer = 1868;//1095;
-    public static final short DoorbellOpenedMessageComposer = 2144;
+    public static final short GenericDoorbellMessageComposer = 2057;
+	public static final short GenericNoAnswerDoorbellMessageComposer = 1868;
     public static final short RoomMuteStatusMessageComposer = 3219;
     public static final short GetFloorPlanUsedCoordsMessageComposer = 2115;
     public static final short SetFloorPlanDoorMessageComposer = 1189;

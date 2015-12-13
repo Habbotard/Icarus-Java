@@ -204,7 +204,7 @@ public class Room {
 	}
 
 
-	public void serialise(Response response, boolean showEvents, boolean enterRoom) {
+	public void serialise(Response response, boolean enterRoom) {
 		response.appendInt32(id);
 		response.appendString(this.name);
 		response.appendInt32(this.ownerId);

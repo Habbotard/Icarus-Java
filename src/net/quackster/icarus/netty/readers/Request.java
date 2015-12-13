@@ -30,7 +30,15 @@ public class Request
 			return 0;
 		}
 	}
+	
 
+	public boolean readIntAsBool() {
+		try {
+			return buffer.readInt() == 1;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 
 	public boolean readBoolean()  {
 		try {

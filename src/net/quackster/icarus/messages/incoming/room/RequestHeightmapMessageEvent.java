@@ -2,6 +2,7 @@ package net.quackster.icarus.messages.incoming.room;
 
 import net.quackster.icarus.game.room.Room;
 import net.quackster.icarus.game.room.model.RoomModel;
+import net.quackster.icarus.game.room.player.RoomUser;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.Message;
 import net.quackster.icarus.messages.headers.Outgoing;
@@ -21,6 +22,7 @@ public class RequestHeightmapMessageEvent implements Message {
 		}
 
 		RoomModel roomModel = room.getModel();
+		RoomUser roomUser = session.getRoomUser();
 
 		Response response = new Response(Outgoing.HeightMapMessageComposer);
 		response.appendInt32(roomModel.getMapSizeX() * roomModel.getMapSizeY());
@@ -44,6 +46,6 @@ public class RequestHeightmapMessageEvent implements Message {
 		session.getRoomUser().setInRoom(true);
 		
 		room.finaliseRoomEnter(session);
-		session.send(new RoomDataMessageComposer(room, session, false));
+		//session.send(new RoomDataMessageComposer(room, session, false, false));
 	}
 }
