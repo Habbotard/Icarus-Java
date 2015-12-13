@@ -30,7 +30,7 @@ public class RoomDataMessageComposer extends Response {
 		this.appendInt32(0);
 		this.appendInt32(0);*/
 		
-		this.appendBody(room);
+		room.serialise(this, isLoading);
 
 		this.appendBoolean(stalkingRoom); // stuff
 		this.appendBoolean(false); // staff picked
@@ -49,46 +49,4 @@ public class RoomDataMessageComposer extends Response {
 		this.appendInt32(0);//Info.distance_chatsettings);
 		this.appendInt32(0);//Info.flood_roomsettings); // flood settings
 	}
-
-	/*public RoomDataMessageComposer(Room room, Session session, boolean forwardPlayer, boolean doorbell) { 
-
-		this.init(Outgoing.RoomDataMessageComposer);
-        this.appendBoolean(doorbell); //flatId
-        room.serialise(this, false, false);
-        this.appendBoolean(forwardPlayer/* !session.InRoom); // isNotReload
-        this.appendBoolean(false); // no staff pick
-        this.appendBoolean(true);// bypass bell, pass ... - has fuse moderator
-        this.appendBoolean(false); // is room muted?
-        this.appendInt3232(0); //WhoCanMute
-        this.appendInt3232(0); // WhoCanKick
-        this.appendInt3232(0); // WhoCanBan
-        this.appendBoolean(room.hasRights(session.getDetails().getId())); // has rights
-        this.appendInt3232(0); // chat tye
-        this.appendInt3232(0); // chat balloon
-        this.appendInt3232(0); // chat speed
-        this.appendInt3232(14); // chat max distance
-        this.appendInt3232(0); // chat flood protection
-	}
-
-	public RoomDataMessageComposer(Room room, Session session, boolean isNotReload, boolean sendRoom, boolean show) {
-
-		this.init(Outgoing.RoomDataMessageComposer);
-        this.appendBoolean(show); //flatId
-        room.serialise(this, false, false);
-        this.appendBoolean(!isNotReload/* !session.InRoom); // isNotReload
-        this.appendBoolean(isNotReload); // no staff pick
-        this.appendBoolean(true);// bypass bell, pass ... - has fuse moderator
-        this.appendBoolean(false); // is room muted?
-        this.appendInt3232(0); //WhoCanMute
-        this.appendInt3232(0); // WhoCanKick
-        this.appendInt3232(0); // WhoCanBan
-        this.appendBoolean(room.hasRights(session.getDetails().getId())); // has rights
-        this.appendInt3232(0); // chat tye
-        this.appendInt3232(0); // chat balloon
-        this.appendInt3232(0); // chat speed
-        this.appendInt3232(14); // chat max distance
-        this.appendInt3232(0); // chat flood protection
-
-	}*/
-
 }

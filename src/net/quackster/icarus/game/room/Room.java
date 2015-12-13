@@ -33,6 +33,7 @@ public class Room implements ISerialize {
 	private String wall;
 	private String floor;
 	private String landscape;
+	private String roomType = "private";
 	private boolean allowPets;
 	private boolean allowPetsEat;
 	private boolean allowWalkthrough;
@@ -164,8 +165,11 @@ public class Room implements ISerialize {
 		}
 	}
 
-
 	public void serialise(Response response) {
+		this.serialise(response, false);
+	}
+
+	public void serialise(Response response, boolean enterRoom) {
 		response.appendInt32(id);
 		response.appendString(this.name);
 		response.appendInt32(this.ownerId);
@@ -180,17 +184,17 @@ public class Room implements ISerialize {
 		response.appendInt32(this.category);
 		response.appendInt32(0); //TagCount
 
-		/*int enumType = enterRoom ? 32 : 0;
+		int enumType = enterRoom ? 32 : 0;
 
-		if (this.roomType .equals("private")) {
+		if (this.roomType.equals("private")) {
 			enumType += 8;
 		}
 
 		if (this.allowPets) { 
 			enumType += 16;
-		}*/
+		}
 
-		response.appendInt32(0);
+		response.appendInt32(enumType);
 
 	}
 
