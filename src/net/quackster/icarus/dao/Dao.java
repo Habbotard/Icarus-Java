@@ -7,6 +7,7 @@ public interface Dao {
 	public INavigatorDao getNavigator();
 	public IRoomDao getRoom();
 	public IPlayerDao getPlayer();
+	public IMessengerDao getMessenger();
 	
 	public boolean isConnected();
 }

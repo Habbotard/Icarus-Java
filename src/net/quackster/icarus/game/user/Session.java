@@ -5,6 +5,7 @@ import java.util.List;
 import org.jboss.netty.channel.Channel;
 
 import net.quackster.icarus.Icarus;
+import net.quackster.icarus.game.messenger.Messenger;
 import net.quackster.icarus.game.room.Room;
 import net.quackster.icarus.game.room.player.RoomUser;
 import net.quackster.icarus.netty.readers.Request;
@@ -18,6 +19,7 @@ public class Session {
 	private CharacterDetails details;
 	private SessionConnection connection;
 	private RoomUser roomUser;
+	private Messenger messenger;
 
 	public Session(Channel channel) {
 
@@ -26,6 +28,7 @@ public class Session {
 		this.sessionEncryption = new SessionEncryption();
 		this.connection = new SessionConnection(this);
 		this.roomUser = new RoomUser(this);
+		this.messenger = new Messenger(this);
 	}
 
 	public void invoke(short header, Request message) {
@@ -77,6 +80,9 @@ public class Session {
 		this.sessionEncryption.dispose();
 		this.sessionEncryption = null;
 
+		this.messenger.dispose();
+		this.messenger = null;
+		
 		this.connection.dispose();
 		this.connection = null;
 
@@ -113,8 +119,8 @@ public class Session {
 		return roomUser;
 	}
 
-	public void setRoomUser(RoomUser roomUser) {
-		this.roomUser = roomUser;
+	public Messenger getMessenger() {
+		return messenger;
 	}
 
 }

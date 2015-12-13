@@ -2,6 +2,7 @@ package net.quackster.icarus.dao.mysql;
 
 import net.quackster.icarus.Icarus;
 import net.quackster.icarus.dao.Dao;
+import net.quackster.icarus.dao.IMessengerDao;
 import net.quackster.icarus.dao.INavigatorDao;
 import net.quackster.icarus.dao.IPlayerDao;
 import net.quackster.icarus.dao.IRoomDao;
@@ -13,6 +14,7 @@ public class MySQLDao implements Dao {
 	private INavigatorDao navigator;
 	private IRoomDao room;
 	private IPlayerDao player;
+	private IMessengerDao messenger;
 
 	private Storage storage;
 	private boolean isConnected;
@@ -24,6 +26,7 @@ public class MySQLDao implements Dao {
 		this.navigator = new MySQLNavigatorDao(this);
 		this.room = new MySQLRoomDao(this);
 		this.player = new MySQLPlayerDao(this);
+		this.messenger = new MySQLMessengerDao(this);
 
 		//this.UpdateTable("users", new Object[] { "username",  "Alex" }, new Object[] { "id",  1 });
 	}
@@ -123,6 +126,11 @@ public class MySQLDao implements Dao {
 
 	public Storage getStorage() {
 		return storage;
+	}
+
+	@Override
+	public IMessengerDao getMessenger() {
+		return messenger;
 	}
 
 }

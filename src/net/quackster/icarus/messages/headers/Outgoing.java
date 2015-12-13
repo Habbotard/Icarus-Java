@@ -238,13 +238,6 @@ public class Outgoing {
     public static final short CitizenshipStatusMessageComposer = 265;
     public static final short TalentLevelUpMessageComposer = 234;
     public static final short TalentsTrackMessageComposer = 769;
-    public static final short ConsoleChatErrorMessageComposer = 2637;
-    public static final short ConsoleChatMessageComposer = 1587;
-    public static final short ConsoleInvitationMessageComposer = 490;
-    public static final short ConsoleSearchFriendMessageComposer = 2431;
-    public static final short ConsoleSendFriendRequestMessageComposer = 634;
-    public static final short LoadFriendsMessageComposer = 1204;
-    public static final short LoadFriendsCategories = 3114;
     public static final short FollowFriendErrorMessageComposer = 3125;
     public static final short FriendRequestsMessageComposer = 2801;
     public static final short FriendUpdateMessageComposer = 2537;
@@ -300,4 +293,8 @@ public class Outgoing {
     public static final short BullyRequestVotesMessageComposer = 1507;
     public static final short BullyRequestResultMessageComposer = 2980;
     public static final short AcceptUserInsideRoomMessageComposer = 875;//
+    
+    // messenger
+	public static final short InitMessengerMessageComposer = 2925;//
+	public static final short MessengerCategoriesMessageComposer = 249;//
 }

@@ -136,45 +136,12 @@ public class Room implements ISerialize {
 		}
 	}
 
-	public void dispose() {
-
-		if (this.disposed) {
-			return;
-		}
-
-		try {
-
-			if (this.users.size() > 0 && (Icarus.getServer().getSessionManager().findById(this.ownerId) != null)) {
-				return;
-			}
-
-			Icarus.getGame().getRoomManager().getLoadedRooms().remove(this);
-
-			this.name = null;
-			this.ownerName = null;
-			this.description = null;
-			this.tagFormat = null;
-			this.landscape = null;
-			this.model = null;
-			this.wall = null;
-			this.collisionMap = null;
-			this.tickTask = null;
-
-			this.users.clear();
-			this.users = null;
-
-			this.disposed = true;
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 	public void serialise(Response response) {
 		this.serialise(response, false);
 	}
 
 	public void serialise(Response response, boolean enterRoom) {
+		
 		response.appendInt32(id);
 		response.appendString(this.name);
 		response.appendInt32(this.ownerId);
@@ -190,6 +157,9 @@ public class Room implements ISerialize {
 		response.appendInt32(0); //TagCount
 
 		int enumType = enterRoom ? 32 : 0;
+		
+		// if has event
+		//enumType += 4;
 
 		if (this.roomType.equals("private")) {
 			enumType += 8;
@@ -200,6 +170,11 @@ public class Room implements ISerialize {
 		}
 
 		response.appendInt32(enumType);
+		
+		//response.appendString("Hello");
+        //response.appendString("xd lolz");
+        //response.appendInt32(100);
+        
 
 	}
 	
@@ -262,6 +237,44 @@ public class Room implements ISerialize {
 
 		this.collisionMap = collisionMap;
 	}
+	
+
+	public void dispose() {
+
+		if (this.disposed) {
+			return;
+		}
+
+		try {
+
+			if (this.users.size() > 0 && (Icarus.getServer().getSessionManager().findById(this.ownerId) != null)) {
+				return;
+			}
+
+			Icarus.getGame().getRoomManager().getLoadedRooms().remove(this);
+
+			this.name = null;
+			this.ownerName = null;
+			this.description = null;
+			this.tagFormat = null;
+			this.landscape = null;
+			this.model = null;
+			this.wall = null;
+			this.collisionMap = null;
+			this.tickTask = null;
+
+			this.roomType = null;
+			
+			this.users.clear();
+			this.users = null;
+
+			this.disposed = true;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 
 	public void send(Response response, boolean checkRights) {
 

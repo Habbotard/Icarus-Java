@@ -248,12 +248,12 @@ public class Incoming {
     //public static final short OpenAchievementsBoxMessageEvent = 1958;
     public static final short RoomSuccessMessageEvent = 1958;
     public static final short CompleteSafetyQuizMessageEvent = 1107;
-    public static final short ConsoleInstantChatMessageEvent = 534;
-    public static final short ConsoleInviteFriendsMessageEvent = 2791;
-    public static final short ConsoleSearchFriendsMessageEvent = 3315;
-    public static final short FollowFriendMessageEvent = 2511;
+    //public static final short ConsoleInstantChatMessageEvent = 534;
+    //public static final short ConsoleInviteFriendsMessageEvent = 2791;
+    //public static final short ConsoleSearchFriendsMessageEvent = 3315;
+    //public static final short FollowFriendMessageEvent = 2511;
     public static final short FriendListUpdateMessageEvent = 1475;//3653;
-    public static final short FriendRequestListLoad = 41;
+    //public static final short FriendRequestListLoad = 41;
     public static final short AcceptFriendMessageEvent = 1269;
     public static final short DeclineFriendMessageEvent = 2394;
     public static final short DeleteFriendMessageEvent = 2443;
@@ -309,6 +309,9 @@ public class Incoming {
     public static final short BullyRequestNoVoteMessageEvent = 1950;
 	public static final short RoomInfoMessageEvent = 3494;//3662;
 	public static final short DoorbellEnterMessageEvent = 2347; // doorbell related
+	
+	// messenger
+	public static final short InitMessengerMessageComposer = 1860;//3762;
 }
 /*package net.quackster.icarus.messages.headers;
 
