@@ -10,7 +10,12 @@ import net.quackster.icarus.game.room.player.RoomSearch;
 import net.quackster.icarus.game.room.player.RoomUser;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.log.Log;
-import net.quackster.icarus.messages.outgoing.room.user.HotelScreenMessageComposer;
+import net.quackster.icarus.messages.outgoing.room.PrepareRoomMessageComposer;
+import net.quackster.icarus.messages.outgoing.room.RoomModelMessageComposer;
+import net.quackster.icarus.messages.outgoing.room.RoomRatingMessageComposer;
+import net.quackster.icarus.messages.outgoing.room.RoomRightsLevelMessageComposer;
+import net.quackster.icarus.messages.outgoing.room.RoomSpacesMessageComposer;
+import net.quackster.icarus.messages.outgoing.room.user.HotelViewMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.user.RemoveUserMessageComposer;
 import net.quackster.icarus.netty.readers.ISerialize;
 import net.quackster.icarus.netty.readers.Response;
@@ -96,7 +101,7 @@ public class Room implements ISerialize {
 	public void leaveRoom(Session session, boolean hotelView) {
 
 		if (hotelView) {;
-		session.send(new HotelScreenMessageComposer());
+		session.send(new HotelViewMessageComposer());
 		}
 
 		this.send(new RemoveUserMessageComposer(session.getRoomUser().getVirtualId()));
@@ -195,6 +200,31 @@ public class Room implements ISerialize {
 		}
 
 		response.appendInt32(enumType);
+
+	}
+	
+	public void loadRoom(Session session) {
+
+		RoomUser roomUser = session.getRoomUser();
+		
+		roomUser.setRoom(this);
+		roomUser.setLoadingRoom(true);
+		roomUser.getStatuses().clear();
+
+		session.send(new RoomModelMessageComposer(this));
+
+		if (!this.getFloor().equals("0")) {
+			session.send(new RoomSpacesMessageComposer("floor", this.getFloor()));
+		}
+
+		if (!this.getWall().equals("0")) {
+			session.send(new RoomSpacesMessageComposer("wallpaper", this.getWall()));
+		}
+
+		session.send(new RoomSpacesMessageComposer("landscape", this.getLandscape()));
+		session.send(new RoomRatingMessageComposer(roomUser, this.getScore()));
+		session.send(new RoomRightsLevelMessageComposer(roomUser));
+		session.send(new PrepareRoomMessageComposer(this));
 
 	}
 

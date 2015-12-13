@@ -1,4 +1,4 @@
-package net.quackster.icarus.messages.outgoing.room.user;
+package net.quackster.icarus.messages.outgoing.room.notify;
 
 import net.quackster.icarus.messages.headers.Outgoing;
 import net.quackster.icarus.netty.readers.Response;

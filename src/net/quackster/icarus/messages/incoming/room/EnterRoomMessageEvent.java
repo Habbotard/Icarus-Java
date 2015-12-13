@@ -11,11 +11,11 @@ import net.quackster.icarus.messages.outgoing.room.PrepareRoomMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.RoomRatingMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.RoomRightsLevelMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.RoomSpacesMessageComposer;
-import net.quackster.icarus.messages.outgoing.room.error.GenericDoorbellMessageComposer;
-import net.quackster.icarus.messages.outgoing.room.error.GenericErrorMessageComposer;
-import net.quackster.icarus.messages.outgoing.room.error.GenericNoAnswerDoorbellMessageComposer;
-import net.quackster.icarus.messages.outgoing.room.error.RoomEnterErrorMessageComposer;
-import net.quackster.icarus.messages.outgoing.room.user.HotelScreenMessageComposer;
+import net.quackster.icarus.messages.outgoing.room.notify.GenericDoorbellMessageComposer;
+import net.quackster.icarus.messages.outgoing.room.notify.GenericErrorMessageComposer;
+import net.quackster.icarus.messages.outgoing.room.notify.GenericNoAnswerDoorbellMessageComposer;
+import net.quackster.icarus.messages.outgoing.room.notify.RoomEnterErrorMessageComposer;
+import net.quackster.icarus.messages.outgoing.room.user.HotelViewMessageComposer;
 import net.quackster.icarus.netty.readers.Request;
 
 public class EnterRoomMessageEvent implements Message {
@@ -29,8 +29,6 @@ public class EnterRoomMessageEvent implements Message {
 			return;
 		}
 
-		RoomUser roomUser = session.getRoomUser();
-
 		String pass = request.readString();
 
 		if (room.getUsersNow() >= room.getUsersMax()) {
@@ -38,7 +36,7 @@ public class EnterRoomMessageEvent implements Message {
 			if (!session.getDetails().hasFuse("user_enter_full_rooms") && session.getDetails().getId() != room.getOwnerId()) {
 
 				session.send(new RoomEnterErrorMessageComposer(1));
-				session.send(new HotelScreenMessageComposer());
+				session.send(new HotelViewMessageComposer());
 				return;
 			}
 		}
@@ -52,7 +50,7 @@ public class EnterRoomMessageEvent implements Message {
 				} else {
 
 					session.send(new GenericNoAnswerDoorbellMessageComposer());
-					session.send(new HotelScreenMessageComposer());
+					session.send(new HotelViewMessageComposer());
 				}
 
 				return;
@@ -61,31 +59,13 @@ public class EnterRoomMessageEvent implements Message {
 			if (room.getState() == RoomState.PASSWORD) {
 				if (!pass.equals(room.getPassword())) {
 					session.send(new GenericErrorMessageComposer(-100002));
-					session.send(new HotelScreenMessageComposer());
+					session.send(new HotelViewMessageComposer());
 					return;
 				}
 			}
 		}
-
-		roomUser.setRoom(room);
-		roomUser.setLoadingRoom(true);
-		roomUser.getStatuses().clear();
-
-		session.send(new RoomModelMessageComposer(room));
-
-		if (!room.getFloor().equals("0")) {
-			session.send(new RoomSpacesMessageComposer("floor", room.getFloor()));
-		}
-
-		if (!room.getWall().equals("0")) {
-			session.send(new RoomSpacesMessageComposer("wallpaper", room.getWall()));
-		}
-
-		session.send(new RoomSpacesMessageComposer("landscape", room.getLandscape()));
-		session.send(new RoomRatingMessageComposer(roomUser, room.getScore()));
-		session.send(new RoomRightsLevelMessageComposer(roomUser));
-		session.send(new PrepareRoomMessageComposer(room));
-
+		
+		room.loadRoom(session);
 	}
 
 }

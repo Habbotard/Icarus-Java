@@ -133,7 +133,7 @@ public class Incoming {
     public static final short RoomSettingsMuteAllMessageEvent = 3250;
     public static final short RoomSettingsMuteUserMessageEvent = 713;
     public static final short RoomLoadByDoorbellMessageEvent = 2107;
-    public static final short DoorbellAnswerMessageEvent = 416;
+    public static final short DoorbellAnswerMessageEvent = 1491;//416;
     public static final short RoomGetFilterMessageEvent = 3090;
     public static final short RoomAlterFilterMessageEvent = 480;
     public static final short GetRoomBannedUsersMessageEvent = 927;
@@ -308,6 +308,7 @@ public class Incoming {
     public static final short BullyRequestVoteMessageEvent = 601;
     public static final short BullyRequestNoVoteMessageEvent = 1950;
 	public static final short RoomInfoMessageEvent = 3494;//3662;
+	public static final short DoorbellEnterMessageEvent = 2347; // doorbell related
 }
 /*package net.quackster.icarus.messages.headers;
 

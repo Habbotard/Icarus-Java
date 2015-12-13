@@ -299,4 +299,5 @@ public class Outgoing {
     public static final short BullyRequestChatlogsMessageComposer = 127;
     public static final short BullyRequestVotesMessageComposer = 1507;
     public static final short BullyRequestResultMessageComposer = 2980;
+    public static final short AcceptUserInsideRoomMessageComposer = 875;//
 }

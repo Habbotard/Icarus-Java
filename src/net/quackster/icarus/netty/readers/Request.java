@@ -27,7 +27,7 @@ public class Request
 		try {
 			return buffer.readInt();
 		} catch (Exception e) {
-			return 0;
+			return null;
 		}
 	}
 	
@@ -57,7 +57,7 @@ public class Request
 
 			return new String(Data);
 		} catch (Exception e) {
-			return "invalid:";
+			return null;
 		}
 	}
 

@@ -60,10 +60,19 @@ public class SessionManager
 		}
 	}
 	
-	public Session findById (int userId) {
+	public Session findById(int userId) {
 		
 		try {
 			return this.sessions.values().stream().filter(s -> s.getDetails().getId() == userId).findFirst().get();
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	public Session findByName(String name) {
+		
+		try {
+			return this.sessions.values().stream().filter(s -> s.getDetails().getUsername().equals(name)).findFirst().get();
 		} catch (Exception e) {
 			return null;
 		}

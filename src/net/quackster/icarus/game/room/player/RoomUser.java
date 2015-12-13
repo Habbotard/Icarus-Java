@@ -11,7 +11,7 @@ import net.quackster.icarus.game.room.Room;
 import net.quackster.icarus.game.room.model.Point;
 import net.quackster.icarus.game.room.model.RoomModel;
 import net.quackster.icarus.game.user.Session;
-import net.quackster.icarus.messages.outgoing.room.user.FloodFilterMessageComposer;
+import net.quackster.icarus.messages.outgoing.room.notify.FloodFilterMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.user.TalkMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.user.UserStatusMessageComposer;
 import net.quackster.icarus.util.GameSettings;
