@@ -17,7 +17,6 @@ import net.quackster.icarus.messages.outgoing.room.RoomRightsLevelMessageCompose
 import net.quackster.icarus.messages.outgoing.room.RoomSpacesMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.user.HotelViewMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.user.RemoveUserMessageComposer;
-import net.quackster.icarus.netty.readers.ISerialize;
 import net.quackster.icarus.netty.readers.Response;
 
 public class Room {
@@ -135,37 +134,6 @@ public class Room {
 
 		this.collisionMap = collisionMap;
 	}
-	
-
-	public void dispose() {
-
-		if (this.disposed) {
-			return;
-		}
-
-		try {
-
-			if (this.users.size() > 0 && (Icarus.getServer().getSessionManager().findById(this.data.getOwnerId()) != null)) {
-				return;
-			}
-
-			Icarus.getGame().getRoomManager().getLoadedRooms().remove(this);
-
-			this.collisionMap = null;
-			this.tickTask = null;
-			
-			this.users.clear();
-			this.users = null;
-			
-			this.data.dispose();
-			this.data = null;
-
-			this.disposed = true;
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 
 	public void send(Response response, boolean checkRights) {
@@ -225,6 +193,39 @@ public class Room {
 
 	public String getPassword() {
 		return "xd";
+	}
+	
+	public void dispose() {
+
+		if (this.disposed) {
+			return;
+		}
+
+		try {
+
+			if (this.users.size() > 0 && (Icarus.getServer().getSessionManager().findById(this.data.getOwnerId()) != null)) {
+				return;
+			}
+
+			Icarus.getGame().getRoomManager().getLoadedRooms().remove(this);
+
+			this.collisionMap = null;
+			this.tickTask = null;
+			
+			this.users.clear();
+			this.users = null;
+			
+			this.data.dispose();
+			this.data = null;
+			
+			this.search.dispose();
+			this.search = null;
+
+			this.disposed = true;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 

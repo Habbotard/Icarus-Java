@@ -20,4 +20,9 @@ public class RoomSearch {
 			return null;
 		}
 	}
+
+	public void dispose() {
+		this.room = null;
+		
+	}
 }
