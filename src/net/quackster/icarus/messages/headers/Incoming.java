@@ -252,7 +252,6 @@ public class Incoming {
     //public static final short ConsoleInviteFriendsMessageEvent = 2791;
     //public static final short ConsoleSearchFriendsMessageEvent = 3315;
     //public static final short FollowFriendMessageEvent = 2511;
-    public static final short FriendListUpdateMessageEvent = 1475;//3653;
     //public static final short FriendRequestListLoad = 41;
     public static final short AcceptFriendMessageEvent = 1269;
     public static final short DeclineFriendMessageEvent = 2394;
@@ -312,6 +311,7 @@ public class Incoming {
 	
 	// messenger
 	public static final short InitMessengerMessageComposer = 1860;//3762;
+	public static final short FriendListUpdateMessageEvent = 1475;//3653;
 }
 /*package net.quackster.icarus.messages.headers;
 

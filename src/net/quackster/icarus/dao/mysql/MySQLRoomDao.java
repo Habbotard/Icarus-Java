@@ -29,11 +29,13 @@ public class MySQLRoomDao implements IRoomDao, IProcessStorage<Room, ResultSet> 
 		
 		try {
 			
-			ResultSet Row = dao.getStorage().getTable("SELECT * FROM room_models");
+			ResultSet row = dao.getStorage().getTable("SELECT * FROM room_models");
 			
-			while (Row.next()) {
-				roomModels.put(Row.getString("id"), new RoomModel(Row.getString("id"), Row.getString("heightmap"), Row.getInt("door_x"), Row.getInt("door_y"), Row.getInt("door_z"), Row.getInt("door_dir")));
+			while (row.next()) {
+				roomModels.put(row.getString("id"), new RoomModel(row.getString("id"), row.getString("heightmap"), row.getInt("door_x"), row.getInt("door_y"), row.getInt("door_z"), row.getInt("door_dir")));
 			}
+			
+			Storage.releaseObject(row);
 			
 		} catch (Exception e) {
 			Log.exception(e);

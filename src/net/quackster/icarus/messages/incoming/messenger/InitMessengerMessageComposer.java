@@ -18,12 +18,10 @@ public class InitMessengerMessageComposer implements Message {
 			return;
 		}
 		
-		System.out.println("HELLO MESSENGER#@@@@@@@@@@@@@@@@@@@@@@@@@");
 		
 		Messenger messenger = session.getMessenger().loadFriends();
 		
 		Response response = new Response(Outgoing.MessengerCategoriesMessageComposer);
-		
 		response.appendInt32(GameSettings.MAX_FRIENDS_DEFAULT); // get max friends
 		response.appendInt32(GameSettings.MAX_FRIENDS_DEFAULT);
 		response.appendInt32(GameSettings.MAX_FRIENDS_BASIC);
@@ -37,24 +35,14 @@ public class InitMessengerMessageComposer implements Message {
 		response.appendInt32(messenger.getFriends().size());
 		
 		for (MessengerFriend friend : messenger.getFriends()) {
-			
-           response.appendInt32(friend.getDetails().getId());
-           response.appendString(friend.getDetails().getUsername());
-           response.appendInt32(0); // gender
-           response.appendBoolean(friend.isOnline());
-           response.appendBoolean(friend.inRoom());
-           response.appendString(friend.isOnline() ? friend.getDetails().getFigure() : "");
-           response.appendInt32(0);
-           response.appendString(friend.isOnline() ? friend.getDetails().getMotto() : "");
-           response.appendString(""); //realname
-           response.appendString("3/2/2015"); // useless
-           response.appendBoolean(true); // allow offline message
-           response.appendBoolean(false); // persistedMessageUser
-           response.appendBoolean(false); // pocketuser
-           response.appendShort(0); // relationship_status
+			friend.update();
+			friend.serialise(response, false);
 		}
 		
 		session.send(response);
+		
+		messenger.sendStatus(false);
+		
 		/*response.appendInt32(messenger.getFriends().size());
 		
 		for (MessengerFriend friend : messenger.getFriends()) {

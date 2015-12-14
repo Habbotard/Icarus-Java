@@ -1,10 +1,14 @@
 package net.quackster.icarus.dao.mysql;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import net.quackster.icarus.dao.IMessengerDao;
 import net.quackster.icarus.game.messenger.MessengerFriend;
+import net.quackster.icarus.log.Log;
+import net.quackster.icarus.mysql.Storage;
 
 public class MySQLMessengerDao implements IMessengerDao {
 
@@ -19,7 +23,34 @@ public class MySQLMessengerDao implements IMessengerDao {
 		
 		List<MessengerFriend> friends = new ArrayList<MessengerFriend>();
 		
-		friends.add(new MessengerFriend(2));
+		ResultSet row = null;
+		
+		try {
+			
+			row = dao.getStorage().getTable("SELECT * FROM messenger_friendships WHERE (sender = " + userId + ") OR (receiver = " + userId + ")");
+			
+			while (row.next()) {
+				
+				int friendId = 0;
+				
+				if (row.getInt("sender") != userId) {
+					friendId = row.getInt("sender");
+				}
+				
+				if (row.getInt("receiver") != userId) {
+					friendId = row.getInt("receiver");
+				}
+				
+				System.out.println("ID : " + friendId);
+				
+				friends.add(new MessengerFriend(friendId));
+			}
+			
+		} catch (SQLException e) {
+			Log.exception(e);
+		}
+		
+		Storage.releaseObject(row);
 		
 		return friends;
 	}

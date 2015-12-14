@@ -70,6 +70,10 @@ public class Session {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+
+		this.messenger.dispose();
+		this.messenger = null;
 
 		this.roomUser.dispose();
 		this.roomUser = null;
@@ -79,9 +83,6 @@ public class Session {
 
 		this.sessionEncryption.dispose();
 		this.sessionEncryption = null;
-
-		this.messenger.dispose();
-		this.messenger = null;
 		
 		this.connection.dispose();
 		this.connection = null;

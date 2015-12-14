@@ -238,10 +238,6 @@ public class Outgoing {
     public static final short CitizenshipStatusMessageComposer = 265;
     public static final short TalentLevelUpMessageComposer = 234;
     public static final short TalentsTrackMessageComposer = 769;
-    public static final short FollowFriendErrorMessageComposer = 3125;
-    public static final short FriendRequestsMessageComposer = 2801;
-    public static final short FriendUpdateMessageComposer = 2537;
-    public static final short FindMoreFriendsSuccessMessageComposer = 1473;
     public static final short ChangeFavouriteGroupMessageComposer = 526;
     public static final short FavouriteGroupMessageComposer = 2300;
     public static final short GroupDataEditMessageComposer = 1174;
@@ -297,4 +293,8 @@ public class Outgoing {
     // messenger
 	public static final short InitMessengerMessageComposer = 2925;//
 	public static final short MessengerCategoriesMessageComposer = 249;//
+    public static final short FollowFriendErrorMessageComposer = 3125;
+    public static final short FriendRequestsMessageComposer = 2801;
+    public static final short FriendUpdateMessageComposer = 3412;//2537;
+    public static final short FindMoreFriendsSuccessMessageComposer = 1473;
 }
