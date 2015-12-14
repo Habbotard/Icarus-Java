@@ -101,7 +101,7 @@ public class Room implements ISerialize {
 	public void leaveRoom(Session session, boolean hotelView) {
 
 		if (hotelView) {;
-		session.send(new HotelViewMessageComposer());
+			session.send(new HotelViewMessageComposer());
 		}
 
 		this.send(new RemoveUserMessageComposer(session.getRoomUser().getVirtualId()));
@@ -125,6 +125,8 @@ public class Room implements ISerialize {
 
 			this.dispose();
 		}
+		
+		session.getMessenger().sendStatus(false);
 	}
 
 	public boolean hasRights(int userId) {

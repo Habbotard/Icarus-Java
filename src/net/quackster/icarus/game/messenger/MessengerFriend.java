@@ -3,12 +3,12 @@ package net.quackster.icarus.game.messenger;
 import net.quackster.icarus.Icarus;
 import net.quackster.icarus.game.user.CharacterDetails;
 import net.quackster.icarus.game.user.Session;
-import net.quackster.icarus.netty.readers.ISerialize;
 import net.quackster.icarus.netty.readers.Response;
 
 public class MessengerFriend {
 
 	private int userId;
+	
 	private CharacterDetails details;
 	private Session session;
 	
