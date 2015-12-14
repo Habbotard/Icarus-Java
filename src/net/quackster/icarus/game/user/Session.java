@@ -8,6 +8,7 @@ import net.quackster.icarus.Icarus;
 import net.quackster.icarus.game.messenger.Messenger;
 import net.quackster.icarus.game.room.Room;
 import net.quackster.icarus.game.room.player.RoomUser;
+import net.quackster.icarus.log.Log;
 import net.quackster.icarus.netty.readers.Request;
 import net.quackster.icarus.netty.readers.Response;
 
@@ -68,10 +69,11 @@ public class Session {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.exception(e);
 		}
 		
-
+		this.messenger.sendStatus(false, false);
+		
 		this.messenger.dispose();
 		this.messenger = null;
 

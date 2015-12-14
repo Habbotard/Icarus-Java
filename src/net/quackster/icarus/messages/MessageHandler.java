@@ -6,8 +6,8 @@ import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.headers.Incoming;
 import net.quackster.icarus.messages.headers.Outgoing;
 import net.quackster.icarus.messages.incoming.handshake.*;
-import net.quackster.icarus.messages.incoming.messenger.FriendListUpdateMessageEvent;
-import net.quackster.icarus.messages.incoming.messenger.InitMessengerMessageComposer;
+import net.quackster.icarus.messages.incoming.messenger.MessengerUpdateMessageEvent;
+import net.quackster.icarus.messages.incoming.messenger.MessengerMessageEvent;
 import net.quackster.icarus.messages.incoming.misc.*;
 import net.quackster.icarus.messages.incoming.navigator.*;
 import net.quackster.icarus.messages.incoming.room.*;
@@ -41,8 +41,8 @@ public class MessageHandler {
 	}
 
 	private void registerMessenger() {
-		this.messages.put(Incoming.InitMessengerMessageComposer, new InitMessengerMessageComposer());
-		this.messages.put(Incoming.FriendListUpdateMessageEvent, new FriendListUpdateMessageEvent());
+		this.messages.put(Incoming.MessengerFriendsMessageEvent, new MessengerMessageEvent());
+		this.messages.put(Incoming.FriendListUpdateMessageEvent, new MessengerUpdateMessageEvent());
 	}
 
 	private void registerHandshakePackets() {

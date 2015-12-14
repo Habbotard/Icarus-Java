@@ -18,19 +18,25 @@ public class Response
 
 	public Response() {
 
+		this.id = -1;
+		this.finalised = false;
+		this.body = ChannelBuffers.dynamicBuffer();
+		this.bodystream = new ChannelBufferOutputStream(body);
+		
 	}
 
 	public Response(int id) {
+		
 		this.init(id);
 	}
 
 	public Response init(int id) {
-		
+
 		this.id = id;
 		this.finalised = false;
 		this.body = ChannelBuffers.dynamicBuffer();
 		this.bodystream = new ChannelBufferOutputStream(body);
-
+		
 		try {
 			this.bodystream.writeInt(0);
 			this.bodystream.writeShort(id);
@@ -95,7 +101,7 @@ public class Response
 		}
 	}
 
-	public void AppendResponse(Response obj) {
+	public void appendResponse(Response obj) {
 		try {
 			this.bodystream.write(obj.body.array());
 		} catch (Exception e) {

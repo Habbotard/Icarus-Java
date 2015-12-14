@@ -48,6 +48,7 @@ public class MySQLPlayerDao implements IPlayerDao, IProcessStorage<CharacterDeta
 		return null;
 	}
 	
+	@Override
 	public boolean login(Session session, String ssoTicket) {
 		
 		try {

@@ -4,9 +4,9 @@ import net.quackster.icarus.game.messenger.MessengerFriend;
 import net.quackster.icarus.messages.headers.Outgoing;
 import net.quackster.icarus.netty.readers.Response;
 
-public class FriendUpdateMessageComposer extends Response {
+public class MessengerUpdateMessageComposer extends Response {
 
-	public FriendUpdateMessageComposer(MessengerFriend friend, boolean forceOffline) {
+	public MessengerUpdateMessageComposer(MessengerFriend friend, boolean forceOffline) {
 		
 		this.init(Outgoing.FriendUpdateMessageComposer);
         this.appendInt32(0);

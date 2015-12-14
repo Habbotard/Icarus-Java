@@ -310,7 +310,7 @@ public class Incoming {
 	public static final short DoorbellEnterMessageEvent = 2347; // doorbell related
 	
 	// messenger
-	public static final short InitMessengerMessageComposer = 1860;//3762;
+	public static final short MessengerFriendsMessageEvent = 1860;//3762;
 	public static final short FriendListUpdateMessageEvent = 1475;//3653;
 }
 /*package net.quackster.icarus.messages.headers;

@@ -8,23 +8,27 @@ import net.quackster.icarus.netty.readers.Response;
 public class MessengerFriend {
 
 	private int userId;
+	private boolean wasAlwaysOnline;
 	
 	private CharacterDetails details;
 	private Session session;
 	
 	public MessengerFriend(int userId) {
 		this.userId = userId;
-		this.update();
 		
 		if (this.isOnline()) {
 			this.details = this.session.getDetails();
+			this.wasAlwaysOnline = true;
 		} else {
 			this.details = Icarus.getDao().getPlayer().getDetails(this.userId);
+			this.wasAlwaysOnline = false;
 		}
+		
+		
 	}
 	
 	public void update() {
-		this.session = Icarus.getServer().getSessionManager().findById(userId);
+		this.session = Icarus.getServer().getSessionManager().findById(this.userId);
 	}
 
 	public void serialise(Response response, boolean forceOffline) {
@@ -78,6 +82,14 @@ public class MessengerFriend {
 
 	public boolean inRoom() {
 		return isOnline() ? session.getRoomUser().inRoom() : false;
+	}
+
+	public boolean wasAlwaysOnline() {
+		return wasAlwaysOnline;
+	}
+
+	public void wasAlwaysOnline(boolean canSeeOnline) {
+		this.wasAlwaysOnline = canSeeOnline;
 	}
 
 

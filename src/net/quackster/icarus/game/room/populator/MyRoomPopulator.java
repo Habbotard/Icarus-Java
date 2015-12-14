@@ -12,7 +12,8 @@ public class MyRoomPopulator extends IRoomPopulator {
 	public List<Room> generateListing(boolean limit, Session session) {
 		
 		List<Room> rooms =  Icarus.getDao().getRoom().getPlayerRooms(session.getDetails());
-		rooms.sort((room1, room2)->room2.getData().getUsersNow()-room1.getData().getUsersNow());
+		
+		rooms.sort((room1, room2) -> room2.getData().getUsersNow() - room1.getData().getUsersNow());
 		
 		return rooms;
 	}

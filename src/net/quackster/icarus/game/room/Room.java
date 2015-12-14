@@ -63,7 +63,7 @@ public class Room {
 			this.dispose();
 		}
 		
-		session.getMessenger().sendStatus(false);
+		session.getMessenger().sendStatus(false, false);
 	}
 
 	public boolean hasRights(int userId) {

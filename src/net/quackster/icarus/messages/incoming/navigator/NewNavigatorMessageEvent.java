@@ -28,8 +28,8 @@ public class NewNavigatorMessageEvent implements Message {
 		session.send(response);
 
 		response.init(Outgoing.NewNavigatorSizeMessageComposer);
-		response.appendInt32(0);//pref.NewnaviX);
-		response.appendInt32(0);//pref.NewnaviY);
+		response.appendInt32(50);//pref.NewnaviX);
+		response.appendInt32(50);//pref.NewnaviY);
 		response.appendInt32(580);//pref.NewnaviWidth);
 		response.appendInt32(600);//pref.NewnaviHeight);
 		response.appendBoolean(true);

@@ -41,9 +41,8 @@ public class MySQLMessengerDao implements IMessengerDao {
 					friendId = row.getInt("receiver");
 				}
 				
-				System.out.println("ID : " + friendId);
-				
-				friends.add(new MessengerFriend(friendId));
+				MessengerFriend friend = new MessengerFriend(friendId);
+				friends.add(friend);
 			}
 			
 		} catch (SQLException e) {
