@@ -172,14 +172,14 @@ public class RoomUser {
 	}
 
 	public int getRoomId() {
-		return (room == null ? 0 : room.getId());
+		return (room == null ? 0 : room.getData().getId());
 	}
 
 	public void setRoom(Room room) {
 		this.room = room;
 
 		if (room != null) {
-			this.model = room.getModel();
+			this.model = room.getData().getModel();
 		}
 	}
 

@@ -159,7 +159,7 @@ public class MySQLRoomDao implements IRoomDao, IProcessStorage<Room, ResultSet> 
 		CharacterDetails details = Icarus.getDao().getPlayer().getDetails(row.getInt("owner_id"));
 		
 		
-		instance.fill(row.getInt("id"), row.getInt("owner_id"), details.getUsername(), row.getString("name"), row.getInt("state"), row.getInt("users_now"),
+		instance.getData().fill(row.getInt("id"), row.getInt("owner_id"), details.getUsername(), row.getString("name"), row.getInt("state"), row.getInt("users_now"),
 						row.getInt("users_max"), row.getString("description"), row.getInt("trade_state"), row.getInt("score"), row.getInt("category"), 
 						row.getInt("category"), row.getString("model"), row.getString("wallpaper"), row.getString("floor"), row.getString("outside"), 
 						row.getBoolean("allow_pets"), row.getBoolean("allow_pets_eat"), row.getBoolean("allow_walkthrough"), row.getBoolean("hidewall"), 

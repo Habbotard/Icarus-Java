@@ -50,7 +50,7 @@ public class SearchResultSetComposer extends Response {
 					this.appendInt32(rooms.size());
 					
 					for (Room room : rooms) {
-						this.appendBody(room);
+						room.getData().serialise(this);
 					}
 					
 					rooms = null;

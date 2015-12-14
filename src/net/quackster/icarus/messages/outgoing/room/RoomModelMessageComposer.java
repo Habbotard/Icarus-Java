@@ -8,7 +8,7 @@ public class RoomModelMessageComposer extends Response {
 	
 	public RoomModelMessageComposer(Room room) {
 		this.init(Outgoing.InitialRoomInfoMessageComposer);
-		this.appendString(room.getModel().getName());
-		this.appendInt32(room.getId());
+		this.appendString(room.getData().getModel().getName());
+		this.appendInt32(room.getData().getId());
 	}
 }

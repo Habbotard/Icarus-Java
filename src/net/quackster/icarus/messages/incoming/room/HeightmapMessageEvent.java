@@ -28,7 +28,7 @@ public class HeightmapMessageEvent implements Message {
 			return;
 		}
 
-		RoomModel roomModel = room.getModel();
+		RoomModel roomModel = room.getData().getModel();
 
 		session.send(new HeightMapMessageComposer(roomModel));
 		session.send(new FloorMapMessageComposer(room));

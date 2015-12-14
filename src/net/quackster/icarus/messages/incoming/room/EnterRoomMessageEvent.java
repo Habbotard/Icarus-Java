@@ -25,9 +25,9 @@ public class EnterRoomMessageEvent implements Message {
 
 		String pass = request.readString();
 
-		if (room.getUsersNow() >= room.getUsersMax()) {
+		if (room.getData().getUsersNow() >= room.getData().getUsersMax()) {
 
-			if (!session.getDetails().hasFuse("user_enter_full_rooms") && session.getDetails().getId() != room.getOwnerId()) {
+			if (!session.getDetails().hasFuse("user_enter_full_rooms") && session.getDetails().getId() != room.getData().getOwnerId()) {
 
 				session.send(new RoomEnterErrorMessageComposer(1));
 				session.send(new HotelViewMessageComposer());
@@ -35,8 +35,8 @@ public class EnterRoomMessageEvent implements Message {
 			}
 		}
 
-		if (room.getState().getStateCode() > 0 && !room.hasRights(session.getDetails().getId())) {
-			if (room.getState() == RoomState.DOORBELL) {
+		if (room.getData().getState().getStateCode() > 0 && !room.hasRights(session.getDetails().getId())) {
+			if (room.getData().getState() == RoomState.DOORBELL) {
 
 				if (room.getUsers().size() > 0) {
 					session.send(new GenericDoorbellMessageComposer(1));
@@ -50,7 +50,7 @@ public class EnterRoomMessageEvent implements Message {
 				return;
 			}
 
-			if (room.getState() == RoomState.PASSWORD) {
+			if (room.getData().getState() == RoomState.PASSWORD) {
 				if (!pass.equals(room.getPassword())) {
 					session.send(new GenericErrorMessageComposer(-100002));
 					session.send(new HotelViewMessageComposer());

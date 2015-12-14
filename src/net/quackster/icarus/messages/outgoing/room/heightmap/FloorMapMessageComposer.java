@@ -9,8 +9,8 @@ public class FloorMapMessageComposer extends Response {
 	public FloorMapMessageComposer(Room room) {
 		this.init(Outgoing.FloorMapMessageComposer);
 		this.appendBoolean(true);
-		this.appendInt32(room.getWallHeight());
-		this.appendString(room.getModel().getFloorMap());
+		this.appendInt32(room.getData().getWallHeight());
+		this.appendString(room.getData().getModel().getFloorMap());
 	}
 
 }

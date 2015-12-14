@@ -9,6 +9,6 @@ public class PrepareRoomMessageComposer extends Response {
 	public PrepareRoomMessageComposer(Room room) {
 		
 		this.init(Outgoing.RoomUpdateMessageComposer);
-		this.appendInt32(room.getId());
+		this.appendInt32(room.getData().getId());
 	}
 }

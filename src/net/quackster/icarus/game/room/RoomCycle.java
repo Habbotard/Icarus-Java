@@ -62,7 +62,7 @@ public class RoomCycle implements Runnable {
 
 							roomUser.setRotation(Rotation.calculate(roomUser.getX(), roomUser.getY(), next.getX(), next.getY()), false);
 
-							double height = room.getModel().getSquareHeight()[next.getX()][next.getY()];
+							double height = room.getData().getModel().getSquareHeight()[next.getX()][next.getY()];
 							
 							roomUser.getStatuses().put("mv", String.valueOf(next.getX()).concat(",").concat(String.valueOf(next.getY())).concat(",").concat(String.valueOf(height)));
 							roomUser.updateStatus();
@@ -81,7 +81,7 @@ public class RoomCycle implements Runnable {
 						roomUser.stopWalking(false);
 						usersToUpdate.add(session);
 
-						if (roomUser.getPoint().sameAs(new Point(room.getModel().getDoorX(), room.getModel().getDoorY()))) {
+						if (roomUser.getPoint().sameAs(new Point(room.getData().getModel().getDoorX(), room.getData().getModel().getDoorY()))) {
 							roomUser.getRoom().leaveRoom(session, true);
 							continue;
 						}
@@ -94,7 +94,7 @@ public class RoomCycle implements Runnable {
 				this.usersToUpdate.clear();
 				
 				// regenerate map at the end of people walking if the room disallows people walking through each other
-				if (!room.isAllowWalkthrough()) {
+				if (!room.getData().isAllowWalkthrough()) {
 					room.regenerateCollisionMap();
 				}
 			}

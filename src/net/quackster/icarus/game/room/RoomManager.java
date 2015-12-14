@@ -19,7 +19,7 @@ public class RoomManager {
 		
 		for (Room loadedRoom : this.loadedRooms) {
 
-			if (room.getId() == loadedRoom.getId()) {
+			if (room.getData().getId() == loadedRoom.getData().getId()) {
 				add = false;
 			}
 		}
@@ -32,7 +32,7 @@ public class RoomManager {
 	public Room find(int roomId) {
 
 		try {
-			return Icarus.getGame().getRoomManager().getLoadedRooms().stream().filter(r -> r.getId() == roomId).findFirst().get();
+			return Icarus.getGame().getRoomManager().getLoadedRooms().stream().filter(r -> r.getData().getId() == roomId).findFirst().get();
 		} catch (Exception e) {
 			return null;
 		}
