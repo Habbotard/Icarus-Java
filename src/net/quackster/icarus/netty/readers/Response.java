@@ -17,16 +17,17 @@ public class Response
 	private ChannelBuffer body;
 
 	public Response() {
-
+		this.loadArray();
+	}
+	
+	public void loadArray() {
 		this.id = -1;
 		this.finalised = false;
 		this.body = ChannelBuffers.dynamicBuffer();
 		this.bodystream = new ChannelBufferOutputStream(body);
-		
 	}
 
 	public Response(int id) {
-		
 		this.init(id);
 	}
 

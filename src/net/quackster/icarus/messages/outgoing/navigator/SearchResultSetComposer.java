@@ -7,7 +7,6 @@ import net.quackster.icarus.game.navigator.NavigatorTab;
 import net.quackster.icarus.game.room.Room;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.headers.Outgoing;
-import net.quackster.icarus.messages.outgoing.room.RoomInfoComposer;
 import net.quackster.icarus.netty.readers.Response;
 
 public class SearchResultSetComposer extends Response {
@@ -51,7 +50,6 @@ public class SearchResultSetComposer extends Response {
 					this.appendInt32(rooms.size());
 					
 					for (Room room : rooms) {
-						//this.appendResponse(new RoomInfoComposer(room, false));
 						room.getData().serialise(this, false);
 					}
 					
