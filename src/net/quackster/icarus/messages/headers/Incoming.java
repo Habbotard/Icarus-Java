@@ -307,6 +307,7 @@ public class Incoming {
 	public static final short MessengerFriendsMessageEvent = 1860;//3762;
 	public static final short FriendListUpdateMessageEvent = 1475;//3653;
 	public static final short MessengerSearchMessageEvent = 2760;
+	public static final short MessengerRequestMessageEvent = 2826;
 }
 /*package net.quackster.icarus.messages.headers;
 
