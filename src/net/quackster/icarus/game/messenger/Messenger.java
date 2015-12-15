@@ -35,6 +35,12 @@ public class Messenger {
 		}
 	}
 
+	public void removeFriend(int id) {
+		
+		MessengerUser user = this.getFriend(id);
+		this.friends.remove(user);
+	}
+	
 	public boolean isFriend(int id) {
 		return this.getFriend(id) != null;
 	}

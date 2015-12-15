@@ -13,6 +13,7 @@ import net.quackster.icarus.messages.incoming.messenger.MessengerDeleteFriendMes
 import net.quackster.icarus.messages.incoming.messenger.MessengerMessageEvent;
 import net.quackster.icarus.messages.incoming.messenger.MessengerRequestMessageEvent;
 import net.quackster.icarus.messages.incoming.messenger.MessengerSearchMessageEvent;
+import net.quackster.icarus.messages.incoming.messenger.MessengerTalkMessageEvent;
 import net.quackster.icarus.messages.incoming.misc.*;
 import net.quackster.icarus.messages.incoming.navigator.*;
 import net.quackster.icarus.messages.incoming.room.*;
@@ -63,6 +64,7 @@ public class MessageHandler {
 		this.messages.put(Incoming.MessengerAcceptMessageEvent, new MessengerAcceptMessageEvent());
 		this.messages.put(Incoming.MessengerDeclineMessageEvent, new MessengerDeclineMessageEvent());
 		this.messages.put(Incoming.MessengerDeleteFriendMessageEvent, new MessengerDeleteFriendMessageEvent());
+		this.messages.put(Incoming.MessengerTalkMessageEvent, new MessengerTalkMessageEvent());
 		this.messages.put(Incoming.FriendListUpdateMessageEvent, new MessengerUpdateMessageEvent());
 	}
 	

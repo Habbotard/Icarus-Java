@@ -19,18 +19,17 @@ public class MessengerDeleteFriendMessageEvent implements Message {
 			int friendId = request.readInt();
 
 			if (session.getMessenger().isFriend(friendId)) {
-				
-				System.out.println("Is friend: " + friendId);
 
 				MessengerUser friend = session.getMessenger().getFriend(friendId);
 				
 				if (friend.isOnline()) {
+					friend.getSession().getMessenger().removeFriend(session.getDetails().getId());
 					friend.getSession().send(new RemoveFriendMessageComposer(session.getDetails().getId()));
 				}	
 				
+				session.getMessenger().removeFriend(friendId);
 				session.send(new RemoveFriendMessageComposer(friendId));
-			
-				session.getMessenger().getRequests().remove(friend);
+				
 				Icarus.getDao().getMessenger().removeFriend(friendId, session.getDetails().getId());
 			}
 		}
