@@ -15,16 +15,19 @@ public class MessengerSearchMessageEvent implements Message {
 		String searchQuery = request.readString();
 		
 		if (searchQuery == null) {
+			System.out.println("DEBUG 1");
 			return;
 		}
 
 		Messenger messenger = session.getMessenger();
 		
 		if (messenger == null) {
+			System.out.println("DEBUG 2");
 			return;
 		}
 		
 		if (!messenger.isInitalised()) {
+			System.out.println("DEBUG 3");
 			return;
 		}
 

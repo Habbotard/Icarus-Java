@@ -14,27 +14,26 @@ public class MessengerSearchMessageComposer extends Response {
 
 		List<MessengerFriend> friends = new ArrayList<MessengerFriend>();
 		List<MessengerFriend> strangers = new ArrayList<MessengerFriend>();
-		
+
 		for (Integer id : search) {
-			
-			if (id == session.getDetails().getId()) {
-				continue;
-			}
-			
-			if (session.getMessenger().isFriend(id)) {
-				friends.add(session.getMessenger().getFriend(id));
-			} else {
-				strangers.add(new MessengerFriend(id));
+
+			if (id != session.getDetails().getId()) {
+
+				if (session.getMessenger().isFriend(id)) {
+					friends.add(session.getMessenger().getFriend(id));
+				} else {
+					strangers.add(new MessengerFriend(id));
+				}
 			}
 		}
-		
+
 		this.init(Outgoing.MessengerSearchMessageComposer);
-		
-		this.init(friends.size());
+
+		this.appendInt32(friends.size());
 		for (MessengerFriend friend : friends) {
 			friend.searchSerialise(this);
 		}
-		
+
 		this.appendInt32(strangers.size());
 		for (MessengerFriend stranger : strangers) {
 			stranger.searchSerialise(this);
