@@ -3,7 +3,7 @@ package net.quackster.icarus.messages.outgoing.messenger;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.quackster.icarus.game.messenger.MessengerFriend;
+import net.quackster.icarus.game.messenger.MessengerUser;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.headers.Outgoing;
 import net.quackster.icarus.netty.readers.Response;
@@ -12,8 +12,8 @@ public class MessengerSearchMessageComposer extends Response {
 
 	public MessengerSearchMessageComposer(Session session, List<Integer> search) {
 
-		List<MessengerFriend> friends = new ArrayList<MessengerFriend>();
-		List<MessengerFriend> strangers = new ArrayList<MessengerFriend>();
+		List<MessengerUser> friends = new ArrayList<MessengerUser>();
+		List<MessengerUser> strangers = new ArrayList<MessengerUser>();
 
 		for (Integer id : search) {
 
@@ -22,7 +22,7 @@ public class MessengerSearchMessageComposer extends Response {
 				if (session.getMessenger().isFriend(id)) {
 					friends.add(session.getMessenger().getFriend(id));
 				} else {
-					strangers.add(new MessengerFriend(id));
+					strangers.add(new MessengerUser(id));
 				}
 			}
 		}
@@ -30,12 +30,12 @@ public class MessengerSearchMessageComposer extends Response {
 		this.init(Outgoing.MessengerSearchMessageComposer);
 		
 		this.appendInt32(friends.size());
-		for (MessengerFriend friend : friends) {
+		for (MessengerUser friend : friends) {
 			friend.searchSerialise(this);
 		}
 
 		this.appendInt32(strangers.size());
-		for (MessengerFriend stranger : strangers) {
+		for (MessengerUser stranger : strangers) {
 			stranger.searchSerialise(this);
 			stranger.dispose();
 		}

@@ -5,7 +5,7 @@ import net.quackster.icarus.game.user.CharacterDetails;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.netty.readers.Response;
 
-public class MessengerFriend {
+public class MessengerUser {
 
 	private int userId;
 	private boolean wasAlwaysOnline;
@@ -13,7 +13,7 @@ public class MessengerFriend {
 	private CharacterDetails details;
 	private Session session;
 
-	public MessengerFriend(int userId) {
+	public MessengerUser(int userId) {
 		this.userId = userId;
 
 		if (this.isOnline()) {

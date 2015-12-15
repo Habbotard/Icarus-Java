@@ -1,4 +1,4 @@
-package net.quackster.icarus.messages.outgoing.room.heightmap;
+package net.quackster.icarus.messages.outgoing.room;
 
 import net.quackster.icarus.game.room.model.RoomModel;
 import net.quackster.icarus.messages.headers.Outgoing;

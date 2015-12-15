@@ -213,11 +213,11 @@ public class Storage {
 			
 		}
 		
-		try {
+		/*try {
 			row.getStatement().getConnection().close();
 		} catch (Exception e) {
 			
-		}
+		}*/
 	}
 	
 	public void checkDriver() {

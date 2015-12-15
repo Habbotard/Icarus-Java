@@ -4,6 +4,7 @@ import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.Message;
 import net.quackster.icarus.messages.outgoing.messenger.FriendsListMessageComposer;
 import net.quackster.icarus.messages.outgoing.messenger.MessengerCategoriesMessageComposer;
+import net.quackster.icarus.messages.outgoing.messenger.MessengerRequestsMessageComposer;
 import net.quackster.icarus.netty.readers.Request;
 
 public class MessengerMessageEvent implements Message {
@@ -15,9 +16,10 @@ public class MessengerMessageEvent implements Message {
 			return;
 		}
 		
-		session.getMessenger().loadFriends();
+		session.getMessenger().init();
 		
 		session.send(new MessengerCategoriesMessageComposer());
+		session.send(new MessengerRequestsMessageComposer(session.getMessenger().getRequests()));
 		session.send(new FriendsListMessageComposer(session.getMessenger().getFriends()));
 	
 		session.getMessenger().sendStatus(true, false);
