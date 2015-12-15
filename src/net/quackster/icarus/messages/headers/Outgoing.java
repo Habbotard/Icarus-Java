@@ -298,4 +298,5 @@ public class Outgoing {
 	public static final short MessengerSearchMessageComposer = 2953;//3427;
 	public static final short MessengerSendRequest = 2061;
 	public static final short MessengerRequestsMessageComposer = 2344;
+	public static final short RemoveFriendMessageComposer = 3412;
 }

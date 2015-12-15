@@ -139,6 +139,13 @@ public class MySQLMessengerDao implements IMessengerDao {
 		this.dao.getStorage().execute("DELETE FROM messenger_requests WHERE from_id = " + fromId + " AND to_id = " + toId);
 		return false;
 	}
+	
+	@Override
+	public boolean removeFriend(int friendId, int userId) {
+		this.dao.getStorage().execute("DELETE FROM messenger_friendships WHERE (sender = " + userId + " AND receiver = " + friendId + ") OR (receiver = " + userId + " AND sender = " + friendId + ")");
+		return false;
+	}
+
 
 	@Override
 	public boolean newFriend(int sender, int receiver) {

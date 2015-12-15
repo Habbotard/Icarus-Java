@@ -12,4 +12,5 @@ public interface IMessengerDao {
 	public boolean newRequest(int fromId, int toId);
 	public boolean removeRequest(int fromId, int toId);
 	public boolean newFriend(int sender, int receiver);
+	public boolean removeFriend(int friendId, int userId);
 }
