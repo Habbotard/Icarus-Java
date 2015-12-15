@@ -203,7 +203,7 @@ public class Room {
 
 		try {
 
-			if (this.users.size() > 0 && (Icarus.getServer().getSessionManager().findById(this.data.getOwnerId()) != null)) {
+			if (this.users.size() > 0 || (Icarus.getServer().getSessionManager().findById(this.data.getOwnerId()) != null)) {
 				return;
 			}
 

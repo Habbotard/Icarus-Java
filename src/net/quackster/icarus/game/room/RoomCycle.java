@@ -25,10 +25,10 @@ public class RoomCycle implements Runnable {
 	public void run() {
 
 		try {
-			
-			ConcurrentLinkedQueue<Session> users = new ConcurrentLinkedQueue<Session>(room.getUsers());
-			
-			synchronized (users) { // gotta have dat thread safety, amirite? 
+
+			synchronized (room.getUsers()) { // gotta have dat thread safety, amirite? 
+
+				ConcurrentLinkedQueue<Session> users = new ConcurrentLinkedQueue<Session>(room.getUsers());
 
 				for (Session session : users) {
 
@@ -63,7 +63,7 @@ public class RoomCycle implements Runnable {
 							roomUser.setRotation(Rotation.calculate(roomUser.getX(), roomUser.getY(), next.getX(), next.getY()), false);
 
 							double height = room.getData().getModel().getSquareHeight()[next.getX()][next.getY()];
-							
+
 							roomUser.getStatuses().put("mv", String.valueOf(next.getX()).concat(",").concat(String.valueOf(next.getY())).concat(",").concat(String.valueOf(height)));
 							roomUser.updateStatus();
 
@@ -87,19 +87,20 @@ public class RoomCycle implements Runnable {
 						}
 					}
 				}
-			}
 
-			if (usersToUpdate.size() > 0) {
-				room.send(new UserStatusMessageComposer(usersToUpdate));
-				this.usersToUpdate.clear();
-				
-				// regenerate map at the end of people walking if the room disallows people walking through each other
-				if (!room.getData().isAllowWalkthrough()) {
-					room.regenerateCollisionMap();
+
+				if (usersToUpdate.size() > 0) {
+					room.send(new UserStatusMessageComposer(usersToUpdate));
+					this.usersToUpdate.clear();
+
+					// regenerate map at the end of people walking if the room disallows people walking through each other
+					if (!room.getData().isAllowWalkthrough()) {
+						room.regenerateCollisionMap();
+					}
 				}
+
+				users.clear();
 			}
-			
-			users.clear();
 
 		} catch (Exception e) {
 			e.printStackTrace();
