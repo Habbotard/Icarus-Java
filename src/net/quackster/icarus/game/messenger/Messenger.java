@@ -25,6 +25,21 @@ public class Messenger {
 
 		return this;
 	}
+	
+	public MessengerFriend getFriend(Integer id) {
+		try {
+			return this.friends.stream().filter(f -> f.getDetails().getId() == id).findFirst().get();
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	
+	public boolean isFriend(Integer id) {
+	
+		return this.getFriend(id) != null;
+	}
+	
 
 	public void sendStatus(boolean firstConnection, boolean forceOffline) {
 

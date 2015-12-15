@@ -8,6 +8,7 @@ import net.quackster.icarus.messages.headers.Outgoing;
 import net.quackster.icarus.messages.incoming.handshake.*;
 import net.quackster.icarus.messages.incoming.messenger.MessengerUpdateMessageEvent;
 import net.quackster.icarus.messages.incoming.messenger.MessengerMessageEvent;
+import net.quackster.icarus.messages.incoming.messenger.MessengerSearchMessageEvent;
 import net.quackster.icarus.messages.incoming.misc.*;
 import net.quackster.icarus.messages.incoming.navigator.*;
 import net.quackster.icarus.messages.incoming.room.*;
@@ -39,12 +40,7 @@ public class MessageHandler {
 		this.registerNavigatorPackets();
 		this.registerRoomPackets();
 	}
-
-	private void registerMessenger() {
-		this.messages.put(Incoming.MessengerFriendsMessageEvent, new MessengerMessageEvent());
-		this.messages.put(Incoming.FriendListUpdateMessageEvent, new MessengerUpdateMessageEvent());
-	}
-
+	
 	private void registerHandshakePackets() {
 		this.messages.put(Incoming.InitCryptoMessageEvent, new InitCryptoMessageEvent());
 		this.messages.put(Incoming.VersionCheckMessageEvent, new VersionCheckMessageEvent());
@@ -58,6 +54,12 @@ public class MessageHandler {
 		this.messages.put(Incoming.GetCurrencyBalanceMessageEvent, new GetCurrencyBalanceMessageEvent());
 	}
 	
+	private void registerMessenger() {
+		this.messages.put(Incoming.MessengerFriendsMessageEvent, new MessengerMessageEvent());
+		this.messages.put(Incoming.MessengerSearchMessageEvent, new MessengerSearchMessageEvent());
+		this.messages.put(Incoming.FriendListUpdateMessageEvent, new MessengerUpdateMessageEvent());
+	}
+	
 	private void registerNavigatorPackets() {
 		this.messages.put(Incoming.NewNavigatorMessageEvent, new NewNavigatorMessageEvent());
 		this.messages.put(Incoming.SearchNewNavigatorEvent, new SearchNewNavigatorEvent());
@@ -65,7 +67,7 @@ public class MessageHandler {
 
 	private void registerMiscPackets() {
 		this.messages.put(Incoming.EventLogMessageEvent, new EventLogMessageEvent());
-		this.messages.put(Incoming.RequestLatencyTestMessageEvent, new RequestLatencyTestMessageEvent());
+		this.messages.put(Incoming.LatencyTestMessageEvent, new LatencyTestMessageEvent());
 	}
 	
 	private void registerRoomPackets() {
@@ -79,7 +81,6 @@ public class MessageHandler {
 		this.messages.put(Incoming.DanceMessageEvent, new DanceMessageEvent());
 		this.messages.put(Incoming.StartTypingMessageEvent, new TypingStatusMessageEvent());
 		this.messages.put(Incoming.StopTypingMessageEvent, new TypingStatusMessageEvent());
-		
 		this.messages.put(Incoming.DoorbellAnswerMessageEvent, new DoorbellAnswerMessageEvent());
 		this.messages.put(Incoming.DoorbellEnterMessageEvent, new DoorbellEnterMessageEvent());
 	}

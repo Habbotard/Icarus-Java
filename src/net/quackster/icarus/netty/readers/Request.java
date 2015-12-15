@@ -52,10 +52,12 @@ public class Request
 	public String readString() {
 		
 		try {
-			int Length = this.readShort();
-			byte[] Data = this.buffer.readBytes(Length).array();
+			
+			int length = this.readShort();
+			byte[] data = this.buffer.readBytes(length).array();
 
-			return new String(Data);
+			return new String(data);
+			
 		} catch (Exception e) {
 			return null;
 		}

@@ -297,4 +297,5 @@ public class Outgoing {
     public static final short FriendRequestsMessageComposer = 2801;
     public static final short FriendUpdateMessageComposer = 3412;//2537;
     public static final short FindMoreFriendsSuccessMessageComposer = 1473;
+	public static final short MessengerSearchMessageComposer = 2953;//3427;
 }

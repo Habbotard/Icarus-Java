@@ -1,5 +1,6 @@
 package net.quackster.icarus.dao.mysql;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -52,6 +53,35 @@ public class MySQLMessengerDao implements IMessengerDao {
 		Storage.releaseObject(row);
 		
 		return friends;
+	}
+	
+	@Override
+	public List<Integer> search(String query) {
+		
+		List<Integer> users = new ArrayList<Integer>();
+		
+		ResultSet row = null;
+		
+		try {
+			
+			PreparedStatement statement = this.dao.getStorage().prepare("SELECT id FROM users WHERE username LIKE ? LIMIT 30"); {
+				statement.setString(1, "%" + query + "%");
+			}
+			
+			row = statement.executeQuery();
+			
+			while (row.next()) {
+				
+				users.add(row.getInt("id"));
+			}
+			
+		} catch (SQLException e) {
+			Log.exception(e);
+		}
+		
+		Storage.releaseObject(row);
+		
+		return users;
 	}
 
 	public MySQLDao getDao() {

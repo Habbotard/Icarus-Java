@@ -21,7 +21,7 @@ public class Incoming {
     public static final short GetCurrencyBalanceMessageEvent = 1386;//2838;
     public static final short GetSubscriptionDataMessageEvent = 2554;//3785;
     public static final short OnlineConfirmationMessageEvent = 523;
-    public static final short RequestLatencyTestMessageEvent = 590;
+    public static final short LatencyTestMessageEvent = 3307;//590;
     public static final short UserGetVolumeSettingsMessageEvent = 2214;
     public static final short SaveClientSettingsMessageEvent = 1901;
     public static final short GetTalentsTrackMessageEvent = 3049;
@@ -245,14 +245,8 @@ public class Incoming {
     public static final short QuestCancelMessageEvent = 1003;
     public static final short QuestSeasonalStartMessageEvent = 3560;
     public static final short QuestStartMessageEvent = 3943;
-    //public static final short OpenAchievementsBoxMessageEvent = 1958;
     public static final short RoomSuccessMessageEvent = 1958;
     public static final short CompleteSafetyQuizMessageEvent = 1107;
-    //public static final short ConsoleInstantChatMessageEvent = 534;
-    //public static final short ConsoleInviteFriendsMessageEvent = 2791;
-    //public static final short ConsoleSearchFriendsMessageEvent = 3315;
-    //public static final short FollowFriendMessageEvent = 2511;
-    //public static final short FriendRequestListLoad = 41;
     public static final short AcceptFriendMessageEvent = 1269;
     public static final short DeclineFriendMessageEvent = 2394;
     public static final short DeleteFriendMessageEvent = 2443;
@@ -291,9 +285,9 @@ public class Incoming {
     public static final short DeleteGroupMessageEvent = 434;
     public static final short GameCenterLoadGameMessageEvent = 67;
     public static final short GameCenterJoinQueueMessageEvent = 2482;
-    public static final short EventLogMessageEvent = 3747;
+    public static final short EventLogMessageEvent = 1787;//3747;
     public static final short ClickGamesMessageEvent = 3747; // EventLogMessageEvent
-    //public static final short SearchNewNavigatorEvent = 3747;
+
     public static final short AcceptPollMessageEvent = 3986;
     public static final short RefusePollMessageEvent = 1539;
     public static final short AnswerPollQuestionMessageEvent = 2403;
@@ -312,6 +306,7 @@ public class Incoming {
 	// messenger
 	public static final short MessengerFriendsMessageEvent = 1860;//3762;
 	public static final short FriendListUpdateMessageEvent = 1475;//3653;
+	public static final short MessengerSearchMessageEvent = 2760;
 }
 /*package net.quackster.icarus.messages.headers;
 
