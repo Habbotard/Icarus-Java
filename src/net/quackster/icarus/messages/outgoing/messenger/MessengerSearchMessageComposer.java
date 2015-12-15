@@ -28,7 +28,7 @@ public class MessengerSearchMessageComposer extends Response {
 		}
 
 		this.init(Outgoing.MessengerSearchMessageComposer);
-
+		
 		this.appendInt32(friends.size());
 		for (MessengerFriend friend : friends) {
 			friend.searchSerialise(this);
@@ -37,6 +37,7 @@ public class MessengerSearchMessageComposer extends Response {
 		this.appendInt32(strangers.size());
 		for (MessengerFriend stranger : strangers) {
 			stranger.searchSerialise(this);
+			stranger.dispose();
 		}
 	}
 
