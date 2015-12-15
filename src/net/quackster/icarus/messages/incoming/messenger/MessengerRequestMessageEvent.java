@@ -37,10 +37,12 @@ public class MessengerRequestMessageEvent implements Message {
 			session.getMessenger().getRequests().add(user);
 
 			if (user.isOnline()) {
+				
 				Response response = new Response(Outgoing.MessengerSendRequest);
+				
 				response.appendInt32(session.getDetails().getId());
-				response.appendString(user.getDetails().getUsername());
-				response.appendString(user.getDetails().getFigure());
+				response.appendString(session.getDetails().getUsername());
+				response.appendString(session.getDetails().getFigure());
 				user.getSession().send(response);
 
 			}

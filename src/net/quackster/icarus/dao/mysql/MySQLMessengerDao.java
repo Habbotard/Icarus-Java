@@ -65,7 +65,7 @@ public class MySQLMessengerDao implements IMessengerDao {
 			row = dao.getStorage().getTable("SELECT * FROM messenger_requests WHERE to_id = " + userId);
 
 			while (row.next()) {
-				users.add(new MessengerUser(row.getInt("to_id")));
+				users.add(new MessengerUser(row.getInt("from_id")));
 			}
 
 		} catch (SQLException e) {
@@ -121,11 +121,39 @@ public class MySQLMessengerDao implements IMessengerDao {
 						statement.setInt(2, fromId);
 						statement.execute();
 					}
-					
+
 
 					return true;
 				}
 			}
+
+		} catch (SQLException e) {
+			Log.exception(e);
+		}
+
+		return false;
+	}
+
+	@Override
+	public boolean removeRequest(int fromId, int toId) {
+		this.dao.getStorage().execute("DELETE FROM messenger_requests WHERE from_id = " + fromId + " AND to_id = " + toId);
+		return false;
+	}
+
+	@Override
+	public boolean newFriend(int sender, int receiver) {
+
+		PreparedStatement statement = null;
+
+		try {
+
+			statement = dao.getStorage().prepare("INSERT INTO messenger_friendships (sender, receiver) VALUES (?, ?)"); {
+				statement.setInt(1, sender);
+				statement.setInt(2, receiver);
+				statement.execute();
+			}
+
+			return true;
 
 		} catch (SQLException e) {
 			Log.exception(e);

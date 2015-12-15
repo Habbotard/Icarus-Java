@@ -7,6 +7,7 @@ import net.quackster.icarus.messages.headers.Incoming;
 import net.quackster.icarus.messages.headers.Outgoing;
 import net.quackster.icarus.messages.incoming.handshake.*;
 import net.quackster.icarus.messages.incoming.messenger.MessengerUpdateMessageEvent;
+import net.quackster.icarus.messages.incoming.messenger.MessengerAcceptMessageEvent;
 import net.quackster.icarus.messages.incoming.messenger.MessengerMessageEvent;
 import net.quackster.icarus.messages.incoming.messenger.MessengerRequestMessageEvent;
 import net.quackster.icarus.messages.incoming.messenger.MessengerSearchMessageEvent;
@@ -57,6 +58,7 @@ public class MessageHandler {
 		this.messages.put(Incoming.MessengerFriendsMessageEvent, new MessengerMessageEvent());
 		this.messages.put(Incoming.MessengerSearchMessageEvent, new MessengerSearchMessageEvent());
 		this.messages.put(Incoming.MessengerRequestMessageEvent, new MessengerRequestMessageEvent());
+		this.messages.put(Incoming.MessengerAcceptMessageEvent, new MessengerAcceptMessageEvent());
 		this.messages.put(Incoming.FriendListUpdateMessageEvent, new MessengerUpdateMessageEvent());
 	}
 	

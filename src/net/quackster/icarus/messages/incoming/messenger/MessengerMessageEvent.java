@@ -19,7 +19,7 @@ public class MessengerMessageEvent implements Message {
 		session.getMessenger().init();
 		
 		session.send(new MessengerCategoriesMessageComposer());
-		session.send(new MessengerRequestsMessageComposer(session.getMessenger().getRequests()));
+		session.send(new MessengerRequestsMessageComposer(session, session.getMessenger().getRequests()));
 		session.send(new FriendsListMessageComposer(session.getMessenger().getFriends()));
 	
 		session.getMessenger().sendStatus(true, false);
