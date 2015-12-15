@@ -34,12 +34,6 @@ public class NetworkDecoder extends FrameDecoder
 	@Override
 	protected Object decode(ChannelHandlerContext ctx, Channel channel, ChannelBuffer buffer) {
 		
-		Session session = (Session) channel.getAttachment();
-		
-		if (session.getSessionEncryption().isEncrypted()) {
-			buffer = session.getSessionEncryption().getRC4().decipher(buffer);
-		}
-		
 		try  {		
 			
 			if (buffer.readableBytes() < 6)

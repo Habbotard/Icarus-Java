@@ -43,9 +43,7 @@ public class MessageHandler {
 	}
 	
 	private void registerHandshakePackets() {
-		this.messages.put(Incoming.InitCryptoMessageEvent, new InitCryptoMessageEvent());
 		this.messages.put(Incoming.VersionCheckMessageEvent, new VersionCheckMessageEvent());
-		this.messages.put(Incoming.GenerateSecretKeyMessageEvent, new GenerateSecretKeyMessageEvent());
 		this.messages.put(Incoming.UniqueIDMessageEvent, new UniqueIDMessageEvent());
 		this.messages.put(Incoming.SSOTicketMessageEvent, new SSOTicketMessageEvent());
 	}

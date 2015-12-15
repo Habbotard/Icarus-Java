@@ -15,7 +15,6 @@ import net.quackster.icarus.netty.readers.Response;
 public class Session {
 
 	private Channel channel;
-	private SessionEncryption sessionEncryption;
 	private String machineId;
 	private CharacterDetails details;
 	private SessionConnection connection;
@@ -26,7 +25,6 @@ public class Session {
 
 		this.channel = channel;
 		this.details = new CharacterDetails();
-		this.sessionEncryption = new SessionEncryption();
 		this.connection = new SessionConnection(this);
 		this.roomUser = new RoomUser(this);
 		this.messenger = new Messenger(this);
@@ -82,20 +80,12 @@ public class Session {
 
 		this.details.dispose();
 		this.details = null;
-
-		this.sessionEncryption.dispose();
-		this.sessionEncryption = null;
 		
 		this.connection.dispose();
 		this.connection = null;
 
 		//this.channel = null;
 		this.machineId = null;
-	}
-
-
-	public SessionEncryption getSessionEncryption() {
-		return sessionEncryption;
 	}
 
 	public Channel getChannel() {
