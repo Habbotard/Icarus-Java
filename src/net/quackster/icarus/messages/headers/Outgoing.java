@@ -291,7 +291,7 @@ public class Outgoing {
     public static final short AcceptUserInsideRoomMessageComposer = 875;//
     
     // messenger
-	public static final short InitMessengerMessageComposer = 2925;//
+	public static final short InitMessengerMessageComposer = 2925;//o
 	public static final short MessengerCategoriesMessageComposer = 249;//
     public static final short FollowFriendErrorMessageComposer = 3125;
     public static final short FriendUpdateMessageComposer = 3412;//2537;

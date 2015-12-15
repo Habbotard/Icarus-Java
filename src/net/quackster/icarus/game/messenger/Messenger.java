@@ -11,7 +11,7 @@ public class Messenger {
 
 	private boolean initalised;
 	private Session session;
-	
+
 	private List<MessengerUser> friends;
 	private List<MessengerUser> requests;
 
@@ -26,7 +26,7 @@ public class Messenger {
 		this.requests = Icarus.getDao().getMessenger().getRequests(session.getDetails().getId());
 		this.initalised = true;
 	}
-	
+
 	public MessengerUser getFriend(int id) {
 		try {
 			return this.friends.stream().filter(f -> f.getDetails().getId() == id).findFirst().get();
@@ -34,7 +34,7 @@ public class Messenger {
 			return null;
 		}
 	}
-	
+
 	public boolean isFriend(int id) {
 		return this.getFriend(id) != null;
 	}
@@ -46,12 +46,12 @@ public class Messenger {
 			return null;
 		}
 	}
-	
-	
+
+
 	public boolean hasReqest(int id) {
 		return this.getRequest(id) != null;
 	}
-	
+
 	public void sendStatus(boolean firstConnection, boolean forceOffline) {
 
 		Response message = new MessengerUpdateMessageComposer(new MessengerUser(this.session.getDetails().getId()), forceOffline);
@@ -59,15 +59,7 @@ public class Messenger {
 		for (MessengerUser friend : this.friends) {
 
 			if (friend.isOnline()) {
-
-				if (firstConnection) {
-				
-					boolean alwaysOnline = friend.getSession().getMessenger().getFriends().stream().filter(f -> f.getDetails().getId() == this.session.getDetails().getId()).findAny().get().wasAlwaysOnline();
-
-					if (!alwaysOnline) {
-						friend.getSession().send(message);
-					}
-				} else {
+				if (friend.getSession().getMessenger().isInitalised()) {
 					friend.getSession().send(message);
 				}
 			}
@@ -80,7 +72,7 @@ public class Messenger {
 			this.friends.clear();
 			this.friends = null;
 		}
-		
+
 		if (this.requests != null) {
 			this.requests.clear();
 			this.requests = null;
