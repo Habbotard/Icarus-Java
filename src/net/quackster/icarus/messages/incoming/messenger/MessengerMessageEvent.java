@@ -16,14 +16,13 @@ public class MessengerMessageEvent implements Message {
 			return;
 		}
 		
-		session.getMessenger().init();
+		session.getMessenger().load();
 		
 		session.send(new MessengerCategoriesMessageComposer());
 		session.send(new MessengerRequestsMessageComposer(session, session.getMessenger().getRequests()));
 		session.send(new FriendsListMessageComposer(session.getMessenger().getFriends()));
-	
-		session.getMessenger().sendStatus(true, false);
 		
+		session.getMessenger().setInitalised(true);
 	}
 
 }

@@ -8,7 +8,7 @@ public class LatencyTestMessageEvent implements Message {
 
 	@Override
 	public void handle(Session session, Request request) {
-		session.getConnection().packetCheck();
+		session.getConnection().packetCheck(request.getMessageId());
 	}
 
 }

@@ -70,7 +70,7 @@ public class Session {
 			Log.exception(e);
 		}
 		
-		this.messenger.sendStatus(false, false);
+		this.messenger.sendStatus(false);
 		
 		this.messenger.dispose();
 		this.messenger = null;

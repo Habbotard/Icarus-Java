@@ -300,4 +300,6 @@ public class Outgoing {
 	public static final short MessengerRequestsMessageComposer = 2344;
 	public static final short RemoveFriendMessageComposer = 3412;
 	public static final short MessengerMessageComposer = 3922;//1993;
+	public static final short FollowBuddyMessageComposer = 0x0A0A;
+	public static final short FollowErrorMessageComposer = 753;
 }

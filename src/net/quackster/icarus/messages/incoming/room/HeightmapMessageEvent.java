@@ -66,6 +66,6 @@ public class HeightmapMessageEvent implements Message {
 		}
 
 		session.send(new RoomDataMessageComposer(room, session, true, true));
-		session.getMessenger().sendStatus(false, false);
+		session.getMessenger().sendStatus(false);
 	}
 }

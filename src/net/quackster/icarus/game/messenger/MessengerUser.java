@@ -10,14 +10,18 @@ public class MessengerUser {
 	private int userId;
 	private CharacterDetails details;
 	private Session session;
+	
+	private boolean originallyOnline;
 
 	public MessengerUser(int userId) {
 		this.userId = userId;
 
 		if (this.isOnline()) {
 			this.details = this.session.getDetails();
+			this.originallyOnline = true;
 		} else {
 			this.details = Icarus.getDao().getPlayer().getDetails(this.userId);
+			this.originallyOnline = false;
 		}
 
 
@@ -31,7 +35,7 @@ public class MessengerUser {
 
 		response.appendInt32(this.getDetails().getId());
 		response.appendString(this.getDetails().getUsername());
-		response.appendInt32(0); // gender
+		response.appendInt32(forceOffline ? false : this.isOnline()); // gender
 		response.appendBoolean(forceOffline ? false : this.isOnline());
 		response.appendBoolean(forceOffline ? false : this.inRoom());
 
@@ -92,6 +96,10 @@ public class MessengerUser {
 
 	public boolean inRoom() {
 		return isOnline() ? session.getRoomUser().inRoom() : false;
+	}
+
+	public boolean isOriginallyOnline() {
+		return originallyOnline;
 	}
 
 }
