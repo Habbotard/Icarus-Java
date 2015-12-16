@@ -8,6 +8,7 @@ import net.quackster.icarus.game.room.model.Point;
 import net.quackster.icarus.game.room.model.RoomModel;
 import net.quackster.icarus.game.room.player.RoomSearch;
 import net.quackster.icarus.game.room.player.RoomUser;
+import net.quackster.icarus.game.room.settings.RoomType;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.log.Log;
 import net.quackster.icarus.messages.outgoing.room.PrepareRoomMessageComposer;
@@ -20,16 +21,16 @@ import net.quackster.icarus.messages.outgoing.room.user.RemoveUserMessageCompose
 import net.quackster.icarus.netty.readers.Response;
 
 public class Room {
-	
+
 	private int privateId;
 	private int[][] collisionMap;
 	private boolean disposed;
 
 	private RoomSearch search;
 	private RoomData data;
-	
+
 	private List<Session> users;
-	
+
 	private ScheduledFuture<?> tickTask;
 
 	public Room() {
@@ -37,11 +38,11 @@ public class Room {
 		this.data = new RoomData(this);
 		this.users = new ArrayList<Session>();
 	}
-	
+
 	public void leaveRoom(Session session, boolean hotelView) {
 
 		if (hotelView) {;
-			session.send(new HotelViewMessageComposer());
+		session.send(new HotelViewMessageComposer());
 		}
 
 		this.send(new RemoveUserMessageComposer(session.getRoomUser().getVirtualId()));
@@ -59,10 +60,10 @@ public class Room {
 				this.tickTask.cancel(true);
 				this.tickTask = null;
 			}
-			
+
 			this.dispose();
 		}
-		
+
 		session.getMessenger().sendStatus(false);
 	}
 
@@ -74,11 +75,11 @@ public class Room {
 			return this.data.getRights().contains(userId);
 		}
 	}
-	
+
 	public void loadRoom(Session session) {
 
 		RoomUser roomUser = session.getRoomUser();
-		
+
 		roomUser.setRoom(this);
 		roomUser.setLoadingRoom(true);
 		roomUser.getStatuses().clear();
@@ -165,7 +166,7 @@ public class Room {
 	public RoomData getData() {
 		return data;
 	}
-	
+
 	public RoomSearch getSearch() {
 		return this.search;
 	}
@@ -173,11 +174,11 @@ public class Room {
 	public List<Session> getUsers() {
 		return users;
 	}
-	
+
 	public void setUsers(ArrayList<Session> arrayList) {
 		this.users = arrayList;
 	}
-	
+
 	public int getVirtualId() {
 		this.privateId = this.privateId + 1;
 		return this.privateId;
@@ -186,7 +187,7 @@ public class Room {
 	public int[][] getCollisionMap() {
 		return collisionMap;
 	}
-	
+
 	public void setTickTask(ScheduledFuture<?> task) {
 		this.tickTask = task;
 	}
@@ -194,7 +195,7 @@ public class Room {
 	public String getPassword() {
 		return "xd";
 	}
-	
+
 	public void dispose() {
 
 		if (this.disposed) {
@@ -203,21 +204,27 @@ public class Room {
 
 		try {
 
-			if (this.users.size() > 0 || (Icarus.getServer().getSessionManager().findById(this.data.getOwnerId()) != null)) {
+			if (this.data.getRoomType() == RoomType.PRIVATE) {
+				if (this.users.size() > 0 || (Icarus.getServer().getSessionManager().findById(this.data.getOwnerId()) != null)) {
+					return;
+				}
+			} else {
 				return;
 			}
 
 			Icarus.getGame().getRoomManager().getLoadedRooms().remove(this);
-
+			
+			System.out.println("Room ID (" + this.data.getId() + ") disposed");
+			
 			this.collisionMap = null;
 			this.tickTask = null;
-			
+
 			this.users.clear();
 			this.users = null;
-			
+
 			this.data.dispose();
 			this.data = null;
-			
+
 			this.search.dispose();
 			this.search = null;
 

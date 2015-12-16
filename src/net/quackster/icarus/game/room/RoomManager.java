@@ -2,8 +2,10 @@ package net.quackster.icarus.game.room;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import net.quackster.icarus.Icarus;
+import net.quackster.icarus.game.room.settings.RoomType;
 
 public class RoomManager {
 
@@ -11,6 +13,10 @@ public class RoomManager {
 
 	public RoomManager() {
 		this.loadedRooms = new ArrayList<Room>();
+	}
+	
+	public void load() {
+		Icarus.getDao().getRoom().getPublicRooms(true);
 	}
 
 	public void add(Room room) {
@@ -25,7 +31,24 @@ public class RoomManager {
 		}
 
 		if (add) {
+			System.out.println("Added room: " + room.getData().getId());
 			this.loadedRooms.add(room);
+		}
+	}
+	
+	public List<Room> getPublicRooms() {
+		try {
+			return this.loadedRooms.stream().filter(room -> room.getData().getRoomType() == RoomType.PUBLIC).collect(Collectors.toList());
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	public List<Room> getPlayerRooms(int userId) {
+		try {
+			return this.loadedRooms.stream().filter(room -> room.getData().getOwnerId() == userId).collect(Collectors.toList());
+		} catch (Exception e) {
+			return null;
 		}
 	}
 
@@ -41,4 +64,5 @@ public class RoomManager {
 	public List<Room> getLoadedRooms() {
 		return loadedRooms;
 	}
+
 }

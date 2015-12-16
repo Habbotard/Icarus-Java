@@ -20,10 +20,10 @@ public class SessionManager
 		return sessions.containsKey(channel.getId());
 	}
 	
-	public void checkForDuplicates(Session session) {
+	public boolean checkForDuplicates(Session session) {
 		
 		if (session.getDetails() == null || session.getDetails() == null) {
-			return;
+			return false;
 		}
 		
 		for (Session player : Icarus.getServer().getSessionManager().getSessions().values()) {
@@ -34,10 +34,11 @@ public class SessionManager
 			
 			if (player.getDetails().getId() == session.getDetails().getId()) {
 				if (player.getChannel().getId() != session.getChannel().getId()) { // user tries to login twice
-					session.close(); // fuck off
+					return true;
 				}
 			}
 		}
+		return false;
 	}
 
 

@@ -1,4 +1,4 @@
-package net.quackster.icarus.game.room;
+package net.quackster.icarus.game.room.settings;
 
 public enum RoomState {
 	

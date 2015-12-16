@@ -38,6 +38,8 @@ public class Icarus {
 			if (dao.isConnected()) {
 				game = new Game();
 				
+				game.getRoomManager().load();
+				
 				startServer();
 			
 			}

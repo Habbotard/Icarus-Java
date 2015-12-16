@@ -5,16 +5,20 @@ import java.util.List;
 
 import net.quackster.icarus.Icarus;
 import net.quackster.icarus.game.room.model.RoomModel;
+import net.quackster.icarus.game.room.settings.RoomState;
+import net.quackster.icarus.game.room.settings.RoomType;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.netty.readers.Response;
 
 public class RoomData {
 
 	private int id;
+	private RoomType roomType;
 	private int ownerId;
 	private String ownerName;
 	private String name;
 	private RoomState state;
+	private String thumbnail;
 	private int usersNow;
 	private int usersMax;
 	private String description;
@@ -26,7 +30,6 @@ public class RoomData {
 	private String wall;
 	private String floor;
 	private String landscape;
-	private String roomType = "private";
 	private boolean allowPets;
 	private boolean allowPetsEat;
 	private boolean allowWalkthrough;
@@ -44,12 +47,13 @@ public class RoomData {
 		this.rights = new ArrayList<Integer>();
 	}
 	
-	public void fill(int id, int ownerId, String ownerName, String name, int state, int usersNow, int usersMax,
+	public void fill(int id, RoomType type, int ownerId, String ownerName, String name, int state, int usersNow, int usersMax,
 			String description, int tradeState, int score, int category, int groupId, String model, String wall,
 			String floor, String landscape, boolean allowPets, boolean allowPetsEat, boolean allowWalkthrough,
 			boolean hideWall, int wallThickness, int floorThickness, String tagFormat) {
 
 		this.id = id;
+		this.roomType = type;
 		this.ownerId = ownerId;
 		this.ownerName = ownerName;
 		this.name = name;
@@ -100,7 +104,13 @@ public class RoomData {
 		// if has event
 		//enumType += 4;
 
-		if (this.roomType.equals("private")) {
+		if (this.thumbnail != null) {
+			if (this.thumbnail.length() > 0) {
+				enumType += 1;
+			}
+		}
+		
+		if (this.roomType == RoomType.PRIVATE) {
 			enumType += 8;
 		}
 
@@ -109,6 +119,12 @@ public class RoomData {
 		}
 
 		response.appendInt32(enumType);
+		
+		if (this.thumbnail != null) {
+			if (this.thumbnail.length() > 0) {
+				response.appendString(this.thumbnail);
+			}
+		}
 		
 		//response.appendString("Hello");
         //response.appendString("xd lolz");
@@ -280,7 +296,15 @@ public class RoomData {
 		return usersNow;
 	}
 
-	public String getRoomType() {
+	public String getThumbnail() {
+		return thumbnail;
+	}
+
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
+	}
+
+	public RoomType getRoomType() {
 		return roomType;
 	}
 

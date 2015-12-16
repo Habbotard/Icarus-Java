@@ -1348,3 +1348,53 @@ java.lang.NullPointerException
 	at net.quackster.icarus.dao.mysql.MySQLDao.<init>(MySQLDao.java:27)
 	at net.quackster.icarus.Icarus.main(Icarus.java:35)
 
+---------------------------------------------
+ 12/16/2015 11:50:54 - Error has occured!
+java.lang.NullPointerException
+	at net.quackster.icarus.dao.mysql.MySQLRoomDao.getPublicRooms(MySQLRoomDao.java:66)
+	at net.quackster.icarus.game.room.RoomManager.<init>(RoomManager.java:16)
+	at net.quackster.icarus.game.Game.<init>(Game.java:13)
+	at net.quackster.icarus.Icarus.main(Icarus.java:39)
+
+---------------------------------------------
+ 12/16/2015 11:51:49 - Error has occured!
+java.lang.NullPointerException
+	at net.quackster.icarus.dao.mysql.MySQLRoomDao.getPublicRooms(MySQLRoomDao.java:66)
+	at net.quackster.icarus.game.room.RoomManager.<init>(RoomManager.java:16)
+	at net.quackster.icarus.game.Game.<init>(Game.java:13)
+	at net.quackster.icarus.Icarus.main(Icarus.java:39)
+
+---------------------------------------------
+ 12/16/2015 12:04:35 - Error has occured!
+java.lang.NullPointerException
+	at net.quackster.icarus.dao.mysql.MySQLRoomDao.getPublicRooms(MySQLRoomDao.java:66)
+	at net.quackster.icarus.game.room.RoomManager.<init>(RoomManager.java:16)
+	at net.quackster.icarus.game.Game.<init>(Game.java:13)
+	at net.quackster.icarus.Icarus.main(Icarus.java:39)
+
+---------------------------------------------
+ 12/16/2015 12:06:05 - Error has occured!
+java.lang.NullPointerException
+	at net.quackster.icarus.dao.mysql.MySQLRoomDao.fill(MySQLRoomDao.java:197)
+	at net.quackster.icarus.dao.mysql.MySQLRoomDao.getPublicRooms(MySQLRoomDao.java:67)
+	at net.quackster.icarus.game.room.RoomManager.<init>(RoomManager.java:16)
+	at net.quackster.icarus.game.Game.<init>(Game.java:13)
+	at net.quackster.icarus.Icarus.main(Icarus.java:39)
+
+---------------------------------------------
+ 12/16/2015 12:07:16 - Error has occured!
+java.lang.NullPointerException
+	at net.quackster.icarus.dao.mysql.MySQLRoomDao.fill(MySQLRoomDao.java:197)
+	at net.quackster.icarus.dao.mysql.MySQLRoomDao.getPublicRooms(MySQLRoomDao.java:67)
+	at net.quackster.icarus.game.room.RoomManager.load(RoomManager.java:19)
+	at net.quackster.icarus.game.Game.<init>(Game.java:14)
+	at net.quackster.icarus.Icarus.main(Icarus.java:39)
+
+---------------------------------------------
+ 12/16/2015 12:08:21 - Error has occured!
+java.lang.NullPointerException
+	at net.quackster.icarus.dao.mysql.MySQLRoomDao.fill(MySQLRoomDao.java:200)
+	at net.quackster.icarus.dao.mysql.MySQLRoomDao.getPublicRooms(MySQLRoomDao.java:70)
+	at net.quackster.icarus.game.room.RoomManager.load(RoomManager.java:19)
+	at net.quackster.icarus.Icarus.main(Icarus.java:41)
+

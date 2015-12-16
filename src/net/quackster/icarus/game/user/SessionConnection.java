@@ -35,7 +35,7 @@ public class SessionConnection {
 			// "LatencyTestMessageEvent" sends when all the intro packets are finished
 			if (!session.getConnection().hasSentMessengerStatus()) {
 				
-				if (session.getMessenger().isInitalised()) {
+				if (session.getMessenger().hasInitalised()) {
 					session.getMessenger().sendStatus(false);
 				}
 			}

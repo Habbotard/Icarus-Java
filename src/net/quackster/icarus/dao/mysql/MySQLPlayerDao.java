@@ -89,7 +89,9 @@ public class MySQLPlayerDao implements IPlayerDao, IProcessStorage<CharacterDeta
 			row.next();
 			
 			int id = row.getInt("id");
+			
 			Storage.releaseObject(row);
+			
 			return id;
 
 		} catch (SQLException e) {

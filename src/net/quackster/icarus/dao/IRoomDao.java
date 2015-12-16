@@ -7,6 +7,7 @@ import net.quackster.icarus.game.user.CharacterDetails;
 
 public interface IRoomDao {
 
+	public List<Room> getPublicRooms(boolean storeInMemory);
 	public List<Room> getPlayerRooms(CharacterDetails details);
 	public List<Room> getPlayerRooms(CharacterDetails details, boolean storeInMemory);
 	public Room getRoom(int roomId);

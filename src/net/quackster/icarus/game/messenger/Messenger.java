@@ -5,7 +5,6 @@ import java.util.List;
 import net.quackster.icarus.Icarus;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.outgoing.messenger.MessengerUpdateMessageComposer;
-import net.quackster.icarus.messages.outgoing.messenger.RemoveFriendMessageComposer;
 import net.quackster.icarus.netty.readers.Response;
 
 public class Messenger {
@@ -22,11 +21,19 @@ public class Messenger {
 	}
 
 	public void load() {
-
 		this.friends = Icarus.getDao().getMessenger().getFriends(session.getDetails().getId());
 		this.requests = Icarus.getDao().getMessenger().getRequests(session.getDetails().getId());
 	}
 
+
+	public boolean hasReqest(int id) {
+		return this.getRequest(id) != null;
+	}
+	
+	public boolean isFriend(int id) {
+		return this.getFriend(id) != null;
+	}
+	
 	public MessengerUser getFriend(int id) {
 		try {
 			return this.friends.stream().filter(f -> f.getDetails().getId() == id).findFirst().get();
@@ -34,17 +41,7 @@ public class Messenger {
 			return null;
 		}
 	}
-
-	public void removeFriend(int id) {
-
-		MessengerUser user = this.getFriend(id);
-		this.friends.remove(user);
-	}
-
-	public boolean isFriend(int id) {
-		return this.getFriend(id) != null;
-	}
-
+	
 	public MessengerUser getRequest(int id) {
 		try {
 			return this.requests.stream().filter(r -> r.getDetails().getId() == id).findFirst().get();
@@ -54,10 +51,11 @@ public class Messenger {
 	}
 
 
-	public boolean hasReqest(int id) {
-		return this.getRequest(id) != null;
+	public void removeFriend(int id) {
+		MessengerUser user = this.getFriend(id);
+		this.friends.remove(user);
 	}
-
+	
 	public void sendStatus(boolean forceOffline) {
 
 		Response message = new MessengerUpdateMessageComposer(new MessengerUser(this.session.getDetails().getId()), forceOffline);
@@ -65,46 +63,12 @@ public class Messenger {
 		for (MessengerUser friend : this.friends) {
 
 			if (friend.isOnline()) {
-				if (friend.getSession().getMessenger().isInitalised()) {
+				if (friend.getSession().getMessenger().hasInitalised()) {
 					friend.getSession().send(message);
 				}
-
 			}
 		}
 	}
-	
-	/*	public void sendStatus(boolean notification, boolean forceOffline) {
-
-		for (MessengerUser friend : this.friends) {
-
-			if (friend.isOnline()) {
-				if (friend.getSession().getMessenger().isInitalised()) {
-
-					/if (firstConnection) {
-						if (!friend.getSession().getMessenger().getFriend(this.session.getDetails().getId()).isOriginallyOnline()) {
-							friend.getSession().send(message);
-						}
-					} else {
-						friend.getSession().send(message);
-					}*
-					
-					friend.getSession().getMessenger().updateFriend(this.session.getDetails().getId(), friend, forceOffline, true);
-					updateFriend(friend.getUserId(), friend, forceOffline, notification);
-				}
-
-			}
-		}
-	}
-	
-	
-	public void updateFriend(int userId, MessengerUser friend, boolean forceOffline, boolean notification) {
-		
-		if (!notification) {
-			return;
-		}
-		
-		friend.getSession().send(new MessengerUpdateMessageComposer(new MessengerUser(userId), forceOffline));
-	}*/
 	
 	public void dispose() {
 
@@ -129,13 +93,11 @@ public class Messenger {
 		return requests;
 	}
 
-	public boolean isInitalised() {
+	public boolean hasInitalised() {
 		return initalised;
 	}
 
 	public void setInitalised(boolean initalised) {
 		this.initalised = initalised;
-
 	}
-
 }

@@ -26,8 +26,10 @@ public class SSOTicketMessageEvent implements Message {
 			return;
 		}
 		
-		// clear any duplicate peoples
-		Icarus.getServer().getSessionManager().checkForDuplicates(session);
+		if (Icarus.getServer().getSessionManager().checkForDuplicates(session)) {
+			session.close();
+			return;
+		}
 		
 		session.send(new UniqueMachineIDMessageComposer(session.getMachineId()));
 		session.send(new AuthenticationOKMessageComposer());

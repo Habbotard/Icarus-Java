@@ -112,19 +112,15 @@ public class MySQLMessengerDao implements IMessengerDao {
 
 		try {
 
-			if (!this.dao.getStorage().exists("SELECT * FROM messenger_requests WHERE to_id = '" + toId + "' AND from_id = '" + fromId + "'")) {
+			if (!this.dao.getStorage().exists("SELECT * FROM messenger_requests WHERE to_id = '" + toId + "' AND from_id = '" + fromId + "'") && !this.dao.getStorage().exists("SELECT * FROM messenger_requests WHERE from_id = '" + toId + "' AND to_id = '" + fromId + "'")) {
 
-				if (!this.dao.getStorage().exists("SELECT * FROM messenger_requests WHERE from_id = '" + toId + "' AND to_id = '" + fromId + "'")) {
-
-					statement = dao.getStorage().prepare("INSERT INTO messenger_requests (to_id, from_id) VALUES (?, ?)"); {
-						statement.setInt(1, toId);
-						statement.setInt(2, fromId);
-						statement.execute();
-					}
-
-
-					return true;
+				statement = dao.getStorage().prepare("INSERT INTO messenger_requests (to_id, from_id) VALUES (?, ?)"); {
+					statement.setInt(1, toId);
+					statement.setInt(2, fromId);
+					statement.execute();
 				}
+
+				return true;
 			}
 
 		} catch (SQLException e) {
@@ -139,13 +135,12 @@ public class MySQLMessengerDao implements IMessengerDao {
 		this.dao.getStorage().execute("DELETE FROM messenger_requests WHERE from_id = " + fromId + " AND to_id = " + toId);
 		return false;
 	}
-	
+
 	@Override
 	public boolean removeFriend(int friendId, int userId) {
 		this.dao.getStorage().execute("DELETE FROM messenger_friendships WHERE (sender = " + userId + " AND receiver = " + friendId + ") OR (receiver = " + userId + " AND sender = " + friendId + ")");
 		return false;
 	}
-
 
 	@Override
 	public boolean newFriend(int sender, int receiver) {

@@ -2,7 +2,7 @@ package net.quackster.icarus.messages.incoming.room;
 
 import net.quackster.icarus.Icarus;
 import net.quackster.icarus.game.room.Room;
-import net.quackster.icarus.game.room.RoomState;
+import net.quackster.icarus.game.room.settings.RoomState;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.Message;
 import net.quackster.icarus.messages.outgoing.room.notify.GenericDoorbellMessageComposer;
