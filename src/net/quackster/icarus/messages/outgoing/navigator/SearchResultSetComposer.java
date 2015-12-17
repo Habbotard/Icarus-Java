@@ -61,6 +61,7 @@ public class SearchResultSetComposer extends Response {
 
 		} else { // TODO: Search
 			this.appendInt32(0);
+			
 		}
 
 	}

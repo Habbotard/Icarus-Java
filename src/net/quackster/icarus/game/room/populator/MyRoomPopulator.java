@@ -1,7 +1,6 @@
 package net.quackster.icarus.game.room.populator;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 import net.quackster.icarus.Icarus;

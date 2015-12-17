@@ -5,20 +5,21 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import net.quackster.icarus.game.entity.IEntity;
+import net.quackster.icarus.game.entity.IRoomEntity;
 import net.quackster.icarus.game.room.model.Point;
 import net.quackster.icarus.game.room.model.Rotation;
-import net.quackster.icarus.game.room.player.RoomUser;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.outgoing.room.user.UserStatusMessageComposer;
 
 public class RoomCycle implements Runnable {
 
 	private Room room;
-	private List<Session> usersToUpdate;
+	private List<IEntity> usersToUpdate;
 
 	public RoomCycle (Room room) {
 		this.room = room;
-		this.usersToUpdate = new ArrayList<Session>();
+		this.usersToUpdate = new ArrayList<IEntity>();
 	}
 
 	@Override
@@ -28,11 +29,11 @@ public class RoomCycle implements Runnable {
 
 			synchronized (room.getUsers()) { // gotta have dat thread safety, amirite? 
 
-				ConcurrentLinkedQueue<Session> users = new ConcurrentLinkedQueue<Session>(room.getUsers());
+				ConcurrentLinkedQueue<IEntity> users = new ConcurrentLinkedQueue<IEntity>(room.getUsers());
 
-				for (Session session : users) {
+				for (IEntity session : users) {
 
-					RoomUser roomUser = session.getRoomUser();
+					IRoomEntity roomUser = session.getRoomUser();
 
 					if (roomUser.getPath() == null) { 
 						continue;
@@ -82,7 +83,7 @@ public class RoomCycle implements Runnable {
 						usersToUpdate.add(session);
 
 						if (roomUser.getPoint().sameAs(new Point(room.getData().getModel().getDoorX(), room.getData().getModel().getDoorY()))) {
-							roomUser.getRoom().leaveRoom(session, true);
+							roomUser.getRoom().leaveRoom((Session)roomUser.getEntity(), true);
 							continue;
 						}
 					}

@@ -72,6 +72,8 @@ public class Messenger {
 	
 	public void dispose() {
 
+		this.sendStatus(false);
+		
 		if (this.friends != null) {
 			this.friends.clear();
 			this.friends = null;

@@ -52,12 +52,12 @@ public class HeightmapMessageEvent implements Message {
 		room.send(new UserDisplayMessageComposer(session));
 		room.send(new UserStatusMessageComposer(session));
 
-		if (!room.getUsers().contains(session)) {
-			room.getUsers().add(session);
+		if (!room.getEntities().contains(session)) {
+			room.getEntities().add(session);
 		}
 
-		session.send(new UserDisplayMessageComposer(room.getUsers()));
-		session.send(new UserStatusMessageComposer(room.getUsers()));
+		session.send(new UserDisplayMessageComposer(room.getEntities()));
+		session.send(new UserStatusMessageComposer(room.getEntities()));
 
 		for (Session players : room.getUsers()) {
 			if (players.getRoomUser().isDancing()) {

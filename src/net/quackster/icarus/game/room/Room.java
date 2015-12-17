@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 import net.quackster.icarus.Icarus;
+import net.quackster.icarus.game.entity.IEntity;
 import net.quackster.icarus.game.room.model.Point;
 import net.quackster.icarus.game.room.model.RoomModel;
 import net.quackster.icarus.game.room.player.RoomSearch;
@@ -29,14 +30,14 @@ public class Room {
 	private RoomSearch search;
 	private RoomData data;
 
-	private List<Session> users;
+	private List<IEntity> entities;
 
 	private ScheduledFuture<?> tickTask;
 
 	public Room() {
 		this.search = new RoomSearch(this);
 		this.data = new RoomData(this);
-		this.users = new ArrayList<Session>();
+		this.entities = new ArrayList<IEntity>();
 	}
 
 	public void leaveRoom(Session session, boolean hotelView) {
@@ -52,9 +53,9 @@ public class Room {
 		roomUser.stopWalking(false);
 		roomUser.reset();
 
-		this.users.remove(session);
+		this.entities.remove(session);
 
-		if (this.users.size() == 0) {
+		if (this.entities.size() == 0) {
 
 			if (this.tickTask != null) {
 				this.tickTask.cancel(true);
@@ -143,7 +144,8 @@ public class Room {
 			return;
 		}
 
-		for (Session session : this.users) {
+		for (Session session : this.getUsers()) {
+
 			if (checkRights && this.hasRights(session.getDetails().getId())) {
 				Log.println("(" + session.getDetails().getUsername() + ") SENT: " + response.getHeader() + " / " + response.getBodyString());
 				session.send(response);
@@ -158,7 +160,7 @@ public class Room {
 			return;
 		}
 
-		for (Session session : this.users) {
+		for (Session session : this.getUsers()) {
 			session.send(response);
 		}
 	}
@@ -171,12 +173,23 @@ public class Room {
 		return this.search;
 	}
 
-	public List<Session> getUsers() {
-		return users;
+	public List<IEntity> getEntities() {
+		return entities;
 	}
 
-	public void setUsers(ArrayList<Session> arrayList) {
-		this.users = arrayList;
+	public List<Session> getUsers() {
+		List<Session> sessions = new ArrayList<Session>();
+
+		for (IEntity entity : this.entities) {
+
+			if (entity instanceof Session) {
+
+				Session session = (Session)entity;
+				sessions.add(session);
+			}
+		}
+
+		return sessions;
 	}
 
 	public int getVirtualId() {
@@ -205,7 +218,7 @@ public class Room {
 		try {
 
 			if (this.data.getRoomType() == RoomType.PRIVATE) {
-				if (this.users.size() > 0 || (Icarus.getServer().getSessionManager().findById(this.data.getOwnerId()) != null)) {
+				if (this.entities.size() > 0 || (Icarus.getServer().getSessionManager().findById(this.data.getOwnerId()) != null)) {
 					return;
 				}
 			} else {
@@ -213,14 +226,14 @@ public class Room {
 			}
 
 			Icarus.getGame().getRoomManager().getLoadedRooms().remove(this);
-			
+
 			System.out.println("Room ID (" + this.data.getId() + ") disposed");
-			
+
 			this.collisionMap = null;
 			this.tickTask = null;
 
-			this.users.clear();
-			this.users = null;
+			this.entities.clear();
+			this.entities = null;
 
 			this.data.dispose();
 			this.data = null;
@@ -233,6 +246,10 @@ public class Room {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void setUsers(ArrayList<IEntity> entities) {
+		this.entities = entities;
 	}
 
 

@@ -90,6 +90,7 @@ public class MySQLRoomDao implements IRoomDao, IProcessStorage<Room, ResultSet> 
 	public List<Room> getPlayerRooms(CharacterDetails details, boolean storeInMemory) {
 
 		List<Room> rooms = new ArrayList<Room>();
+		
 		ResultSet row = null;
 
 		try {

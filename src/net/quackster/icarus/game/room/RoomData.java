@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.quackster.icarus.Icarus;
+import net.quackster.icarus.game.entity.IEntity;
 import net.quackster.icarus.game.room.model.RoomModel;
 import net.quackster.icarus.game.room.settings.RoomState;
 import net.quackster.icarus.game.room.settings.RoomType;
-import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.netty.readers.Response;
 
 public class RoomData {
@@ -289,7 +289,7 @@ public class RoomData {
 	public int getUsersNow() {
 
 		if (this.room.getUsers() == null) {
-			this.room.setUsers(new ArrayList<Session>());
+			this.room.setUsers(new ArrayList<IEntity>());
 		}
 
 		this.usersNow = this.room.getUsers().size();

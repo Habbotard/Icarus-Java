@@ -4,23 +4,23 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map.Entry;
 
-import net.quackster.icarus.game.user.Session;
+import net.quackster.icarus.game.entity.IEntity;
 import net.quackster.icarus.messages.headers.Outgoing;
 import net.quackster.icarus.netty.readers.Response;
 
 public class UserStatusMessageComposer extends Response {
 
-	public UserStatusMessageComposer(Session session) {
-		this.compose(Arrays.asList(new Session[] { session }));
+	public UserStatusMessageComposer(IEntity entity) {
+		this.compose(Arrays.asList(new IEntity[] { entity }));
 	}
 
 
-	public UserStatusMessageComposer(List<Session> users) {
+	public UserStatusMessageComposer(List<IEntity> users) {
 		this.compose(users);
 	}
 
 
-	public void compose(List<Session> users) {
+	public void compose(List<IEntity> users) {
 
 		this.init(Outgoing.UserStatusMessageComposer);
 		
@@ -28,7 +28,7 @@ public class UserStatusMessageComposer extends Response {
 
 			this.appendInt32(users.size());
 
-			for (Session user : users) {
+			for (IEntity  user : users) {
 
 				this.appendInt32(user.getRoomUser().getVirtualId());
 				this.appendInt32(user.getRoomUser().getX());

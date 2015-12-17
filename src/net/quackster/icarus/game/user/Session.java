@@ -5,6 +5,7 @@ import java.util.List;
 import org.jboss.netty.channel.Channel;
 
 import net.quackster.icarus.Icarus;
+import net.quackster.icarus.game.entity.IEntity;
 import net.quackster.icarus.game.messenger.Messenger;
 import net.quackster.icarus.game.room.Room;
 import net.quackster.icarus.game.room.player.RoomUser;
@@ -12,7 +13,7 @@ import net.quackster.icarus.log.Log;
 import net.quackster.icarus.netty.readers.Request;
 import net.quackster.icarus.netty.readers.Response;
 
-public class Session {
+public class Session implements IEntity {
 
 	private Channel channel;
 	private String machineId;
@@ -47,30 +48,27 @@ public class Session {
 	}
 
 	public void dispose() {
-
+		
 		try {
-
 			if (this.details.isAuthenticated()) {
 
 				if (this.roomUser.inRoom()) {
 					this.roomUser.getRoom().leaveRoom(this, false);
 				}
 
-				List<Room> rooms = Icarus.getDao().getRoom().getPlayerRooms(this.details);
+				List<Room> rooms = Icarus.getGame().getRoomManager().getPlayerRooms(this.details.getId());
 
 				if (rooms.size() > 0) {
 					for (Room room : rooms) {
-						room.dispose();
+						// this function won't dispose all rooms if there's still users online 
+						// and/or the owner is still online
+						room.dispose(); 
 					}
 				}
-
 			}
-
 		} catch (Exception e) {
 			Log.exception(e);
 		}
-		
-		this.messenger.sendStatus(false);
 		
 		this.messenger.dispose();
 		this.messenger = null;
@@ -84,7 +82,7 @@ public class Session {
 		this.connection.dispose();
 		this.connection = null;
 
-		//this.channel = null;
+		this.channel = null;
 		this.machineId = null;
 	}
 
