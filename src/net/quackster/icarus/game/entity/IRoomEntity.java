@@ -3,6 +3,7 @@ package net.quackster.icarus.game.entity;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import net.quackster.icarus.Icarus;
 import net.quackster.icarus.game.pathfinder.AreaMap;
 import net.quackster.icarus.game.pathfinder.Pathfinder;
 import net.quackster.icarus.game.pathfinder.heuristics.AStarHeuristic;
@@ -10,7 +11,11 @@ import net.quackster.icarus.game.pathfinder.heuristics.ClosestHeuristic;
 import net.quackster.icarus.game.room.Room;
 import net.quackster.icarus.game.room.model.Point;
 import net.quackster.icarus.game.room.model.RoomModel;
+import net.quackster.icarus.game.user.Session;
+import net.quackster.icarus.messages.outgoing.room.notify.FloodFilterMessageComposer;
+import net.quackster.icarus.messages.outgoing.room.user.TalkMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.user.UserStatusMessageComposer;
+import net.quackster.icarus.util.GameSettings;
 
 public abstract class IRoomEntity {
 
@@ -40,6 +45,9 @@ public abstract class IRoomEntity {
 
 	private IEntity entity;
 
+	private long chatFloodTimer;
+	private int chatCount;
+
 	public IRoomEntity(IEntity entity) {
 		this.dispose();
 		this.entity = entity;
@@ -52,7 +60,58 @@ public abstract class IRoomEntity {
 
 		this.setPathfinder(new Pathfinder(map, heuristic));//new DiagonalHeuristic());
 	}
-	
+
+	public void chat(String message, int bubble, int count, boolean shout, boolean spamCheck) {
+
+		boolean isStaff = false;
+		Session session = null;
+
+		if (this.entity instanceof Session) {
+
+			session = (Session)this.entity;
+			isStaff = session.getDetails().hasFuse("moderator");
+		}
+
+		// if current time less than the chat flood timer (last chat time + seconds to check)
+		// say that they still need to wait before shouting again
+		if (spamCheck) {
+			if (Icarus.getUtilities().getTimestamp() < this.chatFloodTimer && this.chatCount >= GameSettings.MAX_CHAT_BEFORE_FLOOD) {
+
+				if (!isStaff) {
+					if (session != null) {
+						session.send(new FloodFilterMessageComposer(GameSettings.CHAT_FLOOD_WAIT));
+					}
+					return;
+				}
+			}
+		}
+
+		// TODO: Check if not bot
+		// The below function validates the chat bubbles
+		if (bubble == 2 || (bubble == 23 && !session.getDetails().hasFuse("moderator")) || bubble < 0 || bubble > 29) {
+			bubble = this.lastChatId;
+		}
+
+		this.room.send(new TalkMessageComposer(this, shout, message, count, bubble));
+
+		// if the users timestamp has passed the check but the chat count is still high
+		// the chat count is reset then
+
+		if (spamCheck) {
+			if (!session.getDetails().hasFuse("moderator")) {
+
+				if (Icarus.getUtilities().getTimestamp() > this.chatFloodTimer && this.chatCount >= GameSettings.MAX_CHAT_BEFORE_FLOOD) {
+					this.chatCount = 0;
+				} else {
+					this.chatCount = this.chatCount + 1;
+				}
+
+				this.chatFloodTimer = (Icarus.getUtilities().getTimestamp() + GameSettings.CHAT_FLOOD_SECONDS);
+
+			}
+		}
+	}
+
 	public void dispose() {
 
 		if (this.statuses != null) {
@@ -88,11 +147,11 @@ public abstract class IRoomEntity {
 		this.setPath(null);
 
 	}
-	
+
 	public void updateStatus() {
 		this.room.send(new UserStatusMessageComposer(this.entity));
 	}
-	
+
 	public boolean isDancing() {
 		return this.danceId != 0;
 	}
@@ -171,7 +230,7 @@ public abstract class IRoomEntity {
 	public int getHeadRotation() {
 		return headRotation;
 	}
-	
+
 	public void setRotation(int rotation, boolean headOnly) {
 
 		this.headRotation = rotation;
@@ -188,7 +247,7 @@ public abstract class IRoomEntity {
 	public LinkedList<Point> getPath() {
 		return path;
 	}
-	
+
 
 	public void setPath(LinkedList<Point> path) {
 
@@ -200,7 +259,7 @@ public abstract class IRoomEntity {
 
 		this.path = path;
 	}
-	
+
 	public boolean needsUpdate() {
 		return needsUpdate;
 	}
