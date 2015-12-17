@@ -40,8 +40,9 @@ public abstract class IRoomEntity {
 
 	private IEntity entity;
 
-	public IRoomEntity() {
+	public IRoomEntity(IEntity entity) {
 		this.dispose();
+		this.entity = entity;
 	}
 
 	public void createPathfinder() {
@@ -255,10 +256,6 @@ public abstract class IRoomEntity {
 
 	public IEntity getEntity() {
 		return entity;
-	}
-
-	public void setEntity(IEntity entity) {
-		this.entity = entity;
 	}
 
 	public Point getPoint() {

@@ -19,10 +19,9 @@ public class RoomUser extends IRoomEntity {
 	//private RoomModel model;
 
 	public RoomUser(Session session) {
-
-		this.session = session;
-		this.setEntity(session);
+		super(session);
 		
+		this.session = session;
 		this.reset();
 	}
 
