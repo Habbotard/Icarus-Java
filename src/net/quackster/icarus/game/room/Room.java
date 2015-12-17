@@ -191,15 +191,12 @@ public class Room {
 	}
 
 	public List<Session> getUsers() {
+		
 		List<Session> sessions = new ArrayList<Session>();
 
-		for (IEntity entity : this.entities) {
-
-			if (entity instanceof Session) {
-
-				Session session = (Session)entity;
-				sessions.add(session);
-			}
+		for (IEntity entity : this.getEntities(EntityType.PLAYER)) {
+			Session session = (Session)entity;
+			sessions.add(session);
 		}
 
 		return sessions;
