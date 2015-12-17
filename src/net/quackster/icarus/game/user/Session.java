@@ -5,6 +5,7 @@ import java.util.List;
 import org.jboss.netty.channel.Channel;
 
 import net.quackster.icarus.Icarus;
+import net.quackster.icarus.game.entity.EntityType;
 import net.quackster.icarus.game.entity.IEntity;
 import net.quackster.icarus.game.messenger.Messenger;
 import net.quackster.icarus.game.room.Room;
@@ -112,6 +113,11 @@ public class Session implements IEntity {
 
 	public Messenger getMessenger() {
 		return messenger;
+	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.PLAYER;
 	}
 
 }

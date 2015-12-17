@@ -3,6 +3,7 @@ package net.quackster.icarus.messages.outgoing.room.user;
 import java.util.Arrays;
 import java.util.List;
 
+import net.quackster.icarus.game.entity.EntityType;
 import net.quackster.icarus.game.entity.IEntity;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.headers.Outgoing;
@@ -24,7 +25,7 @@ public class UserDisplayMessageComposer extends Response {
 
 			for (IEntity entity : entities) {
 
-				if (entity instanceof Session) {
+				if (entity.getType() == EntityType.PLAYER) {
 					
 					Session session = (Session)entity;
 					
