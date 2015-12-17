@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 import net.quackster.icarus.Icarus;
+import net.quackster.icarus.game.entity.EntityType;
 import net.quackster.icarus.game.entity.IEntity;
 import net.quackster.icarus.game.room.model.Point;
 import net.quackster.icarus.game.room.model.RoomModel;
@@ -175,6 +176,18 @@ public class Room {
 
 	public List<IEntity> getEntities() {
 		return entities;
+	}
+	
+	public List<IEntity> getEntities(EntityType type) {
+		List<IEntity> e = new ArrayList<IEntity>();
+
+		for (IEntity entity : this.entities) {
+			if (entity.getType() == type) {
+				e.add(entity);
+			}
+		}
+
+		return e;
 	}
 
 	public List<Session> getUsers() {

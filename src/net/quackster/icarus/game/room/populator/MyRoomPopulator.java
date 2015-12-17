@@ -15,7 +15,6 @@ public class MyRoomPopulator extends IRoomPopulator {
 		List<Room> rooms =  Icarus.getGame().getRoomManager().getPlayerRooms(session.getDetails().getId());
 		
 		if (rooms == null) {
-			System.out.println("NULL ROOMS");
 			rooms = new ArrayList<Room>();
 		}
 		
