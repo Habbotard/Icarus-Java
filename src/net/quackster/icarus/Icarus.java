@@ -15,7 +15,6 @@ public class Icarus {
 
 	private static Connection server;
 	private static Util utilities;
-	public static int PublicCount = 0;
 	private static Game game;
 	private static Dao dao;
 
