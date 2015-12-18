@@ -24,6 +24,7 @@ import net.quackster.icarus.messages.incoming.room.user.ShoutMessageEvent;
 import net.quackster.icarus.messages.incoming.room.user.TypingStatusMessageEvent;
 import net.quackster.icarus.messages.incoming.room.user.UserWalkMessageEvent;
 import net.quackster.icarus.messages.incoming.user.*;
+import net.quackster.icarus.messages.outgoing.room.user.GetRoomRightsListMessageEvent;
 import net.quackster.icarus.netty.readers.Request;
 import net.quackster.icarus.netty.readers.Response;
 
@@ -84,6 +85,7 @@ public class MessageHandler {
 	
 	private void registerRoomPackets() {
 		this.messages.put(Incoming.RoomInfoMessageEvent, new RoomInfoMessageEvent());
+		this.messages.put(Incoming.GetRoomRightsListMessageEvent, new GetRoomRightsListMessageEvent());
 		this.messages.put(Incoming.RequestHeightmapMessageEvent, new EnterRoomMessageEvent());
 		this.messages.put(Incoming.RoomSucessMessageEvent, new HeightmapMessageEvent());
 		this.messages.put(Incoming.UserWalkMessageEvent, new UserWalkMessageEvent());

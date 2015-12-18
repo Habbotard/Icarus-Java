@@ -119,7 +119,7 @@ public class Incoming {
     public static final short RoomGetFilterMessageEvent = 3090;
     public static final short RoomAlterFilterMessageEvent = 480;
     public static final short GetRoomBannedUsersMessageEvent = 927;
-    public static final short GetRoomRightsListMessageEvent = 730;
+    public static final short GetRoomRightsListMessageEvent = 1467;//730;
     public static final short RoomRemoveAllRightsMessageEvent = 20;
     public static final short RoomRemoveUserRightsMessageEvent = 2297;
     public static final short GetFloorPlanFurnitureMessageEvent = 1622;

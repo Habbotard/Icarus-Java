@@ -6,12 +6,15 @@ import net.quackster.icarus.game.room.player.RoomUser;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.Message;
 import net.quackster.icarus.messages.outgoing.room.FloorMapMessageComposer;
+import net.quackster.icarus.messages.outgoing.room.HasOwnerRightsMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.HeightMapMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.RoomDataMessageComposer;
+import net.quackster.icarus.messages.outgoing.room.RoomRightsLevelMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.user.DanceMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.user.UserDisplayMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.user.UserStatusMessageComposer;
 import net.quackster.icarus.netty.readers.Request;
+import net.quackster.icarus.netty.readers.Response;
 
 public class HeightmapMessageEvent implements Message {
 
@@ -25,7 +28,7 @@ public class HeightmapMessageEvent implements Message {
 		}
 
 		RoomModel roomModel = room.getData().getModel();
-
+		
 		session.send(new HeightMapMessageComposer(roomModel));
 		session.send(new FloorMapMessageComposer(room));
 		
@@ -58,7 +61,12 @@ public class HeightmapMessageEvent implements Message {
 			}
 		}
 
+		if (room.hasRights(session.getDetails().getId(), false)) {
+			session.getRoomUser().getStatuses().put("flatctrl", "1");
+		}		
+		
 		session.send(new RoomDataMessageComposer(room, session, true, true));
 		session.getMessenger().sendStatus(false);
+		
 	}
 }

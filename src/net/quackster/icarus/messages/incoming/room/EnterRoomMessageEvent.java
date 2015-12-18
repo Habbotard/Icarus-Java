@@ -11,6 +11,7 @@ import net.quackster.icarus.messages.outgoing.room.notify.GenericNoAnswerDoorbel
 import net.quackster.icarus.messages.outgoing.room.notify.RoomEnterErrorMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.user.HotelViewMessageComposer;
 import net.quackster.icarus.netty.readers.Request;
+import net.quackster.icarus.netty.readers.Response;
 
 public class EnterRoomMessageEvent implements Message {
 
@@ -24,6 +25,11 @@ public class EnterRoomMessageEvent implements Message {
 		}
 
 		String pass = request.readString();
+		
+		Response response = new Response(625);
+		response.appendInt32(room.getData().getId());
+		response.appendBoolean(room.hasRights(session.getDetails().getId(), true));
+		session.send(response);
 
 		if (room.getData().getUsersNow() >= room.getData().getUsersMax()) {
 
@@ -35,7 +41,7 @@ public class EnterRoomMessageEvent implements Message {
 			}
 		}
 
-		if (room.getData().getState().getStateCode() > 0 && !room.hasRights(session.getDetails().getId())) {
+		if (room.getData().getState().getStateCode() > 0 && !room.hasRights(session.getDetails().getId(), false)) {
 			if (room.getData().getState() == RoomState.DOORBELL) {
 
 				if (room.getUsers().size() > 0) {

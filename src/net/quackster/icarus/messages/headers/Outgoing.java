@@ -93,7 +93,7 @@ public class Outgoing {
     public static final short PrepareRoomMessageComposer = 3447;
     public static final short HeightMapMessageComposer = 3806;//3677;
     public static final short FloorMapMessageComposer = 2401;//2759;
-    public static final short HasOwnerRightsMessageComposer = 2599;
+    public static final short HasOwnerRightsMessageComposer = 2037;//2599;
     public static final short UserDisplayMessageComposer = 504;//1321;
     public static final short UserStatusMessageComposer = 2627;//2463;
     public static final short RoomSpacesMessageComposer = 1735;//3139;

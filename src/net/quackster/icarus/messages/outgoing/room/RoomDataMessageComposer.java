@@ -21,7 +21,7 @@ public class RoomDataMessageComposer extends Response {
 		this.appendInt32(false);
 		this.appendInt32(false);
 		this.appendInt32(false);
-		this.appendBoolean(false); //room_moderation.mute_all.enabled
+		this.appendBoolean(room.hasRights(session.getDetails().getId(), true)); //room_moderation.mute_all.enabled
 		this.appendInt32(0);//Info.line_chatsettings);
 		this.appendInt32(0);//Info.cloud_chatsettings);
 		this.appendInt32(0);//Info.scroll_chatsettings);

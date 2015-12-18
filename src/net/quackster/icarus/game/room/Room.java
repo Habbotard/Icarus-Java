@@ -15,6 +15,7 @@ import net.quackster.icarus.game.room.player.RoomUser;
 import net.quackster.icarus.game.room.settings.RoomType;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.log.Log;
+import net.quackster.icarus.messages.outgoing.room.HasOwnerRightsMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.PrepareRoomMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.RoomModelMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.RoomRatingMessageComposer;
@@ -62,13 +63,17 @@ public class Room {
 		session.getMessenger().sendStatus(false);
 	}
 
-	public boolean hasRights(int userId) {
+	public boolean hasRights(int userId, boolean ownerCheckOnly) {
 
 		if (this.data.getOwnerId() == userId) {
 			return true;
 		} else {
-			return this.data.getRights().contains(userId);
+			if (!ownerCheckOnly) {
+				return this.data.getRights().contains(userId);
+			}
 		}
+
+		return false;
 	}
 
 	public void loadRoom(Session session) {
@@ -91,7 +96,19 @@ public class Room {
 
 		session.send(new RoomSpacesMessageComposer("landscape", this.data.getLandscape()));
 		session.send(new RoomRatingMessageComposer(roomUser, this.data.getScore()));
-		session.send(new RoomRightsLevelMessageComposer(roomUser));
+		
+		
+		if (roomUser.getRoom().hasRights(session.getDetails().getId(), true)) {
+			session.send(new RoomRightsLevelMessageComposer(4));
+			session.send(new HasOwnerRightsMessageComposer());
+
+		
+		} else if (roomUser.getRoom().hasRights(session.getDetails().getId(), false)) {
+			session.send(new RoomRightsLevelMessageComposer(1));
+		
+		} else {
+			session.send(new RoomRightsLevelMessageComposer(0));
+		}
 		session.send(new PrepareRoomMessageComposer(this));
 
 	}
@@ -163,7 +180,7 @@ public class Room {
 
 		for (Session session : this.getUsers()) {
 
-			if (checkRights && this.hasRights(session.getDetails().getId())) {
+			if (checkRights && this.hasRights(session.getDetails().getId(), false)) {
 				Log.println("(" + session.getDetails().getUsername() + ") SENT: " + response.getHeader() + " / " + response.getBodyString());
 				session.send(response);
 			}
