@@ -6,15 +6,12 @@ import net.quackster.icarus.game.room.player.RoomUser;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.Message;
 import net.quackster.icarus.messages.outgoing.room.FloorMapMessageComposer;
-import net.quackster.icarus.messages.outgoing.room.HasOwnerRightsMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.HeightMapMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.RoomDataMessageComposer;
-import net.quackster.icarus.messages.outgoing.room.RoomRightsLevelMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.user.DanceMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.user.UserDisplayMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.user.UserStatusMessageComposer;
 import net.quackster.icarus.netty.readers.Request;
-import net.quackster.icarus.netty.readers.Response;
 
 public class HeightmapMessageEvent implements Message {
 
