@@ -5,7 +5,6 @@ import java.util.List;
 
 import net.quackster.icarus.game.entity.EntityType;
 import net.quackster.icarus.game.entity.IEntity;
-import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.headers.Outgoing;
 import net.quackster.icarus.netty.readers.Response;
 

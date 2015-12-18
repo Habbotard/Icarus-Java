@@ -8,7 +8,6 @@ import java.util.concurrent.TimeUnit;
 import net.quackster.icarus.Icarus;
 import net.quackster.icarus.game.entity.EntityType;
 import net.quackster.icarus.game.entity.IEntity;
-import net.quackster.icarus.game.room.bot.Bot;
 import net.quackster.icarus.game.room.model.Point;
 import net.quackster.icarus.game.room.model.RoomModel;
 import net.quackster.icarus.game.room.player.RoomSearch;
@@ -58,16 +57,7 @@ public class Room {
 		roomUser.reset();
 
 		this.entities.remove(session);
-
-		if (this.getUsers().size() == 0) {
-
-			if (this.tickTask != null) {
-				this.tickTask.cancel(true);
-				this.tickTask = null;
-			}
-
-			this.dispose();
-		}
+		this.dispose();
 
 		session.getMessenger().sendStatus(false);
 	}
@@ -118,7 +108,7 @@ public class Room {
 		this.setTickTask(Icarus.getUtilities().getThreadPooling().getScheduledThreadPool().scheduleAtFixedRate(new RoomCycle(this), 0, 500, TimeUnit.MILLISECONDS));
 		this.regenerateCollisionMap();
 
-		Bot mahBawt = new Bot();
+		/*Bot mahBawt = new Bot();
 
 		mahBawt.getRoomUser().setRoom(this);
 		mahBawt.getRoomUser().setX(this.getData().getModel().getDoorX());
@@ -126,7 +116,7 @@ public class Room {
 		mahBawt.getRoomUser().setHeight(this.getData().getModel().getHeight(mahBawt.getRoomUser().getPoint()));
 		mahBawt.getRoomUser().setVirtualId(this.getVirtualId());
 
-		this.entities.add(mahBawt);
+		this.entities.add(mahBawt);*/
 	}
 
 
@@ -259,27 +249,28 @@ public class Room {
 				}
 			}
 			
-			System.out.println("Room ID (" + this.data.getId() + ") disposed");
-
-			this.collisionMap = null;
-			this.tickTask = null;
+			if (this.tickTask != null) {
+				this.tickTask.cancel(true);
+				this.tickTask = null;
+			}
 			
+			this.collisionMap = null;
 			this.entities.clear();
 
 			if (Icarus.getServer().getSessionManager().findById(this.data.getOwnerId()) == null && this.data.getRoomType() == RoomType.PRIVATE) { 
+				
+				System.out.println("Room ID (" + this.data.getId() + ") deleted");
 				
 				this.data.dispose();
 				this.data = null;
 			
 				this.search.dispose();
 				this.search = null;
-				
 				this.entities = null;
 				
 				Icarus.getGame().getRoomManager().getLoadedRooms().remove(this);
 			}
 
-			
 			this.disposed = true;
 
 		} catch (Exception e) {

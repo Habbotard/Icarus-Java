@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import net.quackster.icarus.Icarus;
-import net.quackster.icarus.dao.Dao;
 
 public class NavigatorManager {
 

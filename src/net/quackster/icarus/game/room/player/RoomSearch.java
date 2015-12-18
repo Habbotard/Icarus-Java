@@ -3,7 +3,6 @@ package net.quackster.icarus.game.room.player;
 import net.quackster.icarus.game.entity.IEntity;
 import net.quackster.icarus.game.room.Room;
 import net.quackster.icarus.game.room.model.Point;
-import net.quackster.icarus.game.user.Session;
 
 public class RoomSearch {
 

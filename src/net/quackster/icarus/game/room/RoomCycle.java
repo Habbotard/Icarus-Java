@@ -5,8 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import net.quackster.icarus.Icarus;
-import net.quackster.icarus.game.entity.EntityType;
 import net.quackster.icarus.game.entity.IEntity;
 import net.quackster.icarus.game.entity.IRoomEntity;
 import net.quackster.icarus.game.room.model.Point;
@@ -16,14 +14,14 @@ import net.quackster.icarus.messages.outgoing.room.user.UserStatusMessageCompose
 
 public class RoomCycle implements Runnable {
 
-	private int tick;
+	//private int tick;
 	
 	private Room room;
 	private List<IEntity> usersToUpdate;
 
 	public RoomCycle (Room room) {
 		this.room = room;
-		this.tick = 0;
+		//this.tick = 0;
 		this.usersToUpdate = new ArrayList<IEntity>();
 	}
 
@@ -40,7 +38,7 @@ public class RoomCycle implements Runnable {
 					
 					IRoomEntity roomUser = session.getRoomUser();
 					
-					if (tick % 12 == 0) {
+					/*if (tick % 12 == 0) {
 						
 						if (session.getType() == EntityType.BOT) {
 							
@@ -59,7 +57,7 @@ public class RoomCycle implements Runnable {
 							roomUser.setPath(path);
 							roomUser.setWalking(true);
 						}
-					}
+					}*/
 
 					if (roomUser.getPath() == null) { 
 						continue;
@@ -134,6 +132,6 @@ public class RoomCycle implements Runnable {
 
 		}
 		
-		++tick;
+		//++tick;
 	}
 }
