@@ -1,5 +1,6 @@
 package net.quackster.icarus.dao.mysql;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import net.quackster.icarus.game.room.Room;
 import net.quackster.icarus.game.room.model.RoomModel;
 import net.quackster.icarus.game.room.settings.RoomType;
 import net.quackster.icarus.game.user.CharacterDetails;
+import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.log.Log;
 import net.quackster.icarus.mysql.Storage;
 
@@ -187,7 +189,39 @@ public class MySQLRoomDao implements IRoomDao, IProcessStorage<Room, ResultSet> 
 		return rooms;
 	}
 
+	@Override
+	public Room createRoom(Session session, String name, String description, String model, int category, int usersMax, int tradeState) {
+		
+		ResultSet row = null;
+		
+		try {
+			
+			PreparedStatement statement = dao.getStorage().prepare("INSERT INTO rooms (name, description, owner_id, model, category, users_max, trade_state) VALUES (?, ?, ?, ?, ?, ?, ?)", true); {
+				statement.setString(1, name);
+				statement.setString(2, description);
+				statement.setInt(3, session.getDetails().getId());
+				statement.setString(4, model);
+				statement.setInt(5, category);
+				statement.setInt(6, usersMax);
+				statement.setInt(7, tradeState);
+				statement.executeUpdate();
+			}
+			
+			row = statement.getGeneratedKeys();
+			
+			if (row != null && row.next()) {
+				return this.getRoom(row.getInt(1), true);
+			}
+			
+		} catch (SQLException e) {
+			Log.exception(e);
+		} finally {
+			Storage.releaseObject(row);
+		}
 
+		
+		return null;
+	}
 
 	@Override
 	public RoomModel getModel(String model) {

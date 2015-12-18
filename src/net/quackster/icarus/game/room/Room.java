@@ -102,7 +102,7 @@ public class Room {
 		if (this.getUsers().size() != 0) {
 			return;
 		}
-		
+
 		this.disposed = false;
 
 		this.setTickTask(Icarus.getUtilities().getThreadPooling().getScheduledThreadPool().scheduleAtFixedRate(new RoomCycle(this), 0, 500, TimeUnit.MILLISECONDS));
@@ -244,28 +244,29 @@ public class Room {
 		try {
 
 			if (this.getUsers().size() > 0) {
-					return;
-				}
-			
+				return;
+			}
+
 			if (this.tickTask != null) {
 				this.tickTask.cancel(true);
 				this.tickTask = null;
 			}
-			
+
 			this.collisionMap = null;
 			this.entities.clear();
 
-			if (Icarus.getServer().getSessionManager().findById(this.data.getOwnerId()) == null && this.data.getRoomType() == RoomType.PRIVATE) { 
-				
+			if (Icarus.getServer().getSessionManager().findById(this.data.getOwnerId()) == null 
+					&& this.data.getRoomType() == RoomType.PRIVATE) { 
+
 				System.out.println("Room ID (" + this.data.getId() + ") deleted");
-				
+
 				this.data.dispose();
 				this.data = null;
-			
+
 				this.search.dispose();
 				this.search = null;
 				this.entities = null;
-				
+
 				Icarus.getGame().getRoomManager().getLoadedRooms().remove(this);
 			}
 

@@ -6,6 +6,8 @@ public class GameSettings {
 	public static final int CHAT_FLOOD_WAIT = 20;
 	public static final int MAX_CHAT_BEFORE_FLOOD = 4;
 	
+	public static final int MAX_ROOMS_PER_ACCOUNT = 40;
+	
     public static final int MAX_RANK = 10; // MAX 9 ranks always + 1
     public static final int MAX_PETS_PER_ROOM = 15;
     public static final int MAX_USERBOTS_PER_ROOM = 2;

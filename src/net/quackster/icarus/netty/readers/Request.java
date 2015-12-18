@@ -27,7 +27,7 @@ public class Request
 		try {
 			return buffer.readInt();
 		} catch (Exception e) {
-			return null;
+			return -1;
 		}
 	}
 	

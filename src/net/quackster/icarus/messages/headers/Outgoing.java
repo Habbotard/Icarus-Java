@@ -41,7 +41,7 @@ public class Outgoing {
     public static final short OfficialRoomsMessageComposer = 972;
     public static final short NavigatorListingsMessageComposer = 135;
     public static final short FavouriteRoomsUpdateMessageComposer = 183;
-    public static final short CanCreateRoomMessageComposer = 1913;
+    public static final short CanCreateRoomMessageComposer = 3645;//1913;
     public static final short PopularRoomTagsMessageComposer = 2914;
     public static final short FavouriteRoomsMessageComposer = 3455;
     public static final short NavigatorLiftedRoomsComposer = 2631;//1258;
@@ -116,7 +116,7 @@ public class Outgoing {
     public static final short SendRoomCampaignFurnitureMessageComposer = 3060;
     public static final short RoomForwardMessageComposer = 1000;
     public static final short GroupRoomMessageComposer = 2973;
-    public static final short OnCreateRoomInfoMessageComposer = 1037;
+    public static final short CreateRoomMessageComposer = 106;//1037;
     public static final short RoomUpdateMessageComposer = 1091;//2306;
     public static final short RoomWallItemsMessageComposer = 2246;
     public static final short GenericDoorbellMessageComposer = 2057;

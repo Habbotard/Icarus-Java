@@ -73,6 +73,8 @@ public class MessageHandler {
 	private void registerNavigatorPackets() {
 		this.messages.put(Incoming.NewNavigatorMessageEvent, new NewNavigatorMessageEvent());
 		this.messages.put(Incoming.SearchNewNavigatorEvent, new SearchNewNavigatorEvent());
+		this.messages.put(Incoming.CreateRoomMessageEvent, new CreateRoomMessageEvent());
+		this.messages.put(Incoming.CanCreateRoomMessageEvent, new CanCreateRoomMessageEvent());
 	}
 
 	private void registerMiscPackets() {

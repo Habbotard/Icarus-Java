@@ -32,6 +32,10 @@ public class Session implements IEntity {
 		this.messenger = new Messenger(this);
 	}
 
+	public List<Room> getRooms() {
+		return Icarus.getGame().getRoomManager().getPlayerRooms(this.details.getId());
+	}
+	
 	public void invoke(short header, Request message) {
 		Icarus.getServer().getMessageHandler().getMessages().get(header).handle(this, message);
 	}
