@@ -243,7 +243,12 @@ public class MySQLRoomDao implements IRoomDao, IProcessStorage<Room, ResultSet> 
 				row.getInt("users_max"), row.getString("description"), row.getInt("trade_state"), row.getInt("score"), row.getInt("category"), 
 				row.getInt("category"), row.getString("model"), row.getString("wallpaper"), row.getString("floor"), row.getString("outside"), 
 				row.getBoolean("allow_pets"), row.getBoolean("allow_pets_eat"), row.getBoolean("allow_walkthrough"), row.getBoolean("hidewall"), 
-				row.getInt("wall_thickness"), row.getInt("floor_thickness"), row.getString("tags"));
+				row.getInt("wall_thickness"), row.getInt("floor_thickness"), row.getString("tags"), row.getInt("chat_type"), row.getInt("chat_balloon"), row.getInt("chat_speed"),
+				row.getInt("chat_max_distance"), row.getInt("chat_flood_protection"), row.getInt("who_can_mute"), row.getInt("who_can_kick"), row.getInt("who_can_ban"));
+		
+		
+		//, int chatType, int chatBalloon, int chatSpeed,
+		//int chatMaxDistance, int chatFloodProtection, int whoCanMute, int whoCanKick, int whoCanBan) {
 
 		if (this.dao.getStorage().exists("SELECT * from room_thumbnails WHERE room_id = " + instance.getData().getId())) {
 			instance.getData().setThumbnail(this.dao.getStorage().getString("SELECT image_url from room_thumbnails WHERE room_id = " + instance.getData().getId()));

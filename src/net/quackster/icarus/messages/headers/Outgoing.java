@@ -55,5 +55,7 @@ public class Outgoing {
     public static int UserLeftRoomMessageComposer = 3475;//184;
     public static int UserObjectMessageComposer = 3762;//1096;
     public static int UserStatusMessageComposer = 2627;//2463;
+	public static int RoomOwnerRightsComposer = 625;
+	public static int RoomEditSettingsComposer = 1131;//
     
 }

@@ -35,6 +35,8 @@ public class Incoming {
 	public static final short MessengerDeleteFriendMessageEvent = 2169;
 	public static final short MessengerTalkMessageEvent = 400;
 	public static final short FollowFriendMessageEvent = 3254;
+	
 	public static final short RoomEditInfoMessageEvent = 2035;//
+	public static final short SaveRoomMessageEvent = 915;
 	
 }

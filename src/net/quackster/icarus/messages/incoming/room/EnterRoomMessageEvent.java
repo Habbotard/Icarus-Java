@@ -5,6 +5,7 @@ import net.quackster.icarus.game.room.Room;
 import net.quackster.icarus.game.room.settings.RoomState;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.Message;
+import net.quackster.icarus.messages.outgoing.room.RoomOwnerRightsComposer;
 import net.quackster.icarus.messages.outgoing.room.notify.GenericDoorbellMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.notify.GenericErrorMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.notify.GenericNoAnswerDoorbellMessageComposer;
@@ -26,10 +27,12 @@ public class EnterRoomMessageEvent implements Message {
 
 		String pass = request.readString();
 		
-		Response response = new Response(625);
-		response.appendInt32(room.getData().getId());
-		response.appendBoolean(room.hasRights(session.getDetails().getId(), true));
-		session.send(response);
+		if (room.getEntities().contains(session)) {
+			return;
+		}
+		
+		boolean isOwner = room.hasRights(session.getDetails().getId(), true);
+		session.send(new RoomOwnerRightsComposer(room.getData().getId(), isOwner));
 
 		if (room.getData().getUsersNow() >= room.getData().getUsersMax()) {
 

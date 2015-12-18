@@ -37,6 +37,7 @@ public class RoomInfoMessageEvent implements Message {
 		}
 
 		if (forwardPlayer) {
+			
 			session.send(new RoomDataMessageComposer(room, session, request.readIntAsBool(), request.readIntAsBool()));
 		}
 	}

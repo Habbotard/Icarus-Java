@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 import net.quackster.icarus.Icarus;
 import net.quackster.icarus.game.entity.EntityType;
 import net.quackster.icarus.game.entity.IEntity;
+import net.quackster.icarus.game.room.bot.Bot;
 import net.quackster.icarus.game.room.model.Point;
 import net.quackster.icarus.game.room.model.RoomModel;
 import net.quackster.icarus.game.room.player.RoomSearch;
@@ -125,7 +126,7 @@ public class Room {
 		this.setTickTask(Icarus.getUtilities().getThreadPooling().getScheduledThreadPool().scheduleAtFixedRate(new RoomCycle(this), 0, 500, TimeUnit.MILLISECONDS));
 		this.regenerateCollisionMap();
 
-		/*Bot mahBawt = new Bot();
+		Bot mahBawt = new Bot();
 
 		mahBawt.getRoomUser().setRoom(this);
 		mahBawt.getRoomUser().setX(this.getData().getModel().getDoorX());
@@ -133,7 +134,7 @@ public class Room {
 		mahBawt.getRoomUser().setHeight(this.getData().getModel().getHeight(mahBawt.getRoomUser().getPoint()));
 		mahBawt.getRoomUser().setVirtualId(this.getVirtualId());
 
-		this.entities.add(mahBawt);*/
+		this.entities.add(mahBawt);
 	}
 
 

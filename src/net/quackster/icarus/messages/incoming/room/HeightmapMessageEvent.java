@@ -23,6 +23,10 @@ public class HeightmapMessageEvent implements Message {
 		if (room == null) {
 			return;
 		}
+		
+		if (room.getEntities().contains(session)) {
+			return;
+		}
 
 		RoomModel roomModel = room.getData().getModel();
 		

@@ -41,6 +41,15 @@ public class RoomData {
 	private List<Integer> rights;
 	private Room room;
 	
+	private int chatType;
+	private int chatBalloon;
+	private int chatSpeed;
+	private int chatMaxDistance;
+	private int chatFloodProtection;
+	private int whoCanMute;
+	private int whoCanKick;
+	private int whoCanBan;
+	
 	public RoomData(Room room) {
 		
 		this.room = room;
@@ -50,7 +59,8 @@ public class RoomData {
 	public void fill(int id, RoomType type, int ownerId, String ownerName, String name, int state, int usersNow, int usersMax,
 			String description, int tradeState, int score, int category, int groupId, String model, String wall,
 			String floor, String landscape, boolean allowPets, boolean allowPetsEat, boolean allowWalkthrough,
-			boolean hideWall, int wallThickness, int floorThickness, String tagFormat) {
+			boolean hideWall, int wallThickness, int floorThickness, String tagFormat, int chatType, int chatBalloon, int chatSpeed,
+			int chatMaxDistance, int chatFloodProtection, int whoCanMute, int whoCanKick, int whoCanBan) {
 
 		this.id = id;
 		this.roomType = type;
@@ -77,6 +87,13 @@ public class RoomData {
 		this.floorThickness = floorThickness;
 		this.tagFormat = tagFormat;
 		this.rights = Icarus.getDao().getRoom().getRoomRights(this.id);
+		this.chatType = chatType;
+		this.chatSpeed = chatSpeed;
+		this.chatMaxDistance = chatMaxDistance;
+		this.chatFloodProtection = chatFloodProtection;
+		this.whoCanMute = whoCanMute;
+		this.whoCanKick = whoCanKick;
+		this.whoCanBan = whoCanBan;
 	}
 	
 	public void serialise(Response response) {
@@ -330,6 +347,70 @@ public class RoomData {
 	
 	public List<Integer> getRights() {
 		return rights;
+	}
+
+	public int getChatType() {
+		return chatType;
+	}
+
+	public void setChatType(int chatType) {
+		this.chatType = chatType;
+	}
+
+	public int getChatBalloon() {
+		return chatBalloon;
+	}
+
+	public void setChatBalloon(int chatBalloon) {
+		this.chatBalloon = chatBalloon;
+	}
+
+	public int getChatSpeed() {
+		return chatSpeed;
+	}
+
+	public void setChatSpeed(int chatSpeed) {
+		this.chatSpeed = chatSpeed;
+	}
+
+	public int getChatMaxDistance() {
+		return chatMaxDistance;
+	}
+
+	public void setChatMaxDistance(int chatMaxDistance) {
+		this.chatMaxDistance = chatMaxDistance;
+	}
+
+	public int getChatFloodProtection() {
+		return chatFloodProtection;
+	}
+
+	public void setChatFloodProtection(int chatFloodProtection) {
+		this.chatFloodProtection = chatFloodProtection;
+	}
+
+	public int getWhoCanMute() {
+		return whoCanMute;
+	}
+
+	public void setWhoCanMute(int whoCanMute) {
+		this.whoCanMute = whoCanMute;
+	}
+
+	public int getWhoCanKick() {
+		return whoCanKick;
+	}
+
+	public void setWhoCanKick(int whoCanKick) {
+		this.whoCanKick = whoCanKick;
+	}
+
+	public int getWhoCanBan() {
+		return whoCanBan;
+	}
+
+	public void setWhoCanBan(int whoCanBan) {
+		this.whoCanBan = whoCanBan;
 	}
 
 	public void dispose() {

@@ -13,16 +13,18 @@ public class FlatCategoriesMessageComposer extends Response {
 		this.init(Outgoing.FlatCategoriesMessageComposer);
 		this.appendInt32(categories.length);
 
-		int index = 1;
+		int index = 0;
 		
 		for (String category : categories) {
-			this.appendInt32(index++);
+			this.appendInt32(index);
 			this.appendString(category);
 			this.appendBoolean(true); // show category?
 			this.appendBoolean(false); // no idea
 			this.appendString("NONE");
 			this.appendString("");
 			this.appendBoolean(false);
+			
+			++index;
 		}
 	}
 }

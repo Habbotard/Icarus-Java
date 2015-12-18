@@ -20,11 +20,13 @@ import net.quackster.icarus.messages.incoming.navigator.*;
 import net.quackster.icarus.messages.incoming.room.*;
 import net.quackster.icarus.messages.incoming.room.user.ChatMessageEvent;
 import net.quackster.icarus.messages.incoming.room.user.DanceMessageEvent;
+import net.quackster.icarus.messages.incoming.room.user.GetRoomRightsListMessageEvent;
+import net.quackster.icarus.messages.incoming.room.user.RoomEditInfoMessageEvent;
 import net.quackster.icarus.messages.incoming.room.user.ShoutMessageEvent;
 import net.quackster.icarus.messages.incoming.room.user.TypingStatusMessageEvent;
 import net.quackster.icarus.messages.incoming.room.user.UserWalkMessageEvent;
 import net.quackster.icarus.messages.incoming.user.*;
-import net.quackster.icarus.messages.outgoing.room.user.GetRoomRightsListMessageEvent;
+import net.quackster.icarus.messages.outgoing.room.user.SaveRoomMessageEvent;
 import net.quackster.icarus.netty.readers.Request;
 import net.quackster.icarus.netty.readers.Response;
 
@@ -88,6 +90,8 @@ public class MessageHandler {
 		this.messages.put(Incoming.GetRoomRightsListMessageEvent, new GetRoomRightsListMessageEvent());
 		this.messages.put(Incoming.RequestHeightmapMessageEvent, new EnterRoomMessageEvent());
 		this.messages.put(Incoming.RoomSucessMessageEvent, new HeightmapMessageEvent());
+		
+		// inside room 
 		this.messages.put(Incoming.UserWalkMessageEvent, new UserWalkMessageEvent());
 		this.messages.put(Incoming.LeaveRoomMessageEvent, new LeaveRoomMessageEvent());
 		this.messages.put(Incoming.ChatMessageEvent, new ChatMessageEvent());
@@ -95,8 +99,14 @@ public class MessageHandler {
 		this.messages.put(Incoming.DanceMessageEvent, new DanceMessageEvent());
 		this.messages.put(Incoming.StartTypingMessageEvent, new TypingStatusMessageEvent());
 		this.messages.put(Incoming.StopTypingMessageEvent, new TypingStatusMessageEvent());
+		
+		// doorbell
 		this.messages.put(Incoming.DoorbellAnswerMessageEvent, new DoorbellAnswerMessageEvent());
 		this.messages.put(Incoming.DoorbellEnterMessageEvent, new DoorbellEnterMessageEvent());
+		
+		// edit room details
+		this.messages.put(Incoming.RoomEditInfoMessageEvent, new RoomEditInfoMessageEvent());
+		this.messages.put(Incoming.SaveRoomMessageEvent, new SaveRoomMessageEvent());
 	}
 
 	public void handleRequest(Session session, Request message) {
