@@ -4,12 +4,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import net.quackster.icarus.Icarus;
+import net.quackster.icarus.dao.Dao;
 
 public class NavigatorManager {
 
 	private List<NavigatorTab> tabs;
 	
-	public NavigatorManager() throws Exception {
+	public void load() throws Exception {
 		this.tabs = Icarus.getDao().getNavigator().getTabs(-1);
 	}
 	

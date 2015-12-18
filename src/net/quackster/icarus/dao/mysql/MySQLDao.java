@@ -36,25 +36,23 @@ public class MySQLDao implements Dao {
 
 		Log.println("Connecting to MySQL server");
 
-		isConnected = true;
-
 		storage = new Storage(Icarus.getUtilities().getConfiguration().get("mysql-hostname"), 
 				Icarus.getUtilities().getConfiguration().get("mysql-username"), 
 				Icarus.getUtilities().getConfiguration().get("mysql-password"), 
-				Icarus.getUtilities().getConfiguration().get("mysql-database")); {
+				Icarus.getUtilities().getConfiguration().get("mysql-database")); 
 
-					isConnected = storage.isConnected();
 
-					if (!isConnected) {
-						Log.println("Could not connect");
-					} else {
-						Log.println("Connection to MySQL was a success");
-					}
-				}
+		isConnected = storage.isConnected();
 
-				Log.println();
+		if (!isConnected) {
+			Log.println("Could not connect");
+		} else {
+			Log.println("Connection to MySQL was a success");
+		}
 
-				return isConnected;
+		Log.println();
+
+		return isConnected;
 	}
 
 	/*public void UpdateTable (String table, Object[] set, Object[] where)
@@ -68,9 +66,9 @@ public class MySQLDao implements Dao {
 		StringBuilder builder = new StringBuilder();
 
 		for (int i = 0; i < array.length; i += 2) {
-			
+
 			Object value = array[i + 1];
-			
+
 			if (value instanceof Integer) {
 				builder.append("'" + array[i] + "' = ? AND ");
 			} else {

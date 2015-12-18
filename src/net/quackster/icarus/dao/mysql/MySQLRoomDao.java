@@ -22,33 +22,35 @@ public class MySQLRoomDao implements IRoomDao, IProcessStorage<Room, ResultSet> 
 
 	private MySQLDao dao;
 	private Map<String, RoomModel> roomModels;
-	
+
 	public MySQLRoomDao(MySQLDao dao) {
-		
+
 		this.dao = dao;
 		this.roomModels = new HashMap<String, RoomModel>();
-		
+
 		try {
-			
-			ResultSet row = dao.getStorage().getTable("SELECT * FROM room_models");
-			
-			while (row.next()) {
-				roomModels.put(row.getString("id"), new RoomModel(row.getString("id"), row.getString("heightmap"), row.getInt("door_x"), row.getInt("door_y"), row.getInt("door_z"), row.getInt("door_dir")));
+
+			if (dao.isConnected()) {
+				ResultSet row = dao.getStorage().getTable("SELECT * FROM room_models");
+
+				while (row.next()) {
+					roomModels.put(row.getString("id"), new RoomModel(row.getString("id"), row.getString("heightmap"), row.getInt("door_x"), row.getInt("door_y"), row.getInt("door_z"), row.getInt("door_dir")));
+				}
+
+				Storage.releaseObject(row);
+
 			}
-			
-			Storage.releaseObject(row);
-			
 		} catch (Exception e) {
 			Log.exception(e);
 		}
 	}
-	
+
 
 	@Override
 	public List<Room> getPlayerRooms(CharacterDetails details) {
 		return getPlayerRooms(details, false);
 	}
-	
+
 	@Override
 	public List<Room> getPublicRooms(boolean storeInMemory) {
 
@@ -62,14 +64,14 @@ public class MySQLRoomDao implements IRoomDao, IProcessStorage<Room, ResultSet> 
 			while (row.next()) {
 
 				int id = row.getInt("id");
-				
+
 				Room room = Icarus.getGame().getRoomManager().find(id);
 
 				if (room == null) {
 					room = new Room();
 					this.fill(room, row);
 				}
-				
+
 				rooms.add(room);
 
 				if (storeInMemory) {
@@ -85,12 +87,12 @@ public class MySQLRoomDao implements IRoomDao, IProcessStorage<Room, ResultSet> 
 
 		return rooms;
 	}
-	
+
 	@Override
 	public List<Room> getPlayerRooms(CharacterDetails details, boolean storeInMemory) {
 
 		List<Room> rooms = new ArrayList<Room>();
-		
+
 		ResultSet row = null;
 
 		try {
@@ -100,14 +102,14 @@ public class MySQLRoomDao implements IRoomDao, IProcessStorage<Room, ResultSet> 
 			while (row.next()) {
 
 				int id = row.getInt("id");
-				
+
 				Room room = Icarus.getGame().getRoomManager().find(id);
 
 				if (room == null) {
 					room = new Room();
 					this.fill(room, row);
 				}
-				
+
 				rooms.add(room);
 
 				if (storeInMemory) {
@@ -128,21 +130,21 @@ public class MySQLRoomDao implements IRoomDao, IProcessStorage<Room, ResultSet> 
 	public Room getRoom(int roomId) {
 		return getRoom(roomId, false);
 	}
-	
+
 	@Override
 	public Room getRoom(int roomId, boolean storeInMemory) {
 
 		try {
 
 			ResultSet row =  dao.getStorage().getRow("SELECT * FROM rooms WHERE id = " + roomId);
-			
+
 			Room room = Icarus.getGame().getRoomManager().find(roomId);
 
 			if (room == null) {
 				room = new Room();
 				this.fill(room, row);
 			}
-			
+
 			Storage.releaseObject(row);
 
 			if (storeInMemory) {
@@ -163,9 +165,9 @@ public class MySQLRoomDao implements IRoomDao, IProcessStorage<Room, ResultSet> 
 
 	@Override
 	public List<Integer> getRoomRights(int roomId) {
-		
+
 		List<Integer> rooms = new ArrayList<Integer>();
-		
+
 		ResultSet row = null;
 
 		try {
@@ -175,18 +177,18 @@ public class MySQLRoomDao implements IRoomDao, IProcessStorage<Room, ResultSet> 
 			while (row.next()) {
 				rooms.add(row.getInt("user_id"));
 			}
-			
+
 		} catch (Exception e) {
 			Log.exception(e);
 		} finally {
 			Storage.releaseObject(row);
 		}
-		
+
 		return rooms;
 	}
 
-	
-	
+
+
 	@Override
 	public RoomModel getModel(String model) {
 		return roomModels.get(model);
@@ -194,29 +196,29 @@ public class MySQLRoomDao implements IRoomDao, IProcessStorage<Room, ResultSet> 
 
 	@Override
 	public Room fill(Room instance, ResultSet row) throws SQLException {
-		
+
 		RoomType type = RoomType.getType(row.getInt("room_type"));
-		
+
 		CharacterDetails details = null;
-		
+
 		if (type == RoomType.PRIVATE) {
 			details = Icarus.getDao().getPlayer().getDetails(row.getInt("owner_id"));
 		}
-		
+
 		instance.getData().fill(row.getInt("id"), type, details == null ? 0 : details.getId(), details == null ? "" : details.getUsername(), row.getString("name"), row.getInt("state"), row.getInt("users_now"),
-						row.getInt("users_max"), row.getString("description"), row.getInt("trade_state"), row.getInt("score"), row.getInt("category"), 
-						row.getInt("category"), row.getString("model"), row.getString("wallpaper"), row.getString("floor"), row.getString("outside"), 
-						row.getBoolean("allow_pets"), row.getBoolean("allow_pets_eat"), row.getBoolean("allow_walkthrough"), row.getBoolean("hidewall"), 
-						row.getInt("wall_thickness"), row.getInt("floor_thickness"), row.getString("tags"));
-		
+				row.getInt("users_max"), row.getString("description"), row.getInt("trade_state"), row.getInt("score"), row.getInt("category"), 
+				row.getInt("category"), row.getString("model"), row.getString("wallpaper"), row.getString("floor"), row.getString("outside"), 
+				row.getBoolean("allow_pets"), row.getBoolean("allow_pets_eat"), row.getBoolean("allow_walkthrough"), row.getBoolean("hidewall"), 
+				row.getInt("wall_thickness"), row.getInt("floor_thickness"), row.getString("tags"));
+
 		if (this.dao.getStorage().exists("SELECT * from room_thumbnails WHERE room_id = " + instance.getData().getId())) {
 			instance.getData().setThumbnail(this.dao.getStorage().getString("SELECT image_url from room_thumbnails WHERE room_id = " + instance.getData().getId()));
-			
+
 		}
-		
+
 		return null;
 	}
 
 
-	
+
 }

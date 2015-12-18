@@ -16,13 +16,11 @@ public class Storage {
 
 	private BoneCP connections = null;
 	private BoneCPConfig config;
-	private boolean isConnected;
+	private boolean isConnected = false;
 
 	public Storage(String host, String username, String password, String db) {
 		
-		checkDriver();
-
-		this.isConnected = true;
+		//checkDriver();
 
 		try {
 			config = new BoneCPConfig();
@@ -37,8 +35,10 @@ public class Storage {
 			config.setPartitionCount(Runtime.getRuntime().availableProcessors()); // set partion count to number of cores (inc. hyperthreading)
 			
 			this.connections = new BoneCP(config);
+			
+			this.isConnected = true;
 
-		} catch(Exception e) {
+		} catch (Exception e) {
 			this.isConnected = false;
 			Log.exception(e);
 		}

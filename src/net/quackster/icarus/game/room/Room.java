@@ -3,9 +3,12 @@ package net.quackster.icarus.game.room;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
+
 import net.quackster.icarus.Icarus;
 import net.quackster.icarus.game.entity.EntityType;
 import net.quackster.icarus.game.entity.IEntity;
+import net.quackster.icarus.game.room.bot.Bot;
 import net.quackster.icarus.game.room.model.Point;
 import net.quackster.icarus.game.room.model.RoomModel;
 import net.quackster.icarus.game.room.player.RoomSearch;
@@ -56,7 +59,7 @@ public class Room {
 
 		this.entities.remove(session);
 
-		if (this.entities.size() == 0) {
+		if (this.getUsers().size() == 0) {
 
 			if (this.tickTask != null) {
 				this.tickTask.cancel(true);
@@ -101,6 +104,29 @@ public class Room {
 		session.send(new RoomRightsLevelMessageComposer(roomUser));
 		session.send(new PrepareRoomMessageComposer(this));
 
+	}
+
+
+	public void firstEntry() {
+
+		if (this.getUsers().size() != 0) {
+			return;
+		}
+		
+		this.disposed = false;
+
+		this.setTickTask(Icarus.getUtilities().getThreadPooling().getScheduledThreadPool().scheduleAtFixedRate(new RoomCycle(this), 0, 500, TimeUnit.MILLISECONDS));
+		this.regenerateCollisionMap();
+
+		Bot mahBawt = new Bot();
+
+		mahBawt.getRoomUser().setRoom(this);
+		mahBawt.getRoomUser().setX(this.getData().getModel().getDoorX());
+		mahBawt.getRoomUser().setY(this.getData().getModel().getDoorY());
+		mahBawt.getRoomUser().setHeight(this.getData().getModel().getHeight(mahBawt.getRoomUser().getPoint()));
+		mahBawt.getRoomUser().setVirtualId(this.getVirtualId());
+
+		this.entities.add(mahBawt);
 	}
 
 
@@ -177,7 +203,7 @@ public class Room {
 	public List<IEntity> getEntities() {
 		return entities;
 	}
-	
+
 	public List<IEntity> getEntities(EntityType type) {
 		List<IEntity> e = new ArrayList<IEntity>();
 
@@ -191,7 +217,7 @@ public class Room {
 	}
 
 	public List<Session> getUsers() {
-		
+
 		List<Session> sessions = new ArrayList<Session>();
 
 		for (IEntity entity : this.getEntities(EntityType.PLAYER)) {
@@ -228,29 +254,32 @@ public class Room {
 		try {
 
 			if (this.data.getRoomType() == RoomType.PRIVATE) {
-				if (this.entities.size() > 0 || (Icarus.getServer().getSessionManager().findById(this.data.getOwnerId()) != null)) {
+				if (this.getUsers().size() > 0) {
 					return;
 				}
-			} else {
-				return;
 			}
-
-			Icarus.getGame().getRoomManager().getLoadedRooms().remove(this);
-
+			
 			System.out.println("Room ID (" + this.data.getId() + ") disposed");
 
 			this.collisionMap = null;
 			this.tickTask = null;
-
+			
 			this.entities.clear();
-			this.entities = null;
 
-			this.data.dispose();
-			this.data = null;
+			if (Icarus.getServer().getSessionManager().findById(this.data.getOwnerId()) == null && this.data.getRoomType() == RoomType.PRIVATE) { 
+				
+				this.data.dispose();
+				this.data = null;
+			
+				this.search.dispose();
+				this.search = null;
+				
+				this.entities = null;
+				
+				Icarus.getGame().getRoomManager().getLoadedRooms().remove(this);
+			}
 
-			this.search.dispose();
-			this.search = null;
-
+			
 			this.disposed = true;
 
 		} catch (Exception e) {

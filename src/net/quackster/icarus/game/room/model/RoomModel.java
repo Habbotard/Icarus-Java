@@ -112,6 +112,11 @@ public class RoomModel
 
 	}
 	
+	public double getHeight(Point point) {
+		return squareHeight[point.getX()][point.getY()];
+	}
+	
+	
 	public String getHeightMap() {
 		return heightmap;
 	}

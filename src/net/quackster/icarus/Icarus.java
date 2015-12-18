@@ -20,12 +20,10 @@ public class Icarus {
 	private static Dao dao;
 
 	private static final String REVISION = "PRODUCTION-201512012203-525044429";
-	//private static final String OLD = "PRODUCTION-201506161211-776084490";//PRODUCTION-201512012203-525044429";
 
 	public static void main(String[] args) {
 
 		try {
-
 			createConfig();
 			Log.startup();
 
@@ -34,18 +32,17 @@ public class Icarus {
 			if (utilities.getConfiguration().get("database-type").equalsIgnoreCase("mysql")) {
 				dao = new MySQLDao();
 			}
-			
+
 			if (dao.isConnected()) {
-				game = new Game();
-				
-				game.getRoomManager().load();
+				game = new Game(dao);
+				game.load();
 				
 				startServer();
-			
 			}
 
+
 		} catch (Exception e) {
-			e.printStackTrace();
+			return;
 		}
 	}
 

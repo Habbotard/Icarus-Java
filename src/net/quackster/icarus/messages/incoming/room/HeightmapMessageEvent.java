@@ -36,11 +36,8 @@ public class HeightmapMessageEvent implements Message {
 		session.getRoomUser().setLoadingRoom(false);
 		session.getRoomUser().setInRoom(true);
 		
-		if (room.getUsers().size() == 0) {
-			room.setTickTask(Icarus.getUtilities().getThreadPooling().getScheduledThreadPool().scheduleAtFixedRate(new RoomCycle(room), 0, 500, TimeUnit.MILLISECONDS));
-			room.regenerateCollisionMap();
-		}
-
+		room.firstEntry(); // this method will load all pets if this is the first user to join the room
+		
 		RoomUser user = session.getRoomUser();
 
 		user.setVirtualId(room.getVirtualId());
