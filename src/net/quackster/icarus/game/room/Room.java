@@ -243,11 +243,9 @@ public class Room {
 
 		try {
 
-			if (this.data.getRoomType() == RoomType.PRIVATE) {
-				if (this.getUsers().size() > 0) {
+			if (this.getUsers().size() > 0) {
 					return;
 				}
-			}
 			
 			if (this.tickTask != null) {
 				this.tickTask.cancel(true);
