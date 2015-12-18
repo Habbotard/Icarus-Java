@@ -18,6 +18,7 @@ public class RoomData {
 	private String ownerName;
 	private String name;
 	private RoomState state;
+	private String password;
 	private String thumbnail;
 	private int usersNow;
 	private int usersMax;
@@ -36,7 +37,7 @@ public class RoomData {
 	private boolean hideWall;
 	private int wallThickness;
 	private int floorThickness;
-	private String tagFormat;
+	private String[] tags;
 	
 	private List<Integer> rights;
 	private Room room;
@@ -56,7 +57,7 @@ public class RoomData {
 		this.rights = new ArrayList<Integer>();
 	}
 	
-	public void fill(int id, RoomType type, int ownerId, String ownerName, String name, int state, int usersNow, int usersMax,
+	public void fill(int id, RoomType type, int ownerId, String ownerName, String name, int state, String password, int usersNow, int usersMax,
 			String description, int tradeState, int score, int category, int groupId, String model, String wall,
 			String floor, String landscape, boolean allowPets, boolean allowPetsEat, boolean allowWalkthrough,
 			boolean hideWall, int wallThickness, int floorThickness, String tagFormat, int chatType, int chatBalloon, int chatSpeed,
@@ -68,6 +69,7 @@ public class RoomData {
 		this.ownerName = ownerName;
 		this.name = name;
 		this.state = RoomState.getState(state);
+		this.password = password;
 		this.usersNow = usersNow;
 		this.usersMax = usersMax;
 		this.description = description;
@@ -85,7 +87,7 @@ public class RoomData {
 		this.hideWall = hideWall;
 		this.wallThickness = wallThickness;
 		this.floorThickness = floorThickness;
-		this.tagFormat = tagFormat;
+		this.setTags(tagFormat.split(","));
 		this.rights = Icarus.getDao().getRoom().getRoomRights(this.id);
 		this.chatType = chatType;
 		this.chatSpeed = chatSpeed;
@@ -114,8 +116,12 @@ public class RoomData {
 		response.appendInt32(this.score);
 		response.appendInt32(0); // Ranking
 		response.appendInt32(this.category);
-		response.appendInt32(0); //TagCount
+		response.appendInt32(this.tags.length); //TagCount
 
+		for (String tag : this.tags) {
+			response.appendString(tag);
+		}
+		
 		int enumType = enterRoom ? 32 : 0;
 		
 		// if has event
@@ -164,6 +170,14 @@ public class RoomData {
 
 	public void setState(int state) {
 		this.state = RoomState.getState(state);
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public String getDescription() {
@@ -340,10 +354,6 @@ public class RoomData {
 	public RoomModel getModel() {
 		return Icarus.getDao().getRoom().getModel(this.model);
 	}
-
-	public String getTagFormat() {
-		return tagFormat;
-	}
 	
 	public List<Integer> getRights() {
 		return rights;
@@ -418,11 +428,18 @@ public class RoomData {
 		this.name = null;
 		this.ownerName = null;
 		this.description = null;
-		this.tagFormat = null;
 		this.landscape = null;
 		this.model = null;
 		this.wall = null;
 		
+	}
+
+	public String[] getTags() {
+		return tags;
+	}
+
+	public void setTags(String[] tags) {
+		this.tags = tags;
 	}
 
 }

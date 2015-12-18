@@ -59,7 +59,7 @@ public class EnterRoomMessageEvent implements Message {
 			}
 
 			if (room.getData().getState() == RoomState.PASSWORD) {
-				if (!pass.equals(room.getPassword())) {
+				if (!pass.equals(room.getData().getPassword())) {
 					session.send(new GenericErrorMessageComposer(-100002));
 					session.send(new HotelViewMessageComposer());
 					return;

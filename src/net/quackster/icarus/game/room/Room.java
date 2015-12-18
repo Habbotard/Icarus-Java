@@ -253,10 +253,6 @@ public class Room {
 		this.tickTask = task;
 	}
 
-	public String getPassword() {
-		return "xd";
-	}
-
 	public void dispose() {
 
 		if (this.disposed) {
