@@ -32,7 +32,7 @@ public class RoomCycle implements Runnable {
 
 		try {
 
-			synchronized (room.getUsers()) { // gotta have dat thread safety, amirite? 
+			synchronized (room.getEntities()) { // gotta have dat thread safety, amirite? 
 
 				ConcurrentLinkedQueue<IEntity> users = new ConcurrentLinkedQueue<IEntity>(room.getEntities());
 
