@@ -4,7 +4,6 @@ import net.quackster.icarus.game.room.Room;
 import net.quackster.icarus.game.room.RoomData;
 import net.quackster.icarus.messages.headers.Outgoing;
 import net.quackster.icarus.netty.readers.Response;
-import net.quackster.icarus.util.GameSettings;
 
 public class RoomSettingsDataMessageComposer extends Response {
 

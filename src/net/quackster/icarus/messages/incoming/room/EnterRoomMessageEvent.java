@@ -12,7 +12,6 @@ import net.quackster.icarus.messages.outgoing.room.notify.GenericNoAnswerDoorbel
 import net.quackster.icarus.messages.outgoing.room.notify.RoomEnterErrorMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.user.HotelViewMessageComposer;
 import net.quackster.icarus.netty.readers.Request;
-import net.quackster.icarus.netty.readers.Response;
 
 public class EnterRoomMessageEvent implements Message {
 

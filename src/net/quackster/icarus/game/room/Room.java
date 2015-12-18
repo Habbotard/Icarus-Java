@@ -48,7 +48,7 @@ public class Room {
 	public void leaveRoom(Session session, boolean hotelView) {
 
 		if (hotelView) {;
-		session.send(new HotelViewMessageComposer());
+			session.send(new HotelViewMessageComposer());
 		}
 
 		this.send(new RemoveUserMessageComposer(session.getRoomUser().getVirtualId()));
@@ -62,6 +62,10 @@ public class Room {
 		this.dispose();
 
 		session.getMessenger().sendStatus(false);
+	}
+
+	public boolean hasRights(Session session, boolean ownerCheckOnly) {
+		return this.hasRights(session.getDetails().getId(), ownerCheckOnly);
 	}
 
 	public boolean hasRights(int userId, boolean ownerCheckOnly) {

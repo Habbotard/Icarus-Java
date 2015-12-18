@@ -21,12 +21,12 @@ import net.quackster.icarus.messages.incoming.room.*;
 import net.quackster.icarus.messages.incoming.room.user.ChatMessageEvent;
 import net.quackster.icarus.messages.incoming.room.user.DanceMessageEvent;
 import net.quackster.icarus.messages.incoming.room.user.GetRoomRightsListMessageEvent;
-import net.quackster.icarus.messages.incoming.room.user.RoomEditInfoMessageEvent;
+import net.quackster.icarus.messages.incoming.room.user.RoomSettingsDataMessageEvent;
+import net.quackster.icarus.messages.incoming.room.user.SaveRoomMessageEvent;
 import net.quackster.icarus.messages.incoming.room.user.ShoutMessageEvent;
 import net.quackster.icarus.messages.incoming.room.user.TypingStatusMessageEvent;
 import net.quackster.icarus.messages.incoming.room.user.UserWalkMessageEvent;
 import net.quackster.icarus.messages.incoming.user.*;
-import net.quackster.icarus.messages.outgoing.room.user.SaveRoomMessageEvent;
 import net.quackster.icarus.netty.readers.Request;
 import net.quackster.icarus.netty.readers.Response;
 
@@ -105,7 +105,7 @@ public class MessageHandler {
 		this.messages.put(Incoming.DoorbellEnterMessageEvent, new DoorbellEnterMessageEvent());
 		
 		// edit room details
-		this.messages.put(Incoming.RoomEditInfoMessageEvent, new RoomEditInfoMessageEvent());
+		this.messages.put(Incoming.RoomEditInfoMessageEvent, new RoomSettingsDataMessageEvent());
 		this.messages.put(Incoming.SaveRoomMessageEvent, new SaveRoomMessageEvent());
 	}
 
