@@ -14,6 +14,7 @@ public interface IRoomDao {
 	public Room getRoom(int roomId);
 	public Room getRoom(int roomId, boolean storeInMemory);
 	public List<Integer> getRoomRights(int roomId);
+	public void updateRoom(Room room);
 	public RoomModel getModel(String model);
 	public Room createRoom(Session session, String name, String description, String model, int category, int usersMax, int tradeState);
 }

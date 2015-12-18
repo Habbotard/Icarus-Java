@@ -1,5 +1,6 @@
 package net.quackster.icarus.messages.incoming.room.user;
 
+import net.quackster.icarus.Icarus;
 import net.quackster.icarus.game.room.Room;
 import net.quackster.icarus.game.room.RoomData;
 import net.quackster.icarus.game.user.Session;
@@ -77,7 +78,6 @@ public class SaveRoomMessageEvent implements Message {
         data.setWhoCanMute(request.readInt());
         data.setWhoCanKick(request.readInt());
         data.setWhoCanBan(request.readInt());
-        
         data.setChatType(request.readInt());
         data.setChatBalloon(request.readInt());
         data.setChatSpeed(request.readInt());
@@ -92,6 +92,8 @@ public class SaveRoomMessageEvent implements Message {
         if (data.getChatFloodProtection() > 2) {
         	data.setChatFloodProtection(1);
         }        
+        
+        Icarus.getDao().getRoom().updateRoom(room);
 	}
 
 }

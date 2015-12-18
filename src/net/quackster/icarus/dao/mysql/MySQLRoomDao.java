@@ -13,6 +13,7 @@ import net.quackster.icarus.Icarus;
 import net.quackster.icarus.dao.IRoomDao;
 import net.quackster.icarus.dao.util.IProcessStorage;
 import net.quackster.icarus.game.room.Room;
+import net.quackster.icarus.game.room.RoomData;
 import net.quackster.icarus.game.room.model.RoomModel;
 import net.quackster.icarus.game.room.settings.RoomType;
 import net.quackster.icarus.game.user.CharacterDetails;
@@ -221,6 +222,73 @@ public class MySQLRoomDao implements IRoomDao, IProcessStorage<Room, ResultSet> 
 
 		
 		return null;
+	}
+	
+
+	@Override
+	public void updateRoom(Room room) {
+		
+		/*if (data.getName().length() < 3) {
+        data.setDescription(request.readString());
+        data.setState(request.readInt());
+        data.setPassword(request.readString());
+        data.setUsersMax(request.readInt());
+        data.setCategory(request.readInt());
+        String[] tags = new String[tagCount];
+        data.setTags(tags);
+        data.setTradeState(request.readInt());
+        data.setAllowPets(request.readBoolean());
+        data.setAllowPetsEat(request.readBoolean());
+        data.setAllowWalkthrough(request.readBoolean());
+        data.setHideWall(request.readBoolean());
+        data.setWallThickness(request.readInt());
+        data.setFloorThickness(request.readInt());
+        data.setWhoCanMute(request.readInt());
+        data.setWhoCanKick(request.readInt());
+        data.setWhoCanBan(request.readInt());
+        data.setChatType(request.readInt());
+        data.setChatBalloon(request.readInt());
+        data.setChatSpeed(request.readInt());
+        data.setChatMaxDistance(request.readInt());
+        data.setChatFloodProtection(request.readInt());*/
+		
+		RoomData data = room.getData();
+		
+		try {
+			PreparedStatement update = this.dao.getStorage().prepare("UPDATE rooms SET name = ?, description = ?, "
+					+ "state = ?, password = ?, users_max = ?, category = ?, tags = ?, trade_state = ?, allow_pets = ?, allow_pets_eat = ?, " 
+					+ "allow_walkthrough = ?, hidewall = ?, wall_thickness = ?, floor_thickness = ?, who_can_mute = ?, who_can_kick = ?, who_can_ban = ?, "
+					+ "chat_type = ?, chat_balloon = ?, chat_speed = ?, chat_max_distance = ?, chat_flood_protection = ? WHERE id = ?");
+
+				update.setString(1, data.getName());
+				update.setString(2, data.getDescription());
+				update.setInt(3, data.getState().getStateCode());
+				update.setString(4, data.getPassword());
+				update.setInt(5, data.getUsersMax());
+				update.setInt(6, data.getCategory());
+				update.setString(7, String.join(",", data.getTags()));
+				update.setInt(8, data.getTradeState());
+				update.setInt(9, data.isAllowPets() ? 1 : 0);
+				update.setInt(10, data.isAllowPetsEat() ? 1 : 0);
+				update.setInt(11, data.isAllowWalkthrough() ? 1 : 0);
+				update.setInt(12, data.isHideWall() ? 1 : 0);
+				update.setInt(13, data.getWallThickness());
+				update.setInt(14, data.getFloorThickness());
+				update.setInt(15, data.getWhoCanMute());
+				update.setInt(16, data.getWhoCanKick());
+				update.setInt(17, data.getWhoCanBan());
+				update.setInt(18, data.getChatType());
+				update.setInt(19, data.getChatBalloon());
+				update.setInt(20, data.getChatSpeed());
+				update.setInt(21, data.getChatMaxDistance());
+				update.setInt(22, data.getChatFloodProtection());
+				update.setInt(23, data.getId());
+				update.executeUpdate();
+				
+		} catch (Exception e) {
+			Log.exception(e);
+		}
+		
 	}
 
 	@Override
