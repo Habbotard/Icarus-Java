@@ -62,6 +62,18 @@ public class Request
 			return null;
 		}
 	}
+	
+
+	public byte[] readBytes(int len) {
+		
+		try {
+			
+			return this.buffer.readBytes(len).array();
+			
+		} catch (Exception e) {
+			return null;
+		}
+	}
 
 	public String getMessageBody() {
 		

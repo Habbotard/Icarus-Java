@@ -39,5 +39,6 @@ public class Incoming {
 	public static final short RoomEditInfoMessageEvent = 2035;//
 	public static final short SaveRoomMessageEvent = 915;
 	public static final short DeleteRoomMessageEvent = 2126;
+	public static final short RoomThumbnailMessageEvent = 1362; // NOT FINISHED
 	
 }

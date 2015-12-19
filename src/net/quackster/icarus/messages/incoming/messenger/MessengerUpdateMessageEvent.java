@@ -9,7 +9,6 @@ public class MessengerUpdateMessageEvent implements Message {
 	@Override
 	public void handle(Session session, Request request) {
 
-		System.out.println("HELLO MES");
+		// update messeger ok
 	}
-
 }

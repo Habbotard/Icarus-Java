@@ -4,32 +4,14 @@ import java.util.HashMap;
 
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.headers.Incoming;
-import net.quackster.icarus.messages.headers.Outgoing;
 import net.quackster.icarus.messages.incoming.handshake.*;
-import net.quackster.icarus.messages.incoming.messenger.MessengerUpdateMessageEvent;
-import net.quackster.icarus.messages.incoming.messenger.FollowFriendMessageEvent;
-import net.quackster.icarus.messages.incoming.messenger.MessengerAcceptMessageEvent;
-import net.quackster.icarus.messages.incoming.messenger.MessengerDeclineMessageEvent;
-import net.quackster.icarus.messages.incoming.messenger.MessengerDeleteFriendMessageEvent;
-import net.quackster.icarus.messages.incoming.messenger.MessengerMessageEvent;
-import net.quackster.icarus.messages.incoming.messenger.MessengerRequestMessageEvent;
-import net.quackster.icarus.messages.incoming.messenger.MessengerSearchMessageEvent;
-import net.quackster.icarus.messages.incoming.messenger.MessengerTalkMessageEvent;
+import net.quackster.icarus.messages.incoming.messenger.*;
 import net.quackster.icarus.messages.incoming.misc.*;
 import net.quackster.icarus.messages.incoming.navigator.*;
 import net.quackster.icarus.messages.incoming.room.*;
-import net.quackster.icarus.messages.incoming.room.user.ChatMessageEvent;
-import net.quackster.icarus.messages.incoming.room.user.DanceMessageEvent;
-import net.quackster.icarus.messages.incoming.room.user.DeleteRoomMessageEvent;
-import net.quackster.icarus.messages.incoming.room.user.GetRoomRightsListMessageEvent;
-import net.quackster.icarus.messages.incoming.room.user.RoomSettingsDataMessageEvent;
-import net.quackster.icarus.messages.incoming.room.user.SaveRoomMessageEvent;
-import net.quackster.icarus.messages.incoming.room.user.ShoutMessageEvent;
-import net.quackster.icarus.messages.incoming.room.user.TypingStatusMessageEvent;
-import net.quackster.icarus.messages.incoming.room.user.UserWalkMessageEvent;
+import net.quackster.icarus.messages.incoming.room.user.*;
 import net.quackster.icarus.messages.incoming.user.*;
-import net.quackster.icarus.netty.readers.Request;
-import net.quackster.icarus.netty.readers.Response;
+import net.quackster.icarus.netty.readers.*;
 
 public class MessageHandler {
 
@@ -100,6 +82,7 @@ public class MessageHandler {
 		this.messages.put(Incoming.DanceMessageEvent, new DanceMessageEvent());
 		this.messages.put(Incoming.StartTypingMessageEvent, new TypingStatusMessageEvent());
 		this.messages.put(Incoming.StopTypingMessageEvent, new TypingStatusMessageEvent());
+		//this.messages.put(Incoming.RoomThumbnailMessageEvent, new RoomThumbnailMessageEvent());
 		
 		// doorbell
 		this.messages.put(Incoming.DoorbellAnswerMessageEvent, new DoorbellAnswerMessageEvent());
@@ -112,48 +95,6 @@ public class MessageHandler {
 	}
 
 	public void handleRequest(Session session, Request message) {
-		
-		if (message.getMessageId() == 3895) {
-			Response response = new Response(Outgoing.RelationshipMessageComposer);
-			response.appendInt32(message.readInt());
-			response.appendInt32(0);
-			//session.send(response);
-			return;
-		}
-		
-		if (message.getMessageId() == 213) {
-			Response response = new Response(Outgoing.SendRoomCampaignFurnitureMessageComposer);
-			response.appendInt32(0);
-			session.send(response);
-		}
-		
-		
-		/*            Response.Init(LibraryParser.OutgoingRequest("RelationshipMessageComposer"));
-            Response.AppendInteger(habboForId.Id);
-            Response.AppendInteger(habboForId.Relationships.Count);
-            foreach (var current in habboForId.Relationships.Values)
-            {
-                var habboForId2 = AzureEmulator.GetHabboById(Convert.ToUInt32(current.UserId));
-                if (habboForId2 == null)
-                {
-                    Response.AppendInteger(0);
-                    Response.AppendInteger(0);
-                    Response.AppendInteger(0);
-                    Response.AppendString("Placeholder");
-                    Response.AppendString("hr-115-42.hd-190-1.ch-215-62.lg-285-91.sh-290-62");
-                }
-                else
-                {
-                    Response.AppendInteger(current.Type);
-                    Response.AppendInteger((current.Type == 1) ? num : ((current.Type == 2) ? num2 : num3));
-                    Response.AppendInteger(current.UserId);
-                    Response.AppendString(habboForId2.UserName);
-                    Response.AppendString(habboForId2.Look);
-                }
-            }*/
-		
-		
-		
 		if (messages.containsKey(message.getMessageId())) {
 			messages.get(message.getMessageId()).handle(session, message);
 		}
