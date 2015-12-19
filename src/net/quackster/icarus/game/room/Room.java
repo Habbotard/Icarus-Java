@@ -8,7 +8,6 @@ import java.util.concurrent.TimeUnit;
 import net.quackster.icarus.Icarus;
 import net.quackster.icarus.game.entity.EntityType;
 import net.quackster.icarus.game.entity.IEntity;
-import net.quackster.icarus.game.room.bot.Bot;
 import net.quackster.icarus.game.room.model.Point;
 import net.quackster.icarus.game.room.model.RoomModel;
 import net.quackster.icarus.game.room.player.RoomSearch;
@@ -48,7 +47,7 @@ public class Room {
 	public void leaveRoom(Session session, boolean hotelView) {
 
 		if (hotelView) {;
-			session.send(new HotelViewMessageComposer());
+		session.send(new HotelViewMessageComposer());
 		}
 
 		this.send(new RemoveUserMessageComposer(session.getRoomUser().getVirtualId()));
@@ -58,7 +57,10 @@ public class Room {
 		roomUser.stopWalking(false);
 		roomUser.reset();
 
-		this.entities.remove(session);
+		if (this.entities != null) {
+			this.entities.remove(session);
+		}
+
 		this.dispose();
 
 		session.getMessenger().sendStatus(false);
@@ -101,16 +103,16 @@ public class Room {
 
 		session.send(new RoomSpacesMessageComposer("landscape", this.data.getLandscape()));
 		session.send(new RoomRatingMessageComposer(roomUser, this.data.getScore()));
-		
-		
+
+
 		if (roomUser.getRoom().hasRights(session.getDetails().getId(), true)) {
 			session.send(new RoomRightsLevelMessageComposer(4));
 			session.send(new HasOwnerRightsMessageComposer());
 
-		
+
 		} else if (roomUser.getRoom().hasRights(session.getDetails().getId(), false)) {
 			session.send(new RoomRightsLevelMessageComposer(1));
-		
+
 		} else {
 			session.send(new RoomRightsLevelMessageComposer(0));
 		}
@@ -130,7 +132,7 @@ public class Room {
 		this.setTickTask(Icarus.getUtilities().getThreadPooling().getScheduledThreadPool().scheduleAtFixedRate(new RoomCycle(this), 0, 500, TimeUnit.MILLISECONDS));
 		this.regenerateCollisionMap();
 
-		Bot mahBawt = new Bot();
+		/*Bot mahBawt = new Bot();
 
 		mahBawt.getRoomUser().setRoom(this);
 		mahBawt.getRoomUser().setX(this.getData().getModel().getDoorX());
@@ -138,7 +140,7 @@ public class Room {
 		mahBawt.getRoomUser().setHeight(this.getData().getModel().getHeight(mahBawt.getRoomUser().getPoint()));
 		mahBawt.getRoomUser().setVirtualId(this.getVirtualId());
 
-		this.entities.add(mahBawt);
+		this.entities.add(mahBawt);*/
 	}
 
 
@@ -255,44 +257,94 @@ public class Room {
 
 	public void dispose() {
 
-		if (this.disposed) {
-			return;
-		}
+		this.dispose(false);
+	}
+
+	public void dispose(boolean forceDisposal) {
+
 
 		try {
 
-			if (this.getUsers().size() > 0) {
-				return;
-			}
+			if (forceDisposal) {
 
-			if (this.tickTask != null) {
-				this.tickTask.cancel(true);
-				this.tickTask = null;
-			}
+				
+				
+				if (this.tickTask != null) {
+					this.tickTask.cancel(true);
+					this.tickTask = null;
+				}
 
-			this.collisionMap = null;
-			this.entities.clear();
+				this.collisionMap = null;
 
-			if (Icarus.getServer().getSessionManager().findById(this.data.getOwnerId()) == null 
-					&& this.data.getRoomType() == RoomType.PRIVATE) { 
+				if (this.entities != null) {
+					this.entities.clear();
+				}
 
-				System.out.println("Room ID (" + this.data.getId() + ") deleted");
+				if (this.search != null) {
+					this.search.dispose();
+				}
 
-				this.data.dispose();
-				this.data = null;
-
-				this.search.dispose();
 				this.search = null;
 				this.entities = null;
 
 				Icarus.getGame().getRoomManager().getLoadedRooms().remove(this);
-			}
 
-			this.disposed = true;
+				System.out.println("Room ID (" + this.data.getId() + ") deleted");
+
+				if (this.data != null) {
+					this.data.dispose();
+				}
+
+				this.data = null;
+				
+				this.disposed = true;
+
+			} else {
+
+
+
+				if (this.disposed) {
+					return;
+				}
+
+
+
+				if (this.getUsers().size() > 0) {
+					return;
+				}
+
+				if (this.tickTask != null) {
+					this.tickTask.cancel(true);
+					this.tickTask = null;
+				}
+
+				this.collisionMap = null;
+				this.entities.clear();
+
+				if (Icarus.getServer().getSessionManager().findById(this.data.getOwnerId()) == null 
+						&& this.data.getRoomType() == RoomType.PRIVATE) { 
+
+					System.out.println("Room ID (" + this.data.getId() + ") deleted");
+
+					this.data.dispose();
+					this.data = null;
+
+					this.search.dispose();
+					this.search = null;
+					this.entities = null;
+
+					Icarus.getGame().getRoomManager().getLoadedRooms().remove(this);
+
+
+					this.disposed = true;
+				}
+
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	public void setUsers(ArrayList<IEntity> entities) {

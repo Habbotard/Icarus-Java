@@ -224,6 +224,12 @@ public class MySQLRoomDao implements IRoomDao, IProcessStorage<Room, ResultSet> 
 		return null;
 	}
 	
+	@Override
+	public void deleteRoom(Room room) {
+		
+		this.dao.getStorage().execute("DELETE FROM rooms WHERE id = " + room.getData().getId());
+	}
+	
 
 	@Override
 	public void updateRoom(Room room) {

@@ -5,9 +5,11 @@ import net.quackster.icarus.game.room.model.RoomModel;
 import net.quackster.icarus.game.room.player.RoomUser;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.Message;
+import net.quackster.icarus.messages.outgoing.room.ChatOptionsMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.FloorMapMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.HeightMapMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.RoomDataMessageComposer;
+import net.quackster.icarus.messages.outgoing.room.WallOptionsMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.user.DanceMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.user.UserDisplayMessageComposer;
 import net.quackster.icarus.messages.outgoing.room.user.UserStatusMessageComposer;
@@ -67,6 +69,10 @@ public class HeightmapMessageEvent implements Message {
 		}		
 		
 		session.send(new RoomDataMessageComposer(room, session, true, true));
+		
+		session.send(new ChatOptionsMessageComposer(room));
+		session.send(new WallOptionsMessageComposer(room));
+		
 		session.getMessenger().sendStatus(false);
 		
 	}

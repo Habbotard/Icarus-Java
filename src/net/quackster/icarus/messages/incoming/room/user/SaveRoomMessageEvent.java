@@ -5,6 +5,10 @@ import net.quackster.icarus.game.room.Room;
 import net.quackster.icarus.game.room.RoomData;
 import net.quackster.icarus.game.user.Session;
 import net.quackster.icarus.messages.Message;
+import net.quackster.icarus.messages.outgoing.room.ChatOptionsMessageComposer;
+import net.quackster.icarus.messages.outgoing.room.WallOptionsMessageComposer;
+import net.quackster.icarus.messages.outgoing.room.notify.RoomSettingsOKMessageComposer;
+import net.quackster.icarus.messages.outgoing.room.notify.RoomSettingsUpdatedMessageComposer;
 import net.quackster.icarus.netty.readers.Request;
 
 public class SaveRoomMessageEvent implements Message {
@@ -63,14 +67,13 @@ public class SaveRoomMessageEvent implements Message {
         data.setAllowPetsEat(request.readBoolean());
         data.setAllowWalkthrough(request.readBoolean());
         data.setHideWall(request.readBoolean());
-        data.setWallThickness(request.readInt());
         
+        data.setWallThickness(request.readInt());
         if (data.getWallThickness() < -2 || data.getWallThickness() > 1) {
         	data.setWallThickness(0);
         }
 
         data.setFloorThickness(request.readInt());
-        
         if (data.getFloorThickness() < -2 || data.getFloorThickness() > 1) {
         	data.setFloorThickness(0);
         }
@@ -94,6 +97,12 @@ public class SaveRoomMessageEvent implements Message {
         }        
         
         Icarus.getDao().getRoom().updateRoom(room);
+        
+		session.send(new ChatOptionsMessageComposer(room));
+		session.send(new WallOptionsMessageComposer(room));
+		
+		session.send(new RoomSettingsOKMessageComposer(room));
+		session.send(new RoomSettingsUpdatedMessageComposer(room));
 	}
 
 }

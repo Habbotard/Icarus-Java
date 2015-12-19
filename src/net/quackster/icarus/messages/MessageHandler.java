@@ -20,6 +20,7 @@ import net.quackster.icarus.messages.incoming.navigator.*;
 import net.quackster.icarus.messages.incoming.room.*;
 import net.quackster.icarus.messages.incoming.room.user.ChatMessageEvent;
 import net.quackster.icarus.messages.incoming.room.user.DanceMessageEvent;
+import net.quackster.icarus.messages.incoming.room.user.DeleteRoomMessageEvent;
 import net.quackster.icarus.messages.incoming.room.user.GetRoomRightsListMessageEvent;
 import net.quackster.icarus.messages.incoming.room.user.RoomSettingsDataMessageEvent;
 import net.quackster.icarus.messages.incoming.room.user.SaveRoomMessageEvent;
@@ -107,6 +108,7 @@ public class MessageHandler {
 		// edit room details
 		this.messages.put(Incoming.RoomEditInfoMessageEvent, new RoomSettingsDataMessageEvent());
 		this.messages.put(Incoming.SaveRoomMessageEvent, new SaveRoomMessageEvent());
+		this.messages.put(Incoming.DeleteRoomMessageEvent, new DeleteRoomMessageEvent());
 	}
 
 	public void handleRequest(Session session, Request message) {
