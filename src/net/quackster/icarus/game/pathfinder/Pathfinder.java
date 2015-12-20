@@ -63,7 +63,7 @@ public class Pathfinder {
 				
 				boolean neighborIsBetter;
 				
-				// diagonal collision thanks to Cecer (cecer1 :D) <33
+				// diagonal collision thanks to Cecer <33
 				
 				// if this movement is a diagonal movement we need to check for collisions
 				if(current.getX() != neighbor.getX() && current.getY() != neighbor.getY()) {
