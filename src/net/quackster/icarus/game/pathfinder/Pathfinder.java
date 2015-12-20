@@ -14,7 +14,7 @@ public class Pathfinder {
 	private LinkedList<Node> closedList;
 	private SortedNodeList openList;
 	private LinkedList<Point> shortestPath;
-
+	
 	public Pathfinder(AreaMap map, AStarHeuristic heuristic) {
 
 		this.map = map;
@@ -60,14 +60,27 @@ public class Pathfinder {
 
 			//go through all the current Nodes neighbors and calculate if one should be our next step
 			for(Node neighbor : current.getNeighborList()) {
+				
 				boolean neighborIsBetter;
+				
+				// diagonal collision thanks to Cecer (cecer1 :D) <33
+				
+				// if this movement is a diagonal movement we need to check for collisions
+				if(current.getX() != neighbor.getX() && current.getY() != neighbor.getY()) {
+					Node diagonal1 = this.map.getNode(neighbor.getX(), current.getY());
+					Node diagonal2 = this.map.getNode(current.getX(), neighbor.getY());
+					
+					// if either are obsticals then this is not a valid step
+					if(diagonal1.isObstical() || diagonal2.isObstical())
+						continue;
+				}
 
 				//if we have already searched this Node, don't bother and continue to the next one 
 				if (closedList.contains(neighbor))
 					continue;
 
 				//also just continue if the neighbor is an obstacle
-				if (!neighbor.isObstacle) {
+				if (!neighbor.isObstical()) {
 
 					// calculate how long the path is if we choose this neighbor as the next step in the path 
 					float neighborDistanceFromStart = (current.getDistanceFromStart() + map.getDistanceBetween(current, neighbor));
