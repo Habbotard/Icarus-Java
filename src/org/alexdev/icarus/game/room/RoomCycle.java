@@ -9,7 +9,6 @@ import org.alexdev.icarus.game.entity.IEntity;
 import org.alexdev.icarus.game.entity.IRoomEntity;
 import org.alexdev.icarus.game.room.model.Point;
 import org.alexdev.icarus.game.room.model.Rotation;
-import org.alexdev.icarus.game.user.Session;
 import org.alexdev.icarus.messages.outgoing.room.user.UserStatusMessageComposer;
 
 public class RoomCycle implements Runnable {
@@ -107,8 +106,8 @@ public class RoomCycle implements Runnable {
 						usersToUpdate.add(session);
 
 						if (roomUser.getPoint().sameAs(new Point(room.getData().getModel().getDoorX(), room.getData().getModel().getDoorY()))) {
-							roomUser.getRoom().leaveRoom((Session)roomUser.getEntity(), true);
-							continue;
+							//roomUser.getRoom().leaveRoom((Session)roomUser.getEntity(), true);
+							//continue;
 						}
 					}
 				}

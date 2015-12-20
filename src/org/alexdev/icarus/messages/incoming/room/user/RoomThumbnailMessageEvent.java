@@ -4,8 +4,6 @@ import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.util.zip.Deflater;
-import java.util.zip.Inflater;
 
 import org.alexdev.icarus.game.user.Session;
 import org.alexdev.icarus.messages.Message;
