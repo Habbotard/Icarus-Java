@@ -82,7 +82,7 @@ public class MessageHandler {
 		this.messages.put(Incoming.DanceMessageEvent, new DanceMessageEvent());
 		this.messages.put(Incoming.StartTypingMessageEvent, new TypingStatusMessageEvent());
 		this.messages.put(Incoming.StopTypingMessageEvent, new TypingStatusMessageEvent());
-		//this.messages.put(Incoming.RoomThumbnailMessageEvent, new RoomThumbnailMessageEvent());
+		this.messages.put(Incoming.RoomThumbnailMessageEvent, new RoomThumbnailMessageEvent());
 		
 		// doorbell
 		this.messages.put(Incoming.DoorbellAnswerMessageEvent, new DoorbellAnswerMessageEvent());

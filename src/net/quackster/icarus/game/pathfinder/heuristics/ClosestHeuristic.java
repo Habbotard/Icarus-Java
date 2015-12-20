@@ -12,7 +12,7 @@ public class ClosestHeuristic implements AStarHeuristic {
 		float dx = goal.getX() - start.getX();
 		float dy = goal.getY() - start.getY();
 		
-		float result = (float) (Math.sqrt((dx*dx)+(dy*dy)));
+		float result = (float) (Math.sqrt((dx * dx) + (dy * dy)));
 		
 		//Optimization! Changed to distance^2 distance: (but looks more "ugly")
 		
