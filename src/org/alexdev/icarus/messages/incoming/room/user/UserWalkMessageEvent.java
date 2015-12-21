@@ -2,6 +2,7 @@ package org.alexdev.icarus.messages.incoming.room.user;
 
 import java.util.LinkedList;
 
+import org.alexdev.icarus.alexpathfinder.AlexPathfinder;
 import org.alexdev.icarus.game.room.model.Point;
 import org.alexdev.icarus.game.room.player.RoomUser;
 import org.alexdev.icarus.game.user.Session;
@@ -27,6 +28,8 @@ public class UserWalkMessageEvent implements Message {
 		roomUser.setGoalY(Y);
 
 		LinkedList<Point> path = null;
+		//AlexPathfinder pathfinder = new AlexPathfinder(roomUser.getRoom().getCollisionMap());
+		//path = pathfinder.findPath(roomUser.getPoint(), roomUser.getGoalPoint());
 		path = roomUser.getPathfinder().calculateShortestPath(roomUser.getPoint(), roomUser.getGoalPoint());
 
 		if (path == null || path.size() == 0) { // user selected invalid tile, cannot walk there!

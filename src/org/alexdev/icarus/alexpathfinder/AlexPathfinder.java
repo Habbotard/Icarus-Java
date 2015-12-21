@@ -36,45 +36,48 @@ public class AlexPathfinder {
 		}
 
 		Point startPoint = start;
-		int distance = (this.sizeX * this.sizeY);
 
+		int distance = this.getMaxDistance();
+		
 		while (distance > 0) {
-
-			Point newPoint = this.findNearestPoint(this.getNeighbours(startPoint), goal, null);
 			
-			if (newPoint == null || newPoint.sameAs(startPoint)) {
-				return shortestPath;
-			}
-			
+			Point newPoint = this.findNearestPoint(this.getNeighbours(startPoint), goal);
 			shortestPath.add(newPoint);
+			
 			startPoint = newPoint;
 			distance = this.getHeuristic(newPoint, goal);
 		}
+		
+		distance = this.getMaxDistance();
+		
+		LinkedList<Point> coords = new LinkedList<Point>();
 
-		/*LinkedList<Point> opened = new LinkedList<Point>();
-		LinkedList<Point> closed = new LinkedList<Point>();
+		for (Point shortPoint : shortestPath) {
 
-		for (Point coord : shortestPath) {
+			List<Point> neighbours = this.getNeighbours(shortPoint);
 
-			if (!this.isAvailable(coord)) {
-				closed.add(coord);
-			} else {
-				opened.add(coord);
-			}
+			Point pointNeighbour = null;
 
-			for (Point neighbour : this.getNeighbours(coord)) {
+			for (Point neighbour : neighbours) {
+				
+				if (this.isAvailable(neighbour)) {
 
-				if (!this.isAvailable(neighbour)) {
-					closed.add(neighbour);
-				} else {
-					opened.add(neighbour);
-				}
+					if (pointNeighbour == null) {
+						pointNeighbour = neighbour;
+						distance = this.getHeuristic(pointNeighbour, goal);
+					}
+					
+					if (this.getHeuristic(neighbour, goal) > distance) {
+						coords.add(neighbour);
+						distance = this.getHeuristic(neighbour, goal);
+					}
+				} 
 			}
 		}
-
-		LinkedList<Point> coords = new LinkedList<Point>();*/
-
-		return shortestPath;
+		
+		coords.add(goal);
+		
+		return coords;
 	}
 
 	public boolean isAvailable(Point point) {
@@ -86,22 +89,16 @@ public class AlexPathfinder {
 		}
 	}
 
-	public Point findNearestPoint(List<Point> points, Point goal, Point exclude) {
+	public Point findNearestPoint(List<Point> points, Point goal) {
 
-		int distance = (this.sizeX * this.sizeY);
+		int distance = this.getMaxDistance();
 		Point possiblePoint = null;
 
 		for (Point point : points) {
 
-			if (exclude != null) {
-				if (point.sameAs(exclude)) {
-					continue;
-				}
-			}
-
 			int newDistance = this.getHeuristic(point, goal);
 
-			if (newDistance < distance && this.isAvailable(point)) {
+			if (newDistance < distance) {
 				distance = newDistance;
 				possiblePoint = point;
 			}
@@ -137,5 +134,9 @@ public class AlexPathfinder {
 	// manhattan distance
 	public int getHeuristic(Point one, Point two) {
 		return Math.abs(one.getX() - two.getX()) + Math.abs(one.getY() - two.getY());
+	}
+
+	public int getMaxDistance() {
+		return this.sizeX * this.sizeY;
 	}
 }

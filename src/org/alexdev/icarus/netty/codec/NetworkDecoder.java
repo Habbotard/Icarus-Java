@@ -34,8 +34,10 @@ public class NetworkDecoder extends FrameDecoder
 		
 		try  {		
 			
-			if (buffer.readableBytes() < 6)
+			if (buffer.readableBytes() < 6) {
+				channel.close();
 				return null;
+			}
 			
 			byte[] length = buffer.readBytes(4).array();
 
