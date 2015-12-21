@@ -1,7 +1,7 @@
 package org.alexdev.icarus.messages.incoming.navigator;
 
 import org.alexdev.icarus.game.user.Session;
-import org.alexdev.icarus.messages.Message;
+import org.alexdev.icarus.messages.MessageEvent;
 import org.alexdev.icarus.messages.headers.Outgoing;
 import org.alexdev.icarus.messages.outgoing.navigator.FlatCategoriesMessageComposer;
 import org.alexdev.icarus.messages.outgoing.navigator.NavigatorCategories;
@@ -9,7 +9,7 @@ import org.alexdev.icarus.messages.outgoing.navigator.NavigatorMetaDataComposer;
 import org.alexdev.icarus.netty.readers.Request;
 import org.alexdev.icarus.netty.readers.Response;
 
-public class NewNavigatorMessageEvent implements Message {
+public class NewNavigatorMessageEvent implements MessageEvent {
 
 	@Override
 	public void handle(Session session, Request request) {

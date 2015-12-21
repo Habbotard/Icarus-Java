@@ -55,7 +55,6 @@ public class AlexPathfinder {
 		for (Point shortPoint : shortestPath) {
 
 			List<Point> neighbours = this.getNeighbours(shortPoint);
-
 			Point pointNeighbour = null;
 
 			for (Point neighbour : neighbours) {
@@ -64,13 +63,13 @@ public class AlexPathfinder {
 
 					if (pointNeighbour == null) {
 						pointNeighbour = neighbour;
-						distance = this.getHeuristic(pointNeighbour, goal);
 					}
 					
 					if (this.getHeuristic(neighbour, goal) > distance) {
 						coords.add(neighbour);
-						distance = this.getHeuristic(neighbour, goal);
 					}
+					
+					distance = this.getHeuristic(neighbour, goal);
 				} 
 			}
 		}

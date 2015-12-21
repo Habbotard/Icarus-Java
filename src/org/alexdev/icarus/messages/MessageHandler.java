@@ -4,6 +4,8 @@ import java.util.HashMap;
 
 import org.alexdev.icarus.game.user.Session;
 import org.alexdev.icarus.messages.headers.Incoming;
+import org.alexdev.icarus.messages.incoming.catalogue.CatalogueMessageEvent;
+import org.alexdev.icarus.messages.incoming.catalogue.CataloguePageMessageEvent;
 import org.alexdev.icarus.messages.incoming.handshake.*;
 import org.alexdev.icarus.messages.incoming.messenger.*;
 import org.alexdev.icarus.messages.incoming.misc.*;
@@ -15,10 +17,10 @@ import org.alexdev.icarus.netty.readers.*;
 
 public class MessageHandler {
 
-	private HashMap<Short, Message> messages;
+	private HashMap<Short, MessageEvent> messages;
 
 	public MessageHandler() {
-		this.messages = new HashMap<Short, Message>();
+		this.messages = new HashMap<Short, MessageEvent>();
 		this.register();
 	}
 	
@@ -31,8 +33,9 @@ public class MessageHandler {
 		this.registerMessenger();
 		this.registerNavigatorPackets();
 		this.registerRoomPackets();
+		this.registerCataloguePackets();
 	}
-	
+
 	private void registerHandshakePackets() {
 		this.messages.put(Incoming.VersionCheckMessageEvent, new VersionCheckMessageEvent());
 		this.messages.put(Incoming.UniqueIDMessageEvent, new UniqueIDMessageEvent());
@@ -93,6 +96,11 @@ public class MessageHandler {
 		this.messages.put(Incoming.SaveRoomMessageEvent, new SaveRoomMessageEvent());
 		this.messages.put(Incoming.DeleteRoomMessageEvent, new DeleteRoomMessageEvent());
 	}
+	
+	private void registerCataloguePackets() {
+		this.messages.put(Incoming.CatalogueMessageEvent, new CatalogueMessageEvent());
+		this.messages.put(Incoming.CataloguePageMessageEvent, new CataloguePageMessageEvent());
+	}
 
 	public void handleRequest(Session session, Request message) {
 		if (messages.containsKey(message.getMessageId())) {
@@ -100,7 +108,7 @@ public class MessageHandler {
 		}
 	}
 
-	public HashMap<Short, Message> getMessages() {
+	public HashMap<Short, MessageEvent> getMessages() {
 		return messages;
 	}
 

@@ -6,10 +6,10 @@ import org.alexdev.icarus.alexpathfinder.AlexPathfinder;
 import org.alexdev.icarus.game.room.model.Point;
 import org.alexdev.icarus.game.room.player.RoomUser;
 import org.alexdev.icarus.game.user.Session;
-import org.alexdev.icarus.messages.Message;
+import org.alexdev.icarus.messages.MessageEvent;
 import org.alexdev.icarus.netty.readers.Request;
 
-public class UserWalkMessageEvent implements Message {
+public class UserWalkMessageEvent implements MessageEvent {
 
 	@Override
 	public void handle(Session session, Request request) {
@@ -28,6 +28,7 @@ public class UserWalkMessageEvent implements Message {
 		roomUser.setGoalY(Y);
 
 		LinkedList<Point> path = null;
+		
 		//AlexPathfinder pathfinder = new AlexPathfinder(roomUser.getRoom().getCollisionMap());
 		//path = pathfinder.findPath(roomUser.getPoint(), roomUser.getGoalPoint());
 		path = roomUser.getPathfinder().calculateShortestPath(roomUser.getPoint(), roomUser.getGoalPoint());

@@ -4,7 +4,7 @@ import org.alexdev.icarus.game.room.Room;
 import org.alexdev.icarus.game.room.model.RoomModel;
 import org.alexdev.icarus.game.room.player.RoomUser;
 import org.alexdev.icarus.game.user.Session;
-import org.alexdev.icarus.messages.Message;
+import org.alexdev.icarus.messages.MessageEvent;
 import org.alexdev.icarus.messages.outgoing.room.ChatOptionsMessageComposer;
 import org.alexdev.icarus.messages.outgoing.room.FloorMapMessageComposer;
 import org.alexdev.icarus.messages.outgoing.room.HeightMapMessageComposer;
@@ -15,7 +15,7 @@ import org.alexdev.icarus.messages.outgoing.room.user.UserDisplayMessageComposer
 import org.alexdev.icarus.messages.outgoing.room.user.UserStatusMessageComposer;
 import org.alexdev.icarus.netty.readers.Request;
 
-public class HeightmapMessageEvent implements Message {
+public class HeightmapMessageEvent implements MessageEvent {
 
 	@Override
 	public void handle(Session session, Request request) {

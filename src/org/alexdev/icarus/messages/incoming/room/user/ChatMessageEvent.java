@@ -3,10 +3,10 @@ package org.alexdev.icarus.messages.incoming.room.user;
 import org.alexdev.icarus.game.room.Room;
 import org.alexdev.icarus.game.room.player.RoomUser;
 import org.alexdev.icarus.game.user.Session;
-import org.alexdev.icarus.messages.Message;
+import org.alexdev.icarus.messages.MessageEvent;
 import org.alexdev.icarus.netty.readers.Request;
 
-public class ChatMessageEvent implements Message {
+public class ChatMessageEvent implements MessageEvent {
 
 	@Override
 	public void handle(Session session, Request request) {

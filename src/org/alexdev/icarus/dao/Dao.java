@@ -8,6 +8,8 @@ public interface Dao {
 	public IRoomDao getRoom();
 	public IPlayerDao getPlayer();
 	public IMessengerDao getMessenger();
+	public ICatalogueDao getCatalogue();
+	public IFurnitureDao getFurniture();
 	
 	public boolean isConnected();
 }
