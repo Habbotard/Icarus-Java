@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.alexdev.icarus.Icarus;
 import org.alexdev.icarus.log.Log;
@@ -62,9 +63,13 @@ public class CatalogueManager {
 	public List<CatalogueItem> getPageItems(int pageId) {
 		
 		try {
-			
+			return this.items.stream().filter(item -> item.getPageId() == pageId).collect(Collectors.toList());
 		} catch (Exception e) {
 			return new ArrayList<CatalogueItem>();
 		}
+	}
+
+	public List<CatalogueItem> getItems() {
+		return items;
 	}
 }

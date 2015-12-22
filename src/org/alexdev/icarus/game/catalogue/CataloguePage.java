@@ -1,5 +1,9 @@
 package org.alexdev.icarus.game.catalogue;
 
+import java.util.List;
+
+import org.alexdev.icarus.Icarus;
+
 public class CataloguePage {
 
 	private int id;
@@ -12,12 +16,9 @@ public class CataloguePage {
 	private String textDetails;
 	private String textTeaser;
 	private boolean vip;
-	private String linkDescription;
-	private String linkPageName;
 	
 	public void fill(int id, String pageLayout, String pageHeadline, String pageTeaser, String pageSpecial,
-			String pageText1, String pageText2, String pageTextDetails, String pageTextTeaser, boolean vip,
-			String pageLinkDescription, String pageLinkComments) {
+			String pageText1, String pageText2, String pageTextDetails, String pageTextTeaser, boolean vip) {
 		
 		this.id = id;
 		this.layout = pageLayout;
@@ -29,10 +30,12 @@ public class CataloguePage {
 		this.textDetails = pageTextDetails;
 		this.textTeaser = pageTextTeaser;
 		this.vip = vip;
-		this.linkDescription = pageLinkDescription;
-		this.linkPageName = pageLinkComments;
 	}
 
+	public List<CatalogueItem> getItems() {
+		return Icarus.getGame().getCatalogue().getPageItems(this.id);
+	}
+	
 	public boolean isLayout(String layout) {
 		return this.layout.equalsIgnoreCase(layout);
 	}
@@ -77,13 +80,5 @@ public class CataloguePage {
 		return vip;
 	}
 
-	public String getLinkDescription() {
-		return linkDescription;
-	}
-
-	public String getLinkComments() {
-		return linkPageName;
-	}
-	
 	
 }

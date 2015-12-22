@@ -40,7 +40,7 @@ public class MySQLCatalogueDao implements ICatalogueDao, IProcessStorage<Catalog
 				
 				CatalogueTab tab = new CatalogueTab();
 				
-				tab.fill(row.getInt("id"), row.getInt("parent_id"), row.getString("caption"), row.getInt("icon_colour"), 
+				tab.fill(row.getInt("id"), row.getInt("parent_id"), row.getString("caption"), row.getInt("icon_color"), 
 							row.getInt("icon_image"), /*row.getInt("enabled") == 1*/true, row.getInt("min_rank"));
 				
 				tabs.add(tab);
@@ -98,8 +98,12 @@ public class MySQLCatalogueDao implements ICatalogueDao, IProcessStorage<Catalog
 				
 				CatalogueItem item = new CatalogueItem();
 				
-				item.fill(row.getInt("id"), row.getInt("page_id"), row.getString("item_ids").split(","), row.getString("catalog_name"), 
-							row.getInt("cost_credits"), row.getInt("cost_pixels"), row.getInt("cost_snow"), row.getInt("amount"), row.getInt("vip"));
+				/*(int id, int pageId, int itemIds, String catalogueName, int costCredits, int costPixels, int costBelCredits, int costQuests, 
+			int amount, int subscriptionStatus, int songId, */
+				item.fill(row.getInt("id"), row.getInt("page_id"), row.getInt("item_ids"), row.getString("catalog_name"), 
+							row.getInt("cost_credits"), row.getInt("cost_pixels"), row.getInt("cost_belcredits"), row.getInt("cost_quests"), row.getInt("amount"), 
+							row.getInt("item_subscription_status"), row.getInt("quest_type"), row.getInt("song_id"), row.getString("extradata"),
+							row.getString("badge"), row.getInt("limited_stack"), row.getInt("limited_sells"), row.getInt("offer_active") == 1);
 				
 				items.add(item);
 			}
@@ -119,7 +123,7 @@ public class MySQLCatalogueDao implements ICatalogueDao, IProcessStorage<Catalog
 
 		instance.fill(row.getInt("id"), row.getString("page_layout"), row.getString("page_headline"), row.getString("page_teaser"),
 				row.getString("page_special"), row.getString("page_text1"), row.getString("page_text2"), row.getString("page_text_details"), 
-				row.getString("page_text_teaser"), row.getBoolean("vip_only"), row.getString("page_link_description"), row.getString("page_link_pagename"));
+				row.getString("page_text_teaser"), row.getBoolean("club_only"));
 	
 		
 		return instance;

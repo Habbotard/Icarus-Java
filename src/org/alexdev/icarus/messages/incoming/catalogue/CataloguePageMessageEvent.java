@@ -1,6 +1,9 @@
 package org.alexdev.icarus.messages.incoming.catalogue;
 
+import java.util.List;
+
 import org.alexdev.icarus.Icarus;
+import org.alexdev.icarus.game.catalogue.CatalogueItem;
 import org.alexdev.icarus.game.catalogue.CataloguePage;
 import org.alexdev.icarus.game.user.Session;
 import org.alexdev.icarus.messages.MessageEvent;

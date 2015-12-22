@@ -1,57 +1,127 @@
 package org.alexdev.icarus.game.catalogue;
 
+import org.alexdev.icarus.Icarus;
+import org.alexdev.icarus.game.furniture.Furniture;
+
 public class CatalogueItem {
 
 	private int id;
 	private int pageId;
-	private String[] itemIds;
+	private int itemIds;
 	private String catalogueName;
 	private int costCredits;
 	private int costPixels;
-	private int costSnow;
+	private int costBelCredits;
+	private int costQuests;
 	private int amount;
-	private int vip;
+	private int subscriptionStatus;
+	private int questType;
+	private int songId;
+	private String extraData;
+	private String badge;
 	
-	public void fill(int id, int pageId, String[] itemIds, String catalogueName, int costCredits, int costPixels,
-			int costSnow, int amount, int vip) {
-		
+	private int limitedStack;
+	private int limitedSells;
+	
+	private boolean hasOffer;
+
+	/*				item.fill(row.getInt("id"), row.getInt("page_id"), row.getInt("item_ids"), row.getString("catalog_name"), 
+							row.getInt("cost_credits"), row.getInt("cost_pixels"), row.getInt("cost_belcredits"), row.getInt("amount"), 
+							row.getInt("item_subscription_status"), row.getInt("quest_type"), row.getInt("song_id"), row.getString("extradata"),
+							row.getString("badge"), row.getInt("limited_stack"), row.getInt("limited_sells"), row.getInt("offer_active") == 1);*/
+	public void fill(int id, int pageId, int itemIds, String catalogueName, int costCredits, int costPixels, int costBelCredits, int costsQuests, 
+						int amount, int subscriptionStatus, int questsType, int songId, String extraData, String badage, int limitedStack, int limitedSells, 
+						boolean hasOffer) {
+
 		this.id = id;
 		this.pageId = pageId;
 		this.itemIds = itemIds;
 		this.catalogueName = catalogueName;
 		this.costCredits = costCredits;
 		this.costPixels = costPixels;
-		this.costSnow = costSnow;
+		this.costBelCredits = costBelCredits;
+		this.costQuests = costQuests;
 		this.amount = amount;
-		this.vip = vip;
+		this.subscriptionStatus = subscriptionStatus;
+		this.songId = songId;
+		this.extraData = extraData;
+		this.badge = badage;
+		this.limitedStack = limitedStack;
+		this.limitedSells = limitedSells;
+		this.hasOffer = hasOffer;
 	}
+
+	public Furniture getData() {
+		return Icarus.getGame().getFurniture().getFurnitureById(this.itemIds);
+	}
+	
 	public int getId() {
 		return id;
 	}
 	public int getPageId() {
 		return pageId;
 	}
-	public String[] getItemIds() {
+	
+	public int getSpriteId() {
 		return itemIds;
 	}
 	public String getCatalogueName() {
 		return catalogueName;
 	}
+	
 	public int getCostCredits() {
 		return costCredits;
 	}
 	public int getCostPixels() {
 		return costPixels;
 	}
-	public int getCostSnow() {
-		return costSnow;
-	}
+
 	public int getAmount() {
 		return amount;
 	}
-	public int getVip() {
-		return vip;
+
+	public int getCostBelCredits() {
+		return costBelCredits;
+	}
+
+	public int getCostQuests() {
+		return costQuests;
+	}
+
+	public int getSubscriptionStatus() {
+		return subscriptionStatus;
+	}
+
+	public int getQuestType() {
+		return questType;
+	}
+
+	public int getSongId() {
+		return songId;
+	}
+
+	public String getExtraData() {
+		return extraData;
+	}
+
+	public String getBadge() {
+		return badge;
 	}
 	
-	
+	public boolean isLimited() {
+		return this.limitedStack > 0;
+	}
+
+	public int getLimitedStack() {
+		return limitedStack;
+	}
+
+	public int getLimitedSells() {
+		return limitedSells;
+	}
+
+	public boolean isHasOffer() {
+		return hasOffer;
+	}
+
 }
