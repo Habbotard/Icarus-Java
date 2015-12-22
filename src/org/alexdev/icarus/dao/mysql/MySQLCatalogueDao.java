@@ -34,7 +34,7 @@ public class MySQLCatalogueDao implements ICatalogueDao, IProcessStorage<Catalog
 		
 		try {
 			
-			row = this.dao.getStorage().getTable("SELECT * FROM catalogue_pages WHERE parent_id = " + parentId);
+			row = this.dao.getStorage().getTable("SELECT * FROM catalog_pages WHERE parent_id = " + parentId);
 			
 			while (row.next()) {
 				
@@ -64,7 +64,7 @@ public class MySQLCatalogueDao implements ICatalogueDao, IProcessStorage<Catalog
 		
 		try {
 			
-			row = this.dao.getStorage().getTable("SELECT * FROM catalogue_pages");
+			row = this.dao.getStorage().getTable("SELECT * FROM catalog_pages");
 			
 			while (row.next()) {
 				
@@ -92,7 +92,7 @@ public class MySQLCatalogueDao implements ICatalogueDao, IProcessStorage<Catalog
 		
 		try {
 			
-			row = this.dao.getStorage().getTable("SELECT * FROM catalogue_items");
+			row = this.dao.getStorage().getTable("SELECT * FROM catalog_items");
 			
 			while (row.next()) {
 				
@@ -101,8 +101,8 @@ public class MySQLCatalogueDao implements ICatalogueDao, IProcessStorage<Catalog
 				/*(int id, int pageId, int itemIds, String catalogueName, int costCredits, int costPixels, int costBelCredits, int costQuests, 
 			int amount, int subscriptionStatus, int songId, */
 				item.fill(row.getInt("id"), row.getInt("page_id"), row.getInt("item_ids"), row.getString("catalog_name"), 
-							row.getInt("cost_credits"), row.getInt("cost_pixels"), row.getInt("cost_belcredits"), row.getInt("cost_quests"), row.getInt("amount"), 
-							row.getInt("item_subscription_status"), row.getInt("quest_type"), row.getInt("song_id"), row.getString("extradata"),
+							row.getInt("cost_credits"), row.getInt("cost_duckets"), row.getInt("cost_belcredits"), row.getInt("amount"), 
+							row.getInt("vip"), row.getInt("song_id"), row.getString("extradata"),
 							row.getString("badge"), row.getInt("limited_stack"), row.getInt("limited_sells"), row.getInt("offer_active") == 1);
 				
 				items.add(item);

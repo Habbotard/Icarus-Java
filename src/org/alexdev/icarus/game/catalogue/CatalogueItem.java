@@ -12,7 +12,6 @@ public class CatalogueItem {
 	private int costCredits;
 	private int costPixels;
 	private int costBelCredits;
-	private int costQuests;
 	private int amount;
 	private int subscriptionStatus;
 	private int questType;
@@ -29,8 +28,8 @@ public class CatalogueItem {
 							row.getInt("cost_credits"), row.getInt("cost_pixels"), row.getInt("cost_belcredits"), row.getInt("amount"), 
 							row.getInt("item_subscription_status"), row.getInt("quest_type"), row.getInt("song_id"), row.getString("extradata"),
 							row.getString("badge"), row.getInt("limited_stack"), row.getInt("limited_sells"), row.getInt("offer_active") == 1);*/
-	public void fill(int id, int pageId, int itemIds, String catalogueName, int costCredits, int costPixels, int costBelCredits, int costsQuests, 
-						int amount, int subscriptionStatus, int questsType, int songId, String extraData, String badage, int limitedStack, int limitedSells, 
+	public void fill(int id, int pageId, int itemIds, String catalogueName, int costCredits, int costBelCredits, int costDuckets, 
+						int amount, int subscriptionStatus, int songId, String extraData, String badage, int limitedStack, int limitedSells, 
 						boolean hasOffer) {
 
 		this.id = id;
@@ -38,9 +37,8 @@ public class CatalogueItem {
 		this.itemIds = itemIds;
 		this.catalogueName = catalogueName;
 		this.costCredits = costCredits;
-		this.costPixels = costPixels;
+		this.costPixels = costDuckets;
 		this.costBelCredits = costBelCredits;
-		this.costQuests = costQuests;
 		this.amount = amount;
 		this.subscriptionStatus = subscriptionStatus;
 		this.songId = songId;
@@ -83,17 +81,9 @@ public class CatalogueItem {
 	public int getCostBelCredits() {
 		return costBelCredits;
 	}
-
-	public int getCostQuests() {
-		return costQuests;
-	}
-
+	
 	public int getSubscriptionStatus() {
 		return subscriptionStatus;
-	}
-
-	public int getQuestType() {
-		return questType;
 	}
 
 	public int getSongId() {

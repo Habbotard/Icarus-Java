@@ -80,19 +80,16 @@ public class CataloguePageMessageComposer extends Response {
 			this.appendString(item.getCatalogueName());
 			this.appendBoolean(false);
 			
-            if (item.getCostPixels() == 0 && item.getCostCredits() == 0 && item.getCostQuests() == 0 && item.getQuestType() == 0) {
+            if (item.getCostPixels() == 0 && item.getCostCredits() == 0) {
                 this.appendInt32(item.getCostBelCredits());
                 this.appendInt32(0);
                 
-            } else if (item.getQuestType() > 1) {
-                this.appendInt32(0);
-                this.appendInt32(item.getCostQuests());
             } else  {
                 this.appendInt32(item.getCostCredits());
                 this.appendInt32(item.getCostPixels());
             }
 
-            this.appendInt32(item.getQuestType());
+            this.appendInt32(0);///item.getQuestType());
             
             if (item.isLimited() || item.getData().getType().equals("r")) {
             	this.appendBoolean(false);

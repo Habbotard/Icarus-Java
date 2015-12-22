@@ -28,7 +28,7 @@ public class MySQLFurniture implements IFurnitureDao, IProcessStorage<Furniture,
 		
 		try {
 			
-			row = this.dao.getStorage().getTable("SELECT * FROM items_base");
+			row = this.dao.getStorage().getTable("SELECT * FROM furniture");
 			
 			while (row.next()) {
 				
