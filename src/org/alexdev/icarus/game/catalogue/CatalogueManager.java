@@ -63,7 +63,7 @@ public class CatalogueManager {
 	public List<CatalogueItem> getPageItems(int pageId) {
 		
 		try {
-			return this.items.stream().filter(item -> item.getPageId() == pageId).collect(Collectors.toList());
+			return this.items.stream().filter(item -> item.getPageId() == pageId && item.getData() != null).collect(Collectors.toList());
 		} catch (Exception e) {
 			return new ArrayList<CatalogueItem>();
 		}

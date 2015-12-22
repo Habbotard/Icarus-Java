@@ -18,8 +18,6 @@ public class Icarus {
 	private static Game game;
 	private static Dao dao;
 
-	private static final String REVISION = "PRODUCTION-201512012203-525044429";
-
 	public static void main(String[] args) {
 
 		try {
@@ -103,10 +101,6 @@ public class Icarus {
 
 	public static Connection getServer() {
 		return server;
-	}
-
-	public static String getRevision() {
-		return REVISION;
 	}
 
 	public static Util getUtilities() {
