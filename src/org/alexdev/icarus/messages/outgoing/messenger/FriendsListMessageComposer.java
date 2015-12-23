@@ -15,7 +15,6 @@ public class FriendsListMessageComposer extends Response {
 		this.appendInt32(friends.size());
 		
 		for (MessengerUser friend : friends) {
-			friend.update();
 			friend.serialise(this, false);
 		}
 	}

@@ -49,11 +49,11 @@ public class MessengerUser {
 			response.appendString(this.isOnline() ? this.getDetails().getMotto() : "");  
 		}
 
-		response.appendString(""); //realname
-		response.appendString(""); // useless
-		response.appendBoolean(true); // allow offline message
-		response.appendBoolean(false); // persistedMessageUser
-		response.appendBoolean(false); // pocketuser
+		response.appendString("");
+		response.appendString("");
+		response.appendBoolean(true);
+		response.appendBoolean(false);
+		response.appendBoolean(false);
 		response.appendShort(0); 
 	}
 
@@ -61,16 +61,14 @@ public class MessengerUser {
 
 		response.appendInt32(this.getDetails().getId());
 		response.appendString(this.getDetails().getUsername());
-		response.appendString(this.getDetails().getMotto()); // gender
+		response.appendString(this.getDetails().getMotto()); 
 		response.appendBoolean(this.isOnline());
 		response.appendBoolean(this.inRoom());
 		response.appendString("");
 		response.appendInt32(0);
 		response.appendString(this.isOnline() ? this.getDetails().getFigure() : ""); 
-		response.appendString(""); //realname
+		response.appendString("");
 	}
-
-
 
 	public void dispose() {
 		this.session = null;

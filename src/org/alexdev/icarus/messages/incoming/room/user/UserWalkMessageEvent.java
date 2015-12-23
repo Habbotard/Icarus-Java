@@ -26,13 +26,9 @@ public class UserWalkMessageEvent implements MessageEvent {
 		roomUser.setGoalX(X);
 		roomUser.setGoalY(Y);
 
-		LinkedList<Point> path = null;
-		
-		//AlexPathfinder pathfinder = new AlexPathfinder(roomUser.getRoom().getCollisionMap());
-		//path = pathfinder.findPath(roomUser.getPoint(), roomUser.getGoalPoint());
-		path = roomUser.getPathfinder().calculateShortestPath(roomUser.getPoint(), roomUser.getGoalPoint());
+		LinkedList<Point> path = roomUser.getPathfinder().calculateShortestPath(roomUser.getPoint(), roomUser.getGoalPoint());
 
-		if (path == null || path.size() == 0) { // user selected invalid tile, cannot walk there!
+		if (path == null || path.size() == 0) {
 			return;
 		}
 

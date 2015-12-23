@@ -1,5 +1,9 @@
 package org.alexdev.icarus.game.item;
 
+import org.alexdev.icarus.Icarus;
+import org.alexdev.icarus.game.furniture.Furniture;
+import org.alexdev.icarus.game.furniture.interactions.InteractionType;
+
 public class Item {
 
 	private int id;
@@ -22,6 +26,10 @@ public class Item {
 
 	public int getId() {
 		return id;
+	}
+	
+	public Furniture getData() {
+		return Icarus.getGame().getFurniture().getFurnitureById(this.itemId);
 	}
 	
 	public void setId(int id) {
@@ -64,5 +72,12 @@ public class Item {
 		return roomId;
 	}
 	
+	public boolean isWallItem() {
+		return this.getData().getType().equals("i");
+	}
+	
+	public boolean isSongDisk() {
+		return this.getData().getInteractionType() == InteractionType.MUSICDISK;
+	}
 	
 }

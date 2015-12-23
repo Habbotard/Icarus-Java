@@ -1,13 +1,19 @@
 package org.alexdev.icarus.messages.incoming.catalogue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alexdev.icarus.Icarus;
 import org.alexdev.icarus.game.catalogue.CatalogueItem;
 import org.alexdev.icarus.game.catalogue.CataloguePage;
 import org.alexdev.icarus.game.furniture.interactions.InteractionType;
+import org.alexdev.icarus.game.item.Item;
 import org.alexdev.icarus.game.user.Session;
 import org.alexdev.icarus.messages.MessageEvent;
 import org.alexdev.icarus.messages.outgoing.catalogue.PurchaseErrorMessageComposer;
 import org.alexdev.icarus.messages.outgoing.catalogue.PurchaseNotificationMessageComposer;
+import org.alexdev.icarus.messages.outgoing.item.NewInventoryItemsMessageComposer;
+import org.alexdev.icarus.messages.outgoing.item.UpdateInventoryMessageComposer;
 import org.alexdev.icarus.netty.readers.Request;
 
 public class PurchaseMessageEvent implements MessageEvent {
@@ -86,11 +92,18 @@ public class PurchaseMessageEvent implements MessageEvent {
 		// TODO: Item badges
 		// TODO: Limited sales update
 
+		List<Item> bought = new ArrayList<Item>();
+		
 		for (int i = 0; i < amountPurchased; i++) {
 			session.send(new PurchaseNotificationMessageComposer(item, finalAmount));
-			Icarus.getDao().getInventory().newItem(item.getItemId(), session.getDetails().getId());
+			
+			Item inventoryItem = Icarus.getDao().getInventory().newItem(item.getItemId(), session.getDetails().getId());
+			bought.add(inventoryItem);
 		}
 
+		session.send(new NewInventoryItemsMessageComposer(bought));
+		session.send(new UpdateInventoryMessageComposer());
+		
 		// TODO: Add items to players inventory
 	}
 

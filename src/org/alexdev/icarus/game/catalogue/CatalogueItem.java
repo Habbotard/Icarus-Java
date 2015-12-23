@@ -75,7 +75,7 @@ public class CatalogueItem {
         if (this.isLimited() || this.getData().getType().equals("r")) {
         	response.appendBoolean(false);
         } else {
-        	response.appendBoolean(this.getData().isAllowGift());
+        	response.appendBoolean(this.getData().allowGift());
         }
         
         response.appendInt32(1); // is deal

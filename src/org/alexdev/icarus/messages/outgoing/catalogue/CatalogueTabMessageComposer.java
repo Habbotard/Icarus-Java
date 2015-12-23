@@ -9,9 +9,7 @@ import org.alexdev.icarus.netty.readers.Response;
 
 public class CatalogueTabMessageComposer extends Response {
 
-	public CatalogueTabMessageComposer(String type, int parentId, int rank) {
-		
-		List<CatalogueTab> parentTabs = Icarus.getGame().getCatalogue().getParentTabs(rank);
+	public CatalogueTabMessageComposer(String type, List<CatalogueTab> parentTabs, int parentId, int rank) {
 		
 		this.init(Outgoing.CatalogueTabMessageComposer);
 		this.appendBoolean(true);

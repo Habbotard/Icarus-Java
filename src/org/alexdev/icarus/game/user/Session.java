@@ -67,8 +67,6 @@ public class Session implements IEntity {
 
 				if (rooms.size() > 0) {
 					for (Room room : rooms) {
-						// this function won't dispose all rooms if there's still users online 
-						// and/or the owner is still online
 						room.dispose(); 
 					}
 				}
