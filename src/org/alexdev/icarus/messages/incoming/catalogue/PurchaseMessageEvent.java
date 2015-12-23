@@ -49,9 +49,9 @@ public class PurchaseMessageEvent implements MessageEvent {
 			
 			finalAmount = priceAmount - freeItems;
 		}
-
-		// TODO: Habbo club check
 		
+		//TODO: Check for club membership
+
 		if (item.isLimited() && item.getLimitedStack() <= item.getLimitedSells()) {
 			// TODO: Alert deal soldout
 			return;
@@ -66,7 +66,6 @@ public class PurchaseMessageEvent implements MessageEvent {
 		
 		// TODO: Pixel error
 		if (session.getDetails().getCredits() < (item.getCostCredits() * finalAmount)) {
-			
 			session.send(new PurchaseErrorMessageComposer(creditsError, false));
 			return;
 		}
