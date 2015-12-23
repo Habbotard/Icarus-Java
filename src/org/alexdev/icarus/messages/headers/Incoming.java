@@ -41,4 +41,9 @@ public class Incoming {
 	public static final short DeleteRoomMessageEvent = 2126;
 	public static final short RoomThumbnailMessageEvent = 1362; // NOT FINISHED
 	
+	public static final short CatalogueMessageEvent = 3871;
+	public static final short CataloguePageMessageEvent = 530;
+	public static final short PurchaseObjectMessageEvent = 2893;
+	public static final short InventoryMessageEvent = 262;
+	
 }

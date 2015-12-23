@@ -2,6 +2,9 @@ package org.alexdev.icarus.dao.mysql;
 
 import org.alexdev.icarus.Icarus;
 import org.alexdev.icarus.dao.Dao;
+import org.alexdev.icarus.dao.ICatalogueDao;
+import org.alexdev.icarus.dao.IFurnitureDao;
+import org.alexdev.icarus.dao.IInventoryDao;
 import org.alexdev.icarus.dao.IMessengerDao;
 import org.alexdev.icarus.dao.INavigatorDao;
 import org.alexdev.icarus.dao.IPlayerDao;
@@ -15,9 +18,12 @@ public class MySQLDao implements Dao {
 	private IRoomDao room;
 	private IPlayerDao player;
 	private IMessengerDao messenger;
-
+	private ICatalogueDao catalogTab;
+	private IFurnitureDao furniture;
+	
 	private Storage storage;
 	private boolean isConnected;
+	private IInventoryDao inventory;
 
 	public MySQLDao() {
 
@@ -27,7 +33,10 @@ public class MySQLDao implements Dao {
 		this.room = new MySQLRoomDao(this);
 		this.player = new MySQLPlayerDao(this);
 		this.messenger = new MySQLMessengerDao(this);
-
+		this.catalogTab = new MySQLCatalogueDao(this);
+		this.furniture = new MySQLFurnitureDao(this);
+		this.inventory = new MySQLInventoryDao(this);
+		
 		//this.UpdateTable("users", new Object[] { "username",  "Alex" }, new Object[] { "id",  1 });
 	}
 
@@ -54,53 +63,6 @@ public class MySQLDao implements Dao {
 
 		return isConnected;
 	}
-
-	/*public void UpdateTable (String table, Object[] set, Object[] where)
-	{
-		String query = "UPDATE " + table + " SET " + GenerateSQL(set) + " WHERE " + GenerateSQL(where);
-		System.out.println(CreatePreparedArguments(ObjectArrays.concat(set, where, Object.class)));
-	}
-
-	public static String GenerateSQL(Object[] array) {
-
-		StringBuilder builder = new StringBuilder();
-
-		for (int i = 0; i < array.length; i += 2) {
-
-			Object value = array[i + 1];
-
-			if (value instanceof Integer) {
-				builder.append("'" + array[i] + "' = ? AND ");
-			} else {
-				builder.append("'" + array[i] + "' = ? AND ");
-			}
-		}
-
-		return builder.toString().substring(0, builder.toString().length() - 5);
-	}
-
-	public static String CreatePreparedArguments(Object[] array) {
-		StringBuilder builder = new StringBuilder();
-
-		String preparedStatements = "";
-
-		for (int i = 0; i < array.length; i += 2)
-		{
-			Object field = array[i];
-			Object value = array[i + 1];
-
-			builder.append("'" + array[i] + "' = ? AND ");
-
-			if (value instanceof Integer) {
-				preparedStatements += "set.setInt(" + i / 2 + ", " + value.toString() + ");\n";
-			} else {
-				preparedStatements += "set.setString(" + i / 2 + ", '" + value.toString() + "');\n";
-			}
-		}
-
-		return preparedStatements; //builder.ToString().Substring(0, builder.ToString().Length - 5);
-	}*/
-
 
 	@Override
 	public INavigatorDao getNavigator() {
@@ -129,6 +91,21 @@ public class MySQLDao implements Dao {
 	@Override
 	public IMessengerDao getMessenger() {
 		return messenger;
+	}
+
+	@Override
+	public ICatalogueDao getCatalogue() {
+		return catalogTab;
+	}
+
+	@Override
+	public IFurnitureDao getFurniture() {
+		return furniture;
+	}
+
+	@Override
+	public IInventoryDao getInventory() {
+		return inventory;
 	}
 
 }

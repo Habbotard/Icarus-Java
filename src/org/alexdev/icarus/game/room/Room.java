@@ -289,8 +289,6 @@ public class Room {
 
 				Icarus.getGame().getRoomManager().getLoadedRooms().remove(this);
 
-				System.out.println("Room ID (" + this.data.getId() + ") deleted");
-
 				if (this.data != null) {
 					this.data.dispose();
 				}
@@ -323,8 +321,6 @@ public class Room {
 
 				if (Icarus.getServer().getSessionManager().findById(this.data.getOwnerId()) == null 
 						&& this.data.getRoomType() == RoomType.PRIVATE) { 
-
-					System.out.println("Room ID (" + this.data.getId() + ") deleted");
 
 					this.data.dispose();
 					this.data = null;

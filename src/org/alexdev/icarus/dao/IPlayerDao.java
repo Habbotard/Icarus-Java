@@ -8,4 +8,5 @@ public interface IPlayerDao {
 	public CharacterDetails getDetails(int userId);
 	public boolean login(Session session, String ssoTicket);
 	public int getId(String username);
+
 }

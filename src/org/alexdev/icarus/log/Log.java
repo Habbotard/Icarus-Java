@@ -22,7 +22,7 @@ public class Log {
 		output("", false);
 
 		println("Icarus - Java Server");
-		println("Loading server with revision: " + Icarus.getRevision());
+		println("Loading server...");
 		println();
 	}
 

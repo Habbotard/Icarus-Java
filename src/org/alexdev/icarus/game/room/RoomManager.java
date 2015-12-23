@@ -31,7 +31,6 @@ public class RoomManager {
 		}
 
 		if (add) {
-			System.out.println("Added room: " + room.getData().getId());
 			this.loadedRooms.add(room);
 		}
 	}

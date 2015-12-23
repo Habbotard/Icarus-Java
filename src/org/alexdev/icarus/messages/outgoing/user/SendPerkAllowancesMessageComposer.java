@@ -16,7 +16,7 @@ public class SendPerkAllowancesMessageComposer extends Response {
 		this.appendBoolean(false);
 		this.appendString("USE_GUIDE_TOOL");
 		this.appendString("requirement.unfulfilled.helper_level_4");
-		this.appendBoolean(true); // floorplan save button ? (Session.GetHabbo().TalentStatus == "helper" && Session.GetHabbo().CurrentTalentLevel >= 4) || (Session.GetHabbo().Rank >= 4)
+		this.appendBoolean(true);
 		this.appendString("JUDGE_CHAT_REVIEWS");
 		this.appendString("requirement.unfulfilled.helper_level_6");
 		this.appendBoolean(false);

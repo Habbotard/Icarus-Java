@@ -4,11 +4,11 @@ import org.alexdev.icarus.Icarus;
 import org.alexdev.icarus.game.room.Room;
 import org.alexdev.icarus.game.room.player.RoomUser;
 import org.alexdev.icarus.game.user.Session;
-import org.alexdev.icarus.messages.Message;
+import org.alexdev.icarus.messages.MessageEvent;
 import org.alexdev.icarus.messages.outgoing.room.RoomDataMessageComposer;
 import org.alexdev.icarus.netty.readers.Request;
 
-public class RoomInfoMessageEvent implements Message {
+public class RoomInfoMessageEvent implements MessageEvent {
 
 	@Override
 	public void handle(Session session, Request request) {
