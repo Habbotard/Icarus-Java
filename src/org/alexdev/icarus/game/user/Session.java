@@ -31,6 +31,7 @@ public class Session implements IEntity {
 		this.connection = new SessionConnection(this);
 		this.roomUser = new RoomUser(this);
 		this.messenger = new Messenger(this);
+		this.inventory = new Inventory(this);
 	}
 
 	public List<Room> getRooms() {
@@ -87,6 +88,9 @@ public class Session implements IEntity {
 		
 		this.connection.dispose();
 		this.connection = null;
+		
+		this.inventory.dispose();
+		this.inventory = null;
 
 		this.channel = null;
 		this.machineId = null;

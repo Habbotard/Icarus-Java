@@ -37,5 +37,7 @@ public class SSOTicketMessageEvent implements MessageEvent {
 		session.send(new LandingWidgetMessageComposer());
 		
 		Icarus.getDao().getRoom().getPlayerRooms(session.getDetails(), true);
+		
+		session.getInventory().init(); // load de items!
 	}
 }
