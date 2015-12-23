@@ -3,11 +3,8 @@ package org.alexdev.icarus.dao.mysql;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
-
 import org.alexdev.icarus.dao.IPlayerDao;
 import org.alexdev.icarus.dao.util.IProcessStorage;
-import org.alexdev.icarus.game.item.Item;
 import org.alexdev.icarus.game.user.CharacterDetails;
 import org.alexdev.icarus.game.user.Session;
 import org.alexdev.icarus.log.Log;

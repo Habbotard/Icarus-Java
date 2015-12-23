@@ -25,7 +25,6 @@ public class Messenger {
 		this.requests = Icarus.getDao().getMessenger().getRequests(session.getDetails().getId());
 	}
 
-
 	public boolean hasReqest(int id) {
 		return this.getRequest(id) != null;
 	}

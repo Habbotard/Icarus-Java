@@ -289,14 +289,6 @@ public class Room {
 
 				Icarus.getGame().getRoomManager().getLoadedRooms().remove(this);
 
-				if (this.data != null) {
-					this.data.dispose();
-				}
-
-				this.data = null;
-				
-				this.disposed = true;
-
 			} else {
 
 

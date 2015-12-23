@@ -29,6 +29,7 @@ public class MessageHandler {
 	public void register() {
 		
 		this.messages.clear();
+		
 		this.registerHandshakePackets();
 		this.registerUserPackets();
 		this.registerMiscPackets();

@@ -94,23 +94,23 @@ public class Furniture {
 		return spriteId;
 	}
 
-	public boolean isAllowRecycle() {
+	public boolean allowRecycle() {
 		return allowRecycle;
 	}
 
-	public boolean isAllowTrade() {
+	public boolean allowTrade() {
 		return allowTrade;
 	}
 
-	public boolean isAllowMarketplaceSell() {
+	public boolean allowMarketplaceSell() {
 		return allowMarketplaceSell;
 	}
 
-	public boolean isAllowGift() {
+	public boolean allowGift() {
 		return allowGift;
 	}
 
-	public boolean isAllowInventoryStack() {
+	public boolean allowInventoryStack() {
 		return allowInventoryStack;
 	}
 

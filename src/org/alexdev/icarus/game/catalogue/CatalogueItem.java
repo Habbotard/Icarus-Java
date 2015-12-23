@@ -8,7 +8,7 @@ public class CatalogueItem {
 
 	private int id;
 	private int pageId;
-	private int itemIds;
+	private int itemId;
 	private String catalogueName;
 	private int costCredits;
 	private int costPixels;
@@ -34,7 +34,7 @@ public class CatalogueItem {
 
 		this.id = id;
 		this.pageId = pageId;
-		this.itemIds = itemIds;
+		this.itemId = itemIds;
 		this.catalogueName = catalogueName;
 		this.costCredits = costCredits;
 		this.costPixels = costDuckets;
@@ -51,7 +51,7 @@ public class CatalogueItem {
 
 	
 	public Furniture getData() {
-		return Icarus.getGame().getFurniture().getFurnitureById(this.itemIds);
+		return Icarus.getGame().getFurniture().getFurnitureById(this.itemId);
 	}
 	
 	
@@ -75,7 +75,7 @@ public class CatalogueItem {
         if (this.isLimited() || this.getData().getType().equals("r")) {
         	response.appendBoolean(false);
         } else {
-        	response.appendBoolean(this.getData().isAllowGift());
+        	response.appendBoolean(this.getData().allowGift());
         }
         
         response.appendInt32(1); // is deal
@@ -122,8 +122,8 @@ public class CatalogueItem {
 		return pageId;
 	}
 	
-	public int getSpriteId() {
-		return itemIds;
+	public int getItemId() {
+		return itemId;
 	}
 	public String getCatalogueName() {
 		return catalogueName;

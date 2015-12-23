@@ -65,5 +65,8 @@ public class Outgoing {
 	public static int CataloguePageMessageComposer = 2025;
 	public static int LackFundsMessageComposer = 519;
 	public static int PurchaseNotificationComposer = 1937;
+	public static int UpdateInventoryMessageComposer = 3200;
+	public static int NewInventoryItemsMessageComposer = 0x0F00;
+	public static int InventoryLoadMessageComposer;
     
 }

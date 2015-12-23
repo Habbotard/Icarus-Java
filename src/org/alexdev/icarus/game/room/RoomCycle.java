@@ -37,27 +37,6 @@ public class RoomCycle implements Runnable {
 					
 					IRoomEntity roomUser = session.getRoomUser();
 					
-					/*if (tick % 12 == 0) {
-						
-						if (session.getType() == EntityType.BOT) {
-							
-							roomUser.chat("helloz", 2, 1, false, false);
-							
-							roomUser.setGoalX(Icarus.getUtilities().getRandom().nextInt(10));
-							roomUser.setGoalY(Icarus.getUtilities().getRandom().nextInt(10));
-							roomUser.createPathfinder();
-							
-							LinkedList<Point> path = session.getRoomUser().getPathfinder().calculateShortestPath(roomUser.getPoint(), roomUser.getGoalPoint());
-
-							if (path == null) { // user selected invalid tile, cannot walk there!
-								continue;
-							}
-							
-							roomUser.setPath(path);
-							roomUser.setWalking(true);
-						}
-					}*/
-
 					if (roomUser.getPath() == null) { 
 						continue;
 					}
@@ -117,7 +96,6 @@ public class RoomCycle implements Runnable {
 					room.send(new UserStatusMessageComposer(usersToUpdate));
 					this.usersToUpdate.clear();
 
-					// regenerate map at the end of people walking if the room disallows people walking through each other
 					if (!room.getData().isAllowWalkthrough()) {
 						room.regenerateCollisionMap();
 					}
@@ -130,7 +108,5 @@ public class RoomCycle implements Runnable {
 			e.printStackTrace();
 
 		}
-		
-		//++tick;
 	}
 }

@@ -23,17 +23,4 @@ public class SearchNewNavigatorEvent implements MessageEvent {
 		
 		session.send(new SearchResultSetComposer(session, navigatorTab, searchQuery));
 	}
-
-
-		/*if (staticId.equals("my")) {
-			response.appendInt32(60);
-
-			for (int i = 0; i < 60; i++) {
-				new Room("Alex's Room").serialiseNavigatorListing(response, false);
-			}
-		}
-		else {
-			response.appendInt32(0);
-		}
-	}*/
 }
