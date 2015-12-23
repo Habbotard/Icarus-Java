@@ -28,7 +28,7 @@ public class CataloguePageMessageComposer extends Response {
 			this.appendInt32(-1);
 			this.appendBoolean(false);
 
-		} else if (page.isLayout("spaces") || page.isLayout("spaces_new")) {
+		} else if (page.equals("spaces") || page.equals("spaces_new")) {
 
 			this.appendString("spaces_new");
 			this.appendInt32(1);
@@ -36,7 +36,7 @@ public class CataloguePageMessageComposer extends Response {
 			this.appendInt32(1);
 			this.appendString(page.getText1());
 
-		} else if (page.isLayout("default_3x3")) {
+		} else if (page.equals("default_3x3")) {
 			
 			this.appendString(page.getLayout());
 			this.appendInt32(3);
@@ -49,7 +49,7 @@ public class CataloguePageMessageComposer extends Response {
 			this.appendString("");//page.getTextDetails());
 			this.appendString(page.getTextTeaser());
 
-		} else if (page.isLayout("club_buy")) {
+		} else if (page.equals("club_buy")) {
 
 			this.appendString("vip_buy");
 			this.appendString(page.getLayout());
@@ -58,7 +58,7 @@ public class CataloguePageMessageComposer extends Response {
 			this.appendString(page.getTeaser());
 			this.appendInt32(0);
 
-		} else if (page.isLayout("club_gifts")) {
+		} else if (page.equals("club_gifts")) {
 
 			this.appendString("club_gifts");
 			this.appendString(page.getHeadline());
@@ -66,7 +66,7 @@ public class CataloguePageMessageComposer extends Response {
 			this.appendString(page.getText1());
 			this.appendInt32(0);
 
-		} else if (page.isLayout("recycler_info")) {
+		} else if (page.equals("recycler_info")) {
 
 			this.appendString(page.getLayout());
 			this.appendInt32(2);
@@ -77,7 +77,7 @@ public class CataloguePageMessageComposer extends Response {
 			this.appendString(page.getText2());
 			this.appendString(page.getTextDetails());
 
-		} else if (page.isLayout("recycler_prizes")) {
+		} else if (page.equals("recycler_prizes")) {
 
 			this.appendString("recycler_prizes");
 			this.appendInt32(1);
@@ -85,7 +85,7 @@ public class CataloguePageMessageComposer extends Response {
 			this.appendInt32(1);
 			this.appendString(page.getText1());
 
-		} else if (page.isLayout("guilds")) {
+		} else if (page.equals("guilds")) {
 
 			this.appendString("guild_frontpage");
 			this.appendInt32(2);
@@ -96,7 +96,7 @@ public class CataloguePageMessageComposer extends Response {
 			this.appendString(page.getTextDetails());
 			this.appendString(page.getTextTeaser());
 
-		} else if (page.isLayout("guild_furni")) {
+		} else if (page.equals("guild_furni")) {
 
 			this.appendString("guild_custom_furni");
 			this.appendInt32(3);
@@ -108,7 +108,7 @@ public class CataloguePageMessageComposer extends Response {
 			this.appendString(page.getTextDetails());
 			this.appendString(page.getTextTeaser());
 
-		} else if (page.isLayout("soundmachine")) {
+		} else if (page.equals("soundmachine")) {
 
 			this.appendString("soundmachine");
 			this.appendInt32(2);
@@ -118,7 +118,7 @@ public class CataloguePageMessageComposer extends Response {
 			this.appendString(page.getText1());
 			this.appendString(page.getTextDetails());
 
-		} else if (page.isLayout("pets")) {
+		} else if (page.equals("pets")) {
 
 			this.appendString("pets");
 			this.appendInt32(2);
@@ -127,7 +127,7 @@ public class CataloguePageMessageComposer extends Response {
 			this.appendInt32(1);
 			this.appendString(page.getText1());
 			
-		} else if (page.isLayout("bots")) {
+		} else if (page.equals("bots")) {
 
 			this.appendString(page.getLayout());
 			this.appendInt32(2);
@@ -137,7 +137,7 @@ public class CataloguePageMessageComposer extends Response {
 			this.appendString(page.getText1());
 			this.appendString(page.getTextDetails());
 			
-		} else if (page.isLayout("default_3x3_color_grouping")) {
+		} else if (page.equals("default_3x3_color_grouping")) {
 
 			this.appendString(page.getLayout());
 			this.appendInt32(2);

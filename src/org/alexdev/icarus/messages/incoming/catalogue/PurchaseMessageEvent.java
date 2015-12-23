@@ -16,7 +16,7 @@ public class PurchaseMessageEvent implements MessageEvent {
 		
 		int pageId = request.readInt();
 		int itemId = request.readInt();
-		String extraData = request.readString();
+		/*String extraData = */request.readString();
 		int priceAmount = request.readInt();
 		
 		CataloguePage page = Icarus.getGame().getCatalogue().getPage(pageId);

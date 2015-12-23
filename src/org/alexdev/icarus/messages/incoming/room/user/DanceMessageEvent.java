@@ -29,10 +29,8 @@ public class DanceMessageEvent implements MessageEvent {
 		if (danceId < 0 || danceId > 4)
             danceId = 0;
 		
-        if (danceId > 0) {/* && roomUserByHabbo.CarryItemId > 0)
-            roomUserByHabbo.CarryItem(0);*/
-        
-        	// TODO: Stop carrying item if dancing
+        if (danceId > 0) {
+        	// TODO: Remove any carried items
         }
 
         roomUser.getRoom().send(new DanceMessageComposer(roomUser.getVirtualId(), danceId));

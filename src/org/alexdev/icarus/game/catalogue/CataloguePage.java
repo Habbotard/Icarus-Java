@@ -36,14 +36,28 @@ public class CataloguePage {
 		this.loaded = false;
 	}
 
+	public CataloguePageMessageComposer getComposer() {
+		
+		if (!this.loaded) {
+			this.composer = new CataloguePageMessageComposer(this, "NORMAL");
+			this.loaded = true;
+		}
+		
+		return composer;
+	}
+
+	public boolean isLoaded() {
+		return loaded;
+	}
+
+	public void setLoaded(boolean loaded) {
+		this.loaded = loaded;
+	}
+	
 	public List<CatalogueItem> getItems() {
 		return Icarus.getGame().getCatalogue().getPageItems(this.id);
 	}
 	
-	public boolean isLayout(String layout) {
-		return this.layout.equalsIgnoreCase(layout);
-	}
-
 	public int getId() {
 		return id;
 	}
@@ -88,22 +102,6 @@ public class CataloguePage {
 		return minRank;
 	}
 
-	public CataloguePageMessageComposer getComposer() {
-		
-		if (!this.loaded) {
-			this.composer = new CataloguePageMessageComposer(this, "NORMAL");
-			this.loaded = true;
-		}
-		
-		return composer;
-	}
 
-	public boolean isLoaded() {
-		return loaded;
-	}
-
-	public void setLoaded(boolean loaded) {
-		this.loaded = loaded;
-	}
 
 }
