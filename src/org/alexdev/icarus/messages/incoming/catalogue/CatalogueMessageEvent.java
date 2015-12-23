@@ -12,7 +12,7 @@ public class CatalogueMessageEvent implements MessageEvent {
 		
 		String type = request.readString();
 
-		session.send(new CatalogueTabMessageComposer(type, -1));
+		session.send(new CatalogueTabMessageComposer(type, -1, session.getDetails().getRank()));
 	}
 
 }

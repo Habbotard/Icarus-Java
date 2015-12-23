@@ -32,7 +32,7 @@ public class MySQLDao implements Dao {
 		this.player = new MySQLPlayerDao(this);
 		this.messenger = new MySQLMessengerDao(this);
 		this.catalogTab = new MySQLCatalogueDao(this);
-		this.furniture = new MySQLFurniture(this);
+		this.furniture = new MySQLFurnitureDao(this);
 
 		//this.UpdateTable("users", new Object[] { "username",  "Alex" }, new Object[] { "id",  1 });
 	}

@@ -43,12 +43,12 @@ public class CatalogueManager {
 		this.items = Icarus.getDao().getCatalogue().getCatalogueItems();
 	}
 
-	public List<CatalogueTab> getParentTabs() {
-		return parentTabs;
+	public List<CatalogueTab> getParentTabs(int rank) {
+		return parentTabs.stream().filter(tab -> tab.getMinRank() <= rank).collect(Collectors.toList());
 	}
 	
-	public List<CatalogueTab> getChildTabs(int parentId) {
-		return this.childTabs.get(parentId);
+	public List<CatalogueTab> getChildTabs(int parentId, int rank) {
+		return childTabs.get(parentId).stream().filter(tab -> tab.getMinRank() <= rank).collect(Collectors.toList());
 	}
 
 	public CataloguePage getPage(int pageId) {
@@ -66,6 +66,15 @@ public class CatalogueManager {
 			return this.items.stream().filter(item -> item.getPageId() == pageId && item.getData() != null).collect(Collectors.toList());
 		} catch (Exception e) {
 			return new ArrayList<CatalogueItem>();
+		}
+	}
+	
+	public CatalogueItem getItem(int itemId) {
+		
+		try {
+			return this.items.stream().filter(item -> item.getId() == itemId).findFirst().get();
+		} catch (Exception e) {
+			return null;
 		}
 	}
 

@@ -6,11 +6,13 @@ import org.alexdev.icarus.game.user.Session;
 import org.alexdev.icarus.messages.headers.Incoming;
 import org.alexdev.icarus.messages.incoming.catalogue.CatalogueMessageEvent;
 import org.alexdev.icarus.messages.incoming.catalogue.CataloguePageMessageEvent;
+import org.alexdev.icarus.messages.incoming.catalogue.PurchaseMessageEvent;
 import org.alexdev.icarus.messages.incoming.handshake.*;
 import org.alexdev.icarus.messages.incoming.messenger.*;
 import org.alexdev.icarus.messages.incoming.misc.*;
 import org.alexdev.icarus.messages.incoming.navigator.*;
 import org.alexdev.icarus.messages.incoming.room.*;
+import org.alexdev.icarus.messages.incoming.room.items.InventoryMessageEvent;
 import org.alexdev.icarus.messages.incoming.room.user.*;
 import org.alexdev.icarus.messages.incoming.user.*;
 import org.alexdev.icarus.netty.readers.*;
@@ -34,6 +36,7 @@ public class MessageHandler {
 		this.registerNavigatorPackets();
 		this.registerRoomPackets();
 		this.registerCataloguePackets();
+		this.registerInventoryPackets();
 	}
 
 	private void registerHandshakePackets() {
@@ -100,7 +103,14 @@ public class MessageHandler {
 	private void registerCataloguePackets() {
 		this.messages.put(Incoming.CatalogueMessageEvent, new CatalogueMessageEvent());
 		this.messages.put(Incoming.CataloguePageMessageEvent, new CataloguePageMessageEvent());
+		this.messages.put(Incoming.PurchaseObjectMessageEvent, new PurchaseMessageEvent());
 	}
+	
+
+	private void registerInventoryPackets() {
+		this.messages.put(Incoming.InventoryMessageEvent, new InventoryMessageEvent());
+	}
+
 
 	public void handleRequest(Session session, Request message) {
 		if (messages.containsKey(message.getMessageId())) {

@@ -29,7 +29,7 @@ public class MySQLPlayerDao implements IPlayerDao, IProcessStorage<CharacterDeta
 
 			ResultSet row = statement.executeQuery();
 
-			CharacterDetails details = new CharacterDetails();
+			CharacterDetails details = new CharacterDetails(null);
 
 			if (!row.next()) {
 				return null;
@@ -104,7 +104,7 @@ public class MySQLPlayerDao implements IPlayerDao, IProcessStorage<CharacterDeta
 	@Override
 	public CharacterDetails fill(CharacterDetails instance, ResultSet row) throws SQLException {
 
-		instance.fill(row.getInt("id"), row.getString("username"), row.getString("motto"),  row.getString("figure"));
+		instance.fill(row.getInt("id"), row.getString("username"), row.getString("motto"),  row.getString("figure"), row.getInt("rank"), row.getInt("credits"));
 		return instance;
 	}
 

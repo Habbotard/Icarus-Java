@@ -2,6 +2,7 @@ package org.alexdev.icarus.game.catalogue;
 
 import org.alexdev.icarus.Icarus;
 import org.alexdev.icarus.game.furniture.Furniture;
+import org.alexdev.icarus.netty.readers.Response;
 
 public class CatalogueItem {
 
@@ -11,10 +12,9 @@ public class CatalogueItem {
 	private String catalogueName;
 	private int costCredits;
 	private int costPixels;
-	private int costBelCredits;
+	private int costSeasonal;
 	private int amount;
 	private int subscriptionStatus;
-	private int questType;
 	private int songId;
 	private String extraData;
 	private String badge;
@@ -28,7 +28,7 @@ public class CatalogueItem {
 							row.getInt("cost_credits"), row.getInt("cost_pixels"), row.getInt("cost_belcredits"), row.getInt("amount"), 
 							row.getInt("item_subscription_status"), row.getInt("quest_type"), row.getInt("song_id"), row.getString("extradata"),
 							row.getString("badge"), row.getInt("limited_stack"), row.getInt("limited_sells"), row.getInt("offer_active") == 1);*/
-	public void fill(int id, int pageId, int itemIds, String catalogueName, int costCredits, int costBelCredits, int costDuckets, 
+	public void fill(int id, int pageId, int itemIds, String catalogueName, int costCredits, int costSeasonal, int costDuckets, 
 						int amount, int subscriptionStatus, int songId, String extraData, String badage, int limitedStack, int limitedSells, 
 						boolean hasOffer) {
 
@@ -38,7 +38,7 @@ public class CatalogueItem {
 		this.catalogueName = catalogueName;
 		this.costCredits = costCredits;
 		this.costPixels = costDuckets;
-		this.costBelCredits = costBelCredits;
+		this.costSeasonal = costSeasonal;
 		this.amount = amount;
 		this.subscriptionStatus = subscriptionStatus;
 		this.songId = songId;
@@ -49,9 +49,71 @@ public class CatalogueItem {
 		this.hasOffer = hasOffer;
 	}
 
+	
 	public Furniture getData() {
 		return Icarus.getGame().getFurniture().getFurnitureById(this.itemIds);
 	}
+	
+	
+	public void serialise(Response response) {
+		
+		response.appendInt32(this.id);
+		response.appendString(this.catalogueName);
+		response.appendBoolean(false);
+		
+        if (this.getCostPixels() == 0 && this.getCostCredits() == 0) {
+            response.appendInt32(this.costSeasonal);
+            response.appendInt32(0);
+            
+        } else  {
+            response.appendInt32(this.costCredits);
+            response.appendInt32(this.costPixels);
+        }
+
+        response.appendInt32(0);///item.getQuestType());
+        
+        if (this.isLimited() || this.getData().getType().equals("r")) {
+        	response.appendBoolean(false);
+        } else {
+        	response.appendBoolean(this.getData().isAllowGift());
+        }
+        
+        response.appendInt32(1); // is deal
+        response.appendString(this.getData().getType());
+        
+        if (this.badge.length() > 0) {
+        	
+        	response.appendString(this.badge);
+        	response.appendInt32(this.subscriptionStatus);
+        	response.appendInt32(this.amount);
+        } else {
+        	
+        	response.appendInt32(this.getData().getSpriteId());
+        	
+        	if (this.catalogueName.contains("_single_")) {
+            	response.appendString(this.catalogueName.split("_")[2]);
+        	} else {
+            	response.appendString(this.extraData);
+        	}
+
+        	response.appendInt32(this.amount);
+        	response.appendBoolean(this.isLimited()); 
+        	
+        	if (this.isLimited()) {
+        		response.appendInt32(this.limitedStack);
+        		response.appendInt32(this.limitedSells);
+        	}
+        	
+        	response.appendInt32(this.subscriptionStatus);
+        	
+        	if (this.isLimited()) {
+        		response.appendBoolean(!this.isLimited() && this.hasOffer()); // && HaveOffer
+        	} else {
+        		response.appendBoolean(false);
+        	}	
+        }
+	}
+	
 	
 	public int getId() {
 		return id;
@@ -78,8 +140,8 @@ public class CatalogueItem {
 		return amount;
 	}
 
-	public int getCostBelCredits() {
-		return costBelCredits;
+	public int getCostSeasonal() {
+		return costSeasonal;
 	}
 	
 	public int getSubscriptionStatus() {
@@ -99,7 +161,7 @@ public class CatalogueItem {
 	}
 	
 	public boolean isLimited() {
-		return this.limitedStack > 0;
+		return limitedStack > 0;
 	}
 
 	public int getLimitedStack() {
@@ -110,7 +172,7 @@ public class CatalogueItem {
 		return limitedSells;
 	}
 
-	public boolean isHasOffer() {
+	public boolean hasOffer() {
 		return hasOffer;
 	}
 

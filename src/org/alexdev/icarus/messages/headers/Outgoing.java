@@ -63,5 +63,7 @@ public class Outgoing {
 	public static int RoomSettingsUpdatedMessageComposer = 1091;//
 	public static int CatalogueTabMessageComposer = 3579;
 	public static int CataloguePageMessageComposer = 2025;
+	public static int LackFundsMessageComposer = 519;
+	public static int PurchaseNotificationComposer = 1937;
     
 }

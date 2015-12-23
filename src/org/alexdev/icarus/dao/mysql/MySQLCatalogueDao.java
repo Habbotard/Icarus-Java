@@ -34,7 +34,7 @@ public class MySQLCatalogueDao implements ICatalogueDao, IProcessStorage<Catalog
 		
 		try {
 			
-			row = this.dao.getStorage().getTable("SELECT * FROM catalog_pages WHERE parent_id = " + parentId);
+			row = this.dao.getStorage().getTable("SELECT * FROM catalogue_pages WHERE parent_id = " + parentId);
 			
 			while (row.next()) {
 				
@@ -64,7 +64,7 @@ public class MySQLCatalogueDao implements ICatalogueDao, IProcessStorage<Catalog
 		
 		try {
 			
-			row = this.dao.getStorage().getTable("SELECT * FROM catalog_pages");
+			row = this.dao.getStorage().getTable("SELECT * FROM catalogue_pages");
 			
 			while (row.next()) {
 				
@@ -92,7 +92,7 @@ public class MySQLCatalogueDao implements ICatalogueDao, IProcessStorage<Catalog
 		
 		try {
 			
-			row = this.dao.getStorage().getTable("SELECT * FROM catalog_items");
+			row = this.dao.getStorage().getTable("SELECT * FROM catalogue_items");
 			
 			while (row.next()) {
 				
@@ -123,7 +123,7 @@ public class MySQLCatalogueDao implements ICatalogueDao, IProcessStorage<Catalog
 
 		instance.fill(row.getInt("id"), row.getString("page_layout"), row.getString("page_headline"), row.getString("page_teaser"),
 				row.getString("page_special"), row.getString("page_text1"), row.getString("page_text2"), row.getString("page_text_details"), 
-				row.getString("page_text_teaser"), row.getBoolean("club_only"));
+				row.getString("page_text_teaser"), row.getBoolean("club_only"), row.getInt("min_rank"));
 	
 		
 		return instance;

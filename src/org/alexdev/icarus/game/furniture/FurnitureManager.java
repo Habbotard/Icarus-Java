@@ -3,7 +3,6 @@ package org.alexdev.icarus.game.furniture;
 import java.util.List;
 
 import org.alexdev.icarus.Icarus;
-import org.alexdev.icarus.log.Log;
 
 public class FurnitureManager {
 

@@ -11,11 +11,11 @@ import org.alexdev.icarus.game.furniture.interactions.InteractionType;
 import org.alexdev.icarus.log.Log;
 import org.alexdev.icarus.mysql.Storage;
 
-public class MySQLFurniture implements IFurnitureDao, IProcessStorage<Furniture, ResultSet> {
+public class MySQLFurnitureDao implements IFurnitureDao, IProcessStorage<Furniture, ResultSet> {
 
 	private MySQLDao dao;
 
-	public MySQLFurniture(MySQLDao dao) {
+	public MySQLFurnitureDao(MySQLDao dao) {
 		this.dao = dao;
 	}
 
@@ -28,7 +28,7 @@ public class MySQLFurniture implements IFurnitureDao, IProcessStorage<Furniture,
 		
 		try {
 			
-			row = this.dao.getStorage().getTable("SELECT * FROM furniture");
+			row = this.dao.getStorage().getTable("SELECT * FROM items_base");
 			
 			while (row.next()) {
 				

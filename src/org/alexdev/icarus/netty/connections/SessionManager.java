@@ -21,13 +21,13 @@ public class SessionManager
 	
 	public boolean checkForDuplicates(Session session) {
 		
-		if (session.getDetails() == null || session.getDetails() == null) {
+		if (session.getChannel() == null || session.getDetails() == null) {
 			return false;
 		}
 		
 		for (Session player : Icarus.getServer().getSessionManager().getSessions().values()) {
 			
-			if (player.getDetails() == null || player.getChannel() == null) {
+			if (player.getChannel() == null || player.getDetails() == null) {
 				continue;
 			}
 			

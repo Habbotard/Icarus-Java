@@ -1,10 +1,6 @@
 package org.alexdev.icarus.messages.incoming.room.user;
 
-import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.util.zip.Inflater;
 
 import org.alexdev.icarus.game.user.Session;

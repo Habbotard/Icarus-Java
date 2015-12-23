@@ -2,7 +2,6 @@ package org.alexdev.icarus.messages.incoming.room.user;
 
 import java.util.LinkedList;
 
-import org.alexdev.icarus.alexpathfinder.AlexPathfinder;
 import org.alexdev.icarus.game.room.model.Point;
 import org.alexdev.icarus.game.room.player.RoomUser;
 import org.alexdev.icarus.game.user.Session;

@@ -3,6 +3,7 @@ package org.alexdev.icarus.game.catalogue;
 import java.util.List;
 
 import org.alexdev.icarus.Icarus;
+import org.alexdev.icarus.messages.outgoing.catalogue.CataloguePageMessageComposer;
 
 public class CataloguePage {
 
@@ -16,10 +17,11 @@ public class CataloguePage {
 	private String textDetails;
 	private String textTeaser;
 	private boolean vip;
+	private boolean loaded;
+	private int minRank;
+	private CataloguePageMessageComposer composer;
 	
-	public void fill(int id, String pageLayout, String pageHeadline, String pageTeaser, String pageSpecial,
-			String pageText1, String pageText2, String pageTextDetails, String pageTextTeaser, boolean vip) {
-		
+	public void fill(int id, String pageLayout, String pageHeadline, String pageTeaser, String pageSpecial, String pageText1, String pageText2, String pageTextDetails, String pageTextTeaser, boolean vip, int minRank) {
 		this.id = id;
 		this.layout = pageLayout;
 		this.headline = pageHeadline;
@@ -30,6 +32,8 @@ public class CataloguePage {
 		this.textDetails = pageTextDetails;
 		this.textTeaser = pageTextTeaser;
 		this.vip = vip;
+		this.minRank = minRank;
+		this.loaded = false;
 	}
 
 	public List<CatalogueItem> getItems() {
@@ -39,7 +43,7 @@ public class CataloguePage {
 	public boolean isLayout(String layout) {
 		return this.layout.equalsIgnoreCase(layout);
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -80,5 +84,26 @@ public class CataloguePage {
 		return vip;
 	}
 
-	
+	public int getMinRank() {
+		return minRank;
+	}
+
+	public CataloguePageMessageComposer getComposer() {
+		
+		if (!this.loaded) {
+			this.composer = new CataloguePageMessageComposer(this, "NORMAL");
+			this.loaded = true;
+		}
+		
+		return composer;
+	}
+
+	public boolean isLoaded() {
+		return loaded;
+	}
+
+	public void setLoaded(boolean loaded) {
+		this.loaded = loaded;
+	}
+
 }

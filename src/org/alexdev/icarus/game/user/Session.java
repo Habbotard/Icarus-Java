@@ -5,6 +5,7 @@ import java.util.List;
 import org.alexdev.icarus.Icarus;
 import org.alexdev.icarus.game.entity.EntityType;
 import org.alexdev.icarus.game.entity.IEntity;
+import org.alexdev.icarus.game.inventory.Inventory;
 import org.alexdev.icarus.game.messenger.Messenger;
 import org.alexdev.icarus.game.room.Room;
 import org.alexdev.icarus.game.room.player.RoomUser;
@@ -21,11 +22,12 @@ public class Session implements IEntity {
 	private SessionConnection connection;
 	private RoomUser roomUser;
 	private Messenger messenger;
+	private Inventory inventory;
 
 	public Session(Channel channel) {
 
 		this.channel = channel;
-		this.details = new CharacterDetails();
+		this.details = new CharacterDetails(this);
 		this.connection = new SessionConnection(this);
 		this.roomUser = new RoomUser(this);
 		this.messenger = new Messenger(this);
@@ -116,6 +118,10 @@ public class Session implements IEntity {
 
 	public Messenger getMessenger() {
 		return messenger;
+	}
+
+	public Inventory getInventory() {
+		return inventory;
 	}
 
 	@Override
