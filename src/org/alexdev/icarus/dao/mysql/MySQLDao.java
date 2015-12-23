@@ -4,6 +4,7 @@ import org.alexdev.icarus.Icarus;
 import org.alexdev.icarus.dao.Dao;
 import org.alexdev.icarus.dao.ICatalogueDao;
 import org.alexdev.icarus.dao.IFurnitureDao;
+import org.alexdev.icarus.dao.IInventoryDao;
 import org.alexdev.icarus.dao.IMessengerDao;
 import org.alexdev.icarus.dao.INavigatorDao;
 import org.alexdev.icarus.dao.IPlayerDao;
@@ -22,6 +23,7 @@ public class MySQLDao implements Dao {
 	
 	private Storage storage;
 	private boolean isConnected;
+	private IInventoryDao inventory;
 
 	public MySQLDao() {
 
@@ -33,7 +35,8 @@ public class MySQLDao implements Dao {
 		this.messenger = new MySQLMessengerDao(this);
 		this.catalogTab = new MySQLCatalogueDao(this);
 		this.furniture = new MySQLFurnitureDao(this);
-
+		this.inventory = new MySQLInventoryDao(this);
+		
 		//this.UpdateTable("users", new Object[] { "username",  "Alex" }, new Object[] { "id",  1 });
 	}
 
@@ -98,6 +101,11 @@ public class MySQLDao implements Dao {
 	@Override
 	public IFurnitureDao getFurniture() {
 		return furniture;
+	}
+
+	@Override
+	public IInventoryDao getInventory() {
+		return inventory;
 	}
 
 }

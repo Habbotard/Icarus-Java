@@ -10,6 +10,7 @@ public interface Dao {
 	public IMessengerDao getMessenger();
 	public ICatalogueDao getCatalogue();
 	public IFurnitureDao getFurniture();
+	public IInventoryDao getInventory();
 	
 	public boolean isConnected();
 }

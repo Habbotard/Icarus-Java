@@ -24,9 +24,6 @@ public class CataloguePageMessageComposer extends Response {
 			this.appendInt32(2);
 			this.appendString(page.getText1());
 			this.appendString(page.getText2());
-			this.appendInt32(0);
-			this.appendInt32(-1);
-			this.appendBoolean(false);
 
 		} else if (page.equals("spaces") || page.equals("spaces_new")) {
 
@@ -37,7 +34,7 @@ public class CataloguePageMessageComposer extends Response {
 			this.appendString(page.getText1());
 
 		} else if (page.equals("default_3x3")) {
-			
+
 			this.appendString(page.getLayout());
 			this.appendInt32(3);
 			this.appendString(page.getHeadline());
@@ -45,8 +42,7 @@ public class CataloguePageMessageComposer extends Response {
 			this.appendString(page.getSpecial());
 			this.appendInt32(3);
 			this.appendString(page.getText1());
-			//this.appendString(page.getText1());
-			this.appendString("");//page.getTextDetails());
+			this.appendString(page.getTextDetails());
 			this.appendString(page.getTextTeaser());
 
 		} else if (page.equals("club_buy")) {
@@ -126,7 +122,7 @@ public class CataloguePageMessageComposer extends Response {
 			this.appendString(page.getTeaser());
 			this.appendInt32(1);
 			this.appendString(page.getText1());
-			
+
 		} else if (page.equals("bots")) {
 
 			this.appendString(page.getLayout());
@@ -136,7 +132,7 @@ public class CataloguePageMessageComposer extends Response {
 			this.appendInt32(2);
 			this.appendString(page.getText1());
 			this.appendString(page.getTextDetails());
-			
+
 		} else if (page.equals("default_3x3_color_grouping")) {
 
 			this.appendString(page.getLayout());
@@ -147,27 +143,32 @@ public class CataloguePageMessageComposer extends Response {
 			this.appendString(page.getText1());
 			this.appendString(page.getTextDetails());
 		} else {
-			
+
 			this.appendString(page.getLayout());
 			this.appendInt32(3);
 			this.appendString(page.getHeadline());
 			this.appendString(page.getTeaser());
 			this.appendString(page.getSpecial());
-			this.appendInt32(2);
+			this.appendInt32(3);
 			this.appendString(page.getText1());
 			this.appendString(page.getTextDetails());
 			this.appendString(page.getTextTeaser());
 		}
-		
-		List<CatalogueItem> items = page.getItems();
 
-		this.appendInt32(items.size()); 
+		if (!page.getLayout().equals("frontpage") || !page.getLayout().equals("club_buy") || !page.getLayout().equals("guilds")) {
 
-		for (CatalogueItem item : items) {
-			item.serialise(this);
+			List<CatalogueItem> items = page.getItems();
+
+			this.appendInt32(items.size()); 
+
+			for (CatalogueItem item : items) {
+				item.serialise(this);
+			}
+		} else {
+			this.appendInt32(0);
 		}
 
-		this.appendInt32(-1);
+		this.appendInt32(0);
 		this.appendBoolean(false);
 	}
 

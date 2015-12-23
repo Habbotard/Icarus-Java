@@ -4,6 +4,7 @@ import org.alexdev.icarus.Icarus;
 import org.alexdev.icarus.game.catalogue.CataloguePage;
 import org.alexdev.icarus.game.user.Session;
 import org.alexdev.icarus.messages.MessageEvent;
+import org.alexdev.icarus.messages.outgoing.catalogue.CataloguePageMessageComposer;
 import org.alexdev.icarus.netty.readers.Request;
 
 public class CataloguePageMessageEvent implements MessageEvent {
@@ -19,7 +20,7 @@ public class CataloguePageMessageEvent implements MessageEvent {
 			return;
 		}
 		
-		session.send(page.getComposer());
+		session.send(new CataloguePageMessageComposer(page, "NORMAL"));
 	}
 
 }
