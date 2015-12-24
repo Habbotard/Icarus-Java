@@ -4,10 +4,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import org.alexdev.icarus.Icarus;
-import org.alexdev.icarus.game.pathfinder.AreaMap;
-import org.alexdev.icarus.game.pathfinder.Pathfinder;
-import org.alexdev.icarus.game.pathfinder.heuristics.AStarHeuristic;
-import org.alexdev.icarus.game.pathfinder.heuristics.ClosestHeuristic;
 import org.alexdev.icarus.game.room.Room;
 import org.alexdev.icarus.game.room.model.Point;
 import org.alexdev.icarus.game.room.model.RoomModel;

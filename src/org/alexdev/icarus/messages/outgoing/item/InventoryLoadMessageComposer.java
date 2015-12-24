@@ -1,5 +1,6 @@
 package org.alexdev.icarus.messages.outgoing.item;
 
+import org.alexdev.icarus.game.furniture.interactions.InteractionType;
 import org.alexdev.icarus.game.inventory.Inventory;
 import org.alexdev.icarus.game.item.Item;
 import org.alexdev.icarus.messages.headers.Outgoing;
@@ -11,8 +12,8 @@ public class InventoryLoadMessageComposer extends Response {
 		this.init(Outgoing.InventoryLoadMessageComposer);
 		this.appendInt32(1);
 		this.appendInt32(0);
-		this.appendInt32(inventory.getWallItems().size());// + inventory.getFloorItems().size());
-
+		this.appendInt32(inventory.getWallItems().size() + inventory.getFloorItems().size());
+		
 		for (Item item : inventory.getWallItems()) {
 
 			this.appendInt32(item.getId());
@@ -39,16 +40,24 @@ public class InventoryLoadMessageComposer extends Response {
 			this.appendBoolean(false);
 			this.appendInt32(-1);
 		}
-		
+
 		for (Item item : inventory.getFloorItems()) {
-			
-			/*this.appendInt32(item.getId());
+
+			this.appendInt32(item.getId());
 			this.appendString(item.getData().getType().toUpperCase());
 			this.appendInt32(item.getId());
 			this.appendInt32(item.getData().getSpriteId());
-			this.appendInt32(1);
-			this.appendString(item.getExtraData());
+
+			if (item.getData().getInteractionType() == InteractionType.GROUPITEM || item.getData().getInteractionType() == InteractionType.GLD_GATE) {
+				this.appendInt32(17); 
+			} else if (item.getData().getInteractionType() == InteractionType.MUSICDISK) {
+				this.appendInt32(8);
+			} else {
+				this.appendInt32(1);
+			}
+
 			this.appendInt32(0);
+			this.appendString(item.getExtraData());
 			this.appendBoolean(item.getData().allowRecycle());
 			this.appendBoolean(item.getData().allowTrade());
 			this.appendBoolean(item.getData().allowInventoryStack());
@@ -56,13 +65,9 @@ public class InventoryLoadMessageComposer extends Response {
 			this.appendInt32(-1);
 			this.appendBoolean(false); 
 			this.appendInt32(-1);
-			
-			if (!item.getData().getType().equals("s")) {
-				this.appendString("");
-				this.appendInt32(0);
-			}*/
+			this.appendString("");
+			this.appendInt32(0);
 		}
-
 	}
 
 }
