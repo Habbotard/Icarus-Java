@@ -8,7 +8,6 @@ import org.alexdev.icarus.dao.util.IProcessStorage;
 import org.alexdev.icarus.game.user.CharacterDetails;
 import org.alexdev.icarus.game.user.Session;
 import org.alexdev.icarus.log.Log;
-import org.alexdev.icarus.mysql.Storage;
 
 public class MySQLPlayerDao implements IPlayerDao, IProcessStorage<CharacterDetails, ResultSet> {
 

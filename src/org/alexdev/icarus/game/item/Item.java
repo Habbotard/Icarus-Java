@@ -13,8 +13,9 @@ public class Item {
 	private int x;
 	private int y;
 	private double z;
+	private String extraData;
 	
-	public void fill(int id, int userId, int itemId, int roomId, int x, int y, double z) {
+	public void fill(int id, int userId, int itemId, int roomId, int x, int y, double z, String extraData) {
 		this.id = id;
 		this.userId = userId;
 		this.itemId = itemId;
@@ -22,6 +23,7 @@ public class Item {
 		this.x = x;
 		this.y = y;
 		this.z = z;
+		this.extraData = extraData;
 	}
 
 	public int getId() {
@@ -72,6 +74,14 @@ public class Item {
 		return roomId;
 	}
 	
+	public String getExtraData() {
+		return extraData;
+	}
+
+	public void setExtraData(String extraData) {
+		this.extraData = extraData;
+	}
+
 	public boolean isWallItem() {
 		return this.getData().getType().equals("i");
 	}

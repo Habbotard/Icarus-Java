@@ -46,14 +46,10 @@ public class Inventory {
 	}
 
 	public List<Item> getFloorItems() {
-		return items.stream().filter(item -> !item.isWallItem() && !item.isSongDisk()).collect(Collectors.toList());
+		return items.stream().filter(item -> item != null && !item.isWallItem()).collect(Collectors.toList());
 	}
 	
 	public List<Item> getWallItems() {
-		return items.stream().filter(item -> item.isWallItem() && !item.isSongDisk()).collect(Collectors.toList());
-	}
-	
-	public List<Item> getSongDisks() {
-		return items.stream().filter(item -> item.isSongDisk()).collect(Collectors.toList());
+		return items.stream().filter(item -> item != null && item.isWallItem()).collect(Collectors.toList());
 	}
 }

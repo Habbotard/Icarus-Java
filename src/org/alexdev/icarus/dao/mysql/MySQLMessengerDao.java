@@ -9,7 +9,6 @@ import java.util.List;
 import org.alexdev.icarus.dao.IMessengerDao;
 import org.alexdev.icarus.game.messenger.MessengerUser;
 import org.alexdev.icarus.log.Log;
-import org.alexdev.icarus.mysql.Storage;
 
 public class MySQLMessengerDao implements IMessengerDao {
 

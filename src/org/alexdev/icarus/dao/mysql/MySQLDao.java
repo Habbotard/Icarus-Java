@@ -10,7 +10,6 @@ import org.alexdev.icarus.dao.INavigatorDao;
 import org.alexdev.icarus.dao.IPlayerDao;
 import org.alexdev.icarus.dao.IRoomDao;
 import org.alexdev.icarus.log.Log;
-import org.alexdev.icarus.mysql.Storage;
 
 public class MySQLDao implements Dao {
 
@@ -36,8 +35,6 @@ public class MySQLDao implements Dao {
 		this.catalogTab = new MySQLCatalogueDao(this);
 		this.furniture = new MySQLFurnitureDao(this);
 		this.inventory = new MySQLInventoryDao(this);
-		
-		//this.UpdateTable("users", new Object[] { "username",  "Alex" }, new Object[] { "id",  1 });
 	}
 
 	@Override

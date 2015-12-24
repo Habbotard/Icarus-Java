@@ -297,8 +297,6 @@ public class Room {
 					return;
 				}
 
-
-
 				if (this.getUsers().size() > 0) {
 					return;
 				}
@@ -323,14 +321,13 @@ public class Room {
 
 					Icarus.getGame().getRoomManager().getLoadedRooms().remove(this);
 
-
 					this.disposed = true;
 				}
 
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.exception(e);
 		}
 
 	}

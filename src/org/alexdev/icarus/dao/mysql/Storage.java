@@ -1,4 +1,4 @@
-package org.alexdev.icarus.mysql;
+package org.alexdev.icarus.dao.mysql;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,11 +20,9 @@ public class Storage {
 
 	public Storage(String host, String username, String password, String db) {
 		
-		//checkDriver();
-
 		try {
+			
 			config = new BoneCPConfig();
-
 			config.setJdbcUrl("jdbc:mysql://" + host + "/" + db);
 			config.setUsername(username);
 			config.setPassword(password);

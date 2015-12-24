@@ -13,7 +13,10 @@ public class PopularPopulator extends IRoomPopulator {
 	public List<Room> generateListing(boolean limit, Session session) {
 
 		List<Room> rooms =  Icarus.getGame().getRoomManager().getLoadedRooms().stream().filter(r -> r.getData().getUsersNow() > 0).collect(Collectors.toList());
-		rooms.sort((room1, room2)->room2.getData().getUsersNow()-room1.getData().getUsersNow());
+		
+		rooms.sort((room1, room2)
+		->room2.getData().getUsersNow()
+		- room1.getData().getUsersNow());
 
 		return rooms;
 	}

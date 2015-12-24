@@ -23,7 +23,7 @@ public class PurchaseMessageEvent implements MessageEvent {
 
 		int pageId = request.readInt();
 		int itemId = request.readInt();
-		/*String extraData = */request.readString();
+		String extraData = request.readString();
 		int priceAmount = request.readInt();
 
 		CataloguePage page = Icarus.getGame().getCatalogue().getPage(pageId);
@@ -97,8 +97,10 @@ public class PurchaseMessageEvent implements MessageEvent {
 		for (int i = 0; i < amountPurchased; i++) {
 			session.send(new PurchaseNotificationMessageComposer(item, finalAmount));
 			
-			Item inventoryItem = Icarus.getDao().getInventory().newItem(item.getItemId(), session.getDetails().getId());
+			Item inventoryItem = Icarus.getDao().getInventory().newItem(item.getItemId(), session.getDetails().getId(), extraData);
 			bought.add(inventoryItem);
+			
+			session.getInventory().getItems().add(inventoryItem);
 		}
 
 		session.send(new NewInventoryItemsMessageComposer(bought));

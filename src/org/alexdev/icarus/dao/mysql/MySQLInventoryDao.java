@@ -10,7 +10,6 @@ import org.alexdev.icarus.dao.IInventoryDao;
 import org.alexdev.icarus.dao.util.IProcessStorage;
 import org.alexdev.icarus.game.item.Item;
 import org.alexdev.icarus.log.Log;
-import org.alexdev.icarus.mysql.Storage;
 
 public class MySQLInventoryDao implements IInventoryDao, IProcessStorage<Item, ResultSet> {
 
@@ -77,16 +76,17 @@ public class MySQLInventoryDao implements IInventoryDao, IProcessStorage<Item, R
 	}
 
 	@Override
-	public Item newItem(int itemId, int ownerId) {
+	public Item newItem(int itemId, int ownerId, String extraData) {
 
 
 		ResultSet row = null;
 		
 		try {
 			
-			PreparedStatement statement = dao.getStorage().prepare("INSERT INTO items (user_id, item_id) VALUES(?, ?)", true); {
+			PreparedStatement statement = dao.getStorage().prepare("INSERT INTO items (user_id, item_id, extra_data) VALUES(?, ?, ?)", true); {
 				statement.setInt(1, ownerId);
 				statement.setInt(2, itemId);
+				statement.setString(3, extraData);
 				statement.executeUpdate();
 			}
 			
@@ -108,7 +108,7 @@ public class MySQLInventoryDao implements IInventoryDao, IProcessStorage<Item, R
 	
 	@Override
 	public Item fill(Item instance, ResultSet row) throws Exception {
-		instance.fill(row.getInt("id"), row.getInt("user_id"), row.getInt("item_id"), row.getInt("room_id"), row.getInt("x"), row.getInt("y"), row.getDouble("z"));
+		instance.fill(row.getInt("id"), row.getInt("user_id"), row.getInt("item_id"), row.getInt("room_id"), row.getInt("x"), row.getInt("y"), row.getDouble("z"), "");
 		return null;
 	}
 

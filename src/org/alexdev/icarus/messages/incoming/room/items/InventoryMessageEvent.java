@@ -17,7 +17,7 @@ public class InventoryMessageEvent implements MessageEvent {
 			return;
 		}
 		
-		int count = inventory.getFloorItems().size() + inventory.getWallItems().size() + inventory.getSongDisks().size();
+		int count = inventory.getFloorItems().size() + inventory.getWallItems().size();
 		
 		session.send(new InventoryLoadMessageComposer(count, inventory));
 		

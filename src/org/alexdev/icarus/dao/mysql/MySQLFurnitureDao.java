@@ -9,7 +9,6 @@ import org.alexdev.icarus.dao.util.IProcessStorage;
 import org.alexdev.icarus.game.furniture.Furniture;
 import org.alexdev.icarus.game.furniture.interactions.InteractionType;
 import org.alexdev.icarus.log.Log;
-import org.alexdev.icarus.mysql.Storage;
 
 public class MySQLFurnitureDao implements IFurnitureDao, IProcessStorage<Furniture, ResultSet> {
 

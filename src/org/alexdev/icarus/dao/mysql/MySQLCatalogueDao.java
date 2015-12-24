@@ -10,7 +10,6 @@ import org.alexdev.icarus.game.catalogue.CatalogueItem;
 import org.alexdev.icarus.game.catalogue.CataloguePage;
 import org.alexdev.icarus.game.catalogue.CatalogueTab;
 import org.alexdev.icarus.log.Log;
-import org.alexdev.icarus.mysql.Storage;
 
 public class MySQLCatalogueDao implements ICatalogueDao, IProcessStorage<CataloguePage, ResultSet> {
 

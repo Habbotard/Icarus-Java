@@ -9,7 +9,6 @@ import org.alexdev.icarus.dao.INavigatorDao;
 import org.alexdev.icarus.dao.util.IProcessStorage;
 import org.alexdev.icarus.game.navigator.NavigatorTab;
 import org.alexdev.icarus.log.Log;
-import org.alexdev.icarus.mysql.Storage;
 
 public class MySQLNavigatorDao implements INavigatorDao, IProcessStorage<NavigatorTab, ResultSet> {
 
