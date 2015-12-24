@@ -8,6 +8,5 @@
 	<classpathentry kind="lib" path="C:/Users/Alex/Downloads/lib/mysql-connector-java-5.1.6-bin.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Alex/Downloads/lib/slf4j-api-1.7.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Alex/Downloads/lib/slf4j-simple-1.7.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Alex/Downloads/lib/spring-core-4.2.3.RELEASE.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
