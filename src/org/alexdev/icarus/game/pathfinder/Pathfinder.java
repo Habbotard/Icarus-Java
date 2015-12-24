@@ -4,30 +4,24 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 
-import org.alexdev.icarus.game.pathfinder.heuristics.AStarHeuristic;
+import org.alexdev.icarus.game.pathfinder.heuristics.ClosestHeuristic;
+import org.alexdev.icarus.game.room.Room;
 import org.alexdev.icarus.game.room.model.Point;
 
 public class Pathfinder {
 
-	private AreaMap map;
-	private AStarHeuristic heuristic;
-	private LinkedList<Node> closedList;
-	private SortedNodeList openList;
-	private LinkedList<Point> shortestPath;
-	
-	public Pathfinder(AreaMap map, AStarHeuristic heuristic) {
-
-		this.map = map;
-		this.heuristic = heuristic;
-		this.closedList = new LinkedList<Node>();
-		this.openList = new SortedNodeList();
-	}
-
-	public LinkedList<Point> calculateShortestPath(Point start, Point goal) {
-		return this.calculateShortestPath(start.getX(), start.getY(), goal.getX(), goal.getY());
-	}
-
-	public LinkedList<Point> calculateShortestPath(int startX, int startY, int goalX, int goalY) {
+	public LinkedList<Point> calculateShortestPath(Room room, Point start, Point goal) {
+		
+		AreaMap map = new AreaMap(room.getData().getModel(), room.getCollisionMap());
+		ClosestHeuristic heuristic = new ClosestHeuristic();
+		LinkedList<Node> closedList = new LinkedList<Node>();
+		SortedNodeList openList = new SortedNodeList();
+		
+		int startX = start.getX();
+		int startY = start.getY();
+		
+		int goalX = goal.getX();
+		int goalY = goal.getY();
 
 		//mark start and goal node
 		map.setStartLocation(startX, startY);
@@ -67,8 +61,8 @@ public class Pathfinder {
 				
 				// if this movement is a diagonal movement we need to check for collisions
 				if(current.getX() != neighbor.getX() && current.getY() != neighbor.getY()) {
-					Node diagonal1 = this.map.getNode(neighbor.getX(), current.getY());
-					Node diagonal2 = this.map.getNode(current.getX(), neighbor.getY());
+					Node diagonal1 = map.getNode(neighbor.getX(), current.getY());
+					Node diagonal2 = map.getNode(current.getX(), neighbor.getY());
 					
 					// if either are obsticals then this is not a valid step
 					if(diagonal1.isObstical() || diagonal2.isObstical())
@@ -114,45 +108,8 @@ public class Pathfinder {
 			path.add(0, node.getPoint());
 			node = node.getPreviousNode();
 		}
-		this.shortestPath = path;
-		return path;
-	}
-
-	/**
-	 * @return the shortestPath
-	 */
-	public LinkedList<Point> getShortestPath() {
-		return shortestPath;
-	}
-
-	/**
-	 * @param shortestPath the shortestPath to set
-	 */
-	public void setShortestPath(LinkedList<Point> shortestPath) {
-		this.shortestPath = shortestPath;
-	}
-
-	public void dispose() {
-
-		if (this.closedList != null) {
-			this.closedList.clear();
-			this.closedList = null;
-		}
-
-		if (this.shortestPath != null) {
-			this.shortestPath.clear();
-			this.shortestPath = null;
-		}
-
-		if (this.openList != null) {
-			this.openList.clear();
-			this.openList = null;
-		}
 		
-		if (this.map != null) {
-			this.map.dispose();
-			this.map = null;
-		}
+		return path;
 	}
 
 	private class SortedNodeList {

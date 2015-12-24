@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.alexdev.icarus.game.entity.IRoomEntity;
+import org.alexdev.icarus.game.entity.AbstractRoomEntity;
 import org.alexdev.icarus.game.room.model.Point;
 import org.alexdev.icarus.game.room.model.Rotation;
 import org.alexdev.icarus.messages.headers.Outgoing;
@@ -12,7 +12,7 @@ import org.alexdev.icarus.netty.readers.Response;
 
 public class TalkMessageComposer extends Response {
 
-	public TalkMessageComposer(IRoomEntity roomUser, boolean shout, String message, int count, int textColour) {
+	public TalkMessageComposer(AbstractRoomEntity roomUser, boolean shout, String message, int count, int textColour) {
 
 		List<Integer> allowedColours = new ArrayList<Integer>(Arrays.asList(new Integer[] { 0, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 19, 20, 29 }));
 

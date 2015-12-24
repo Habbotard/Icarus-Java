@@ -2,6 +2,7 @@ package org.alexdev.icarus.messages.incoming.room.user;
 
 import java.util.LinkedList;
 
+import org.alexdev.icarus.Icarus;
 import org.alexdev.icarus.game.room.model.Point;
 import org.alexdev.icarus.game.room.player.RoomUser;
 import org.alexdev.icarus.game.user.Session;
@@ -21,12 +22,10 @@ public class UserWalkMessageEvent implements MessageEvent {
 		}
 
 		RoomUser roomUser = session.getRoomUser();
-		roomUser.createPathfinder();
-
 		roomUser.setGoalX(X);
 		roomUser.setGoalY(Y);
 
-		LinkedList<Point> path = roomUser.getPathfinder().calculateShortestPath(roomUser.getPoint(), roomUser.getGoalPoint());
+		LinkedList<Point> path = Icarus.getUtilities().getPathfinder().calculateShortestPath(roomUser.getRoom(), roomUser.getPoint(), roomUser.getGoalPoint());
 
 		if (path == null || path.size() == 0) {
 			return;

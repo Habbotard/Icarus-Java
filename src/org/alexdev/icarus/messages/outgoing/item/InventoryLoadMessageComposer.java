@@ -11,7 +11,7 @@ public class InventoryLoadMessageComposer extends Response {
 		this.init(Outgoing.InventoryLoadMessageComposer);
 		this.appendInt32(1);
 		this.appendInt32(0);
-		this.appendInt32(inventory.getWallItems().size() + inventory.getFloorItems().size());
+		this.appendInt32(inventory.getWallItems().size());// + inventory.getFloorItems().size());
 
 		for (Item item : inventory.getWallItems()) {
 
@@ -42,7 +42,7 @@ public class InventoryLoadMessageComposer extends Response {
 		
 		for (Item item : inventory.getFloorItems()) {
 			
-			this.appendInt32(item.getId());
+			/*this.appendInt32(item.getId());
 			this.appendString(item.getData().getType().toUpperCase());
 			this.appendInt32(item.getId());
 			this.appendInt32(item.getData().getSpriteId());
@@ -60,7 +60,7 @@ public class InventoryLoadMessageComposer extends Response {
 			if (!item.getData().getType().equals("s")) {
 				this.appendString("");
 				this.appendInt32(0);
-			}
+			}*/
 		}
 
 	}

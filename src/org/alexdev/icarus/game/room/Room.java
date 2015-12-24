@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 import org.alexdev.icarus.Icarus;
 import org.alexdev.icarus.game.entity.EntityType;
 import org.alexdev.icarus.game.entity.IEntity;
+import org.alexdev.icarus.game.pathfinder.AreaMap;
 import org.alexdev.icarus.game.room.model.Point;
 import org.alexdev.icarus.game.room.model.RoomModel;
 import org.alexdev.icarus.game.room.player.RoomSearch;
@@ -37,6 +38,7 @@ public class Room {
 	private List<IEntity> entities;
 
 	private ScheduledFuture<?> tickTask;
+	private AreaMap map;
 
 	public Room() {
 		this.search = new RoomSearch(this);
@@ -176,6 +178,7 @@ public class Room {
 		}
 
 		this.collisionMap = collisionMap;
+		//this.map = new AreaMap(this.getData().getModel(), this.collisionMap);
 	}
 
 
@@ -334,6 +337,10 @@ public class Room {
 
 	public void setUsers(ArrayList<IEntity> entities) {
 		this.entities = entities;
+	}
+
+	public AreaMap getAreaMap() {
+		return map;
 	}
 
 

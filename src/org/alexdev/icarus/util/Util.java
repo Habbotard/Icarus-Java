@@ -3,6 +3,7 @@ package org.alexdev.icarus.util;
 import java.io.File;
 import java.security.SecureRandom;
 
+import org.alexdev.icarus.game.pathfinder.Pathfinder;
 import org.alexdev.icarus.pooling.ThreadPooling;
 
 public class Util {
@@ -10,11 +11,13 @@ public class Util {
 	private Configuration configuration;
 	private ThreadPooling threadPooling;
 	private SecureRandom secureRandom;
+	private Pathfinder pathfinder;
 
 	public Util() {
 		this.configuration = new Configuration(new File("icarus.properties"));
 		this.threadPooling = new ThreadPooling();
 		this.secureRandom = new SecureRandom();
+		this.pathfinder = new Pathfinder();
 	}
 	
 	public boolean isNullOrEmpty(String param) { 
@@ -36,4 +39,9 @@ public class Util {
 	public SecureRandom getRandom() {
 		return secureRandom;
 	}
+
+	public Pathfinder getPathfinder() {
+		return pathfinder;
+	}
+
 }

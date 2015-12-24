@@ -2,7 +2,7 @@ package org.alexdev.icarus.game.room.bot;
 
 import org.alexdev.icarus.game.entity.EntityType;
 import org.alexdev.icarus.game.entity.IEntity;
-import org.alexdev.icarus.game.entity.IRoomEntity;
+import org.alexdev.icarus.game.entity.AbstractRoomEntity;
 import org.alexdev.icarus.game.user.CharacterDetails;
 
 public class Bot implements IEntity {
@@ -17,7 +17,7 @@ public class Bot implements IEntity {
 	}
 	
 	@Override
-	public IRoomEntity getRoomUser() {
+	public AbstractRoomEntity getRoomUser() {
 		return this.roomUser;
 	}
 

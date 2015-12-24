@@ -5,6 +5,6 @@ import org.alexdev.icarus.game.user.CharacterDetails;
 public interface IEntity {
 
 	public CharacterDetails getDetails();
-	public IRoomEntity getRoomUser();
+	public AbstractRoomEntity getRoomUser();
 	public EntityType getType();
 }

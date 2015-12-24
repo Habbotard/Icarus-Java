@@ -17,7 +17,7 @@ import org.alexdev.icarus.messages.outgoing.room.user.TalkMessageComposer;
 import org.alexdev.icarus.messages.outgoing.room.user.UserStatusMessageComposer;
 import org.alexdev.icarus.util.GameSettings;
 
-public abstract class IRoomEntity {
+public abstract class AbstractRoomEntity {
 
 	private int virtualId;
 	private int lastChatId;
@@ -37,8 +37,6 @@ public abstract class IRoomEntity {
 	private LinkedList<Point> path;
 
 	private Room room;
-	private Pathfinder pathfinder;
-	private RoomModel model;
 
 	private boolean isWalking;
 	private boolean needsUpdate;
@@ -48,19 +46,11 @@ public abstract class IRoomEntity {
 	private long chatFloodTimer;
 	private int chatCount;
 
-	public IRoomEntity(IEntity entity) {
+	public AbstractRoomEntity(IEntity entity) {
 		this.dispose();
 		this.entity = entity;
 	}
-
-	public void createPathfinder() {
-
-		AreaMap map = new AreaMap(this.model, this.room.getCollisionMap());
-		AStarHeuristic heuristic = new ClosestHeuristic();
-
-		this.setPathfinder(new Pathfinder(map, heuristic));//new DiagonalHeuristic());
-	}
-
+	
 	public void chat(String message, int bubble, int count, boolean shout, boolean spamCheck) {
 
 		boolean isStaff = false;
@@ -254,7 +244,6 @@ public abstract class IRoomEntity {
 		if (this.path != null) {
 
 			this.path.clear();
-			this.path = null;
 		}
 
 		this.path = path;
@@ -283,28 +272,11 @@ public abstract class IRoomEntity {
 
 	public void setRoom(Room room) {
 		this.room = room;
-
-		if (room != null) {
-			this.model = room.getData().getModel();
-		}
-	}
-
-	public Pathfinder getPathfinder() {
-		return pathfinder;
-	}
-
-	public void setPathfinder(Pathfinder pathfinder) {
-		this.pathfinder = pathfinder;
 	}
 
 	public RoomModel getModel() {
 		return room.getData().getModel();
 	}
-
-	public void setModel(RoomModel model) {
-		this.model = model;
-	}
-
 	public boolean isWalking() {
 		return isWalking;
 	}

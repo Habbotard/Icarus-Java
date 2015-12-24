@@ -1,9 +1,9 @@
 package org.alexdev.icarus.game.room.player;
 
-import org.alexdev.icarus.game.entity.IRoomEntity;
+import org.alexdev.icarus.game.entity.AbstractRoomEntity;
 import org.alexdev.icarus.game.user.Session;
 
-public class RoomUser extends IRoomEntity {
+public class RoomUser extends AbstractRoomEntity {
 
 	private boolean inRoom;
 	private boolean isLoadingRoom;
